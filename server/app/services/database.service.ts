@@ -6,8 +6,8 @@ import "reflect-metadata";
 export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
     user: "postgres",
-    database: "hoteldb",
-    password: "admin",
+    database: "TP4",
+    password: "root",
     port: 5432,
     host: "127.0.0.1",
     keepAlive: true
