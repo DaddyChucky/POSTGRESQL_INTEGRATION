@@ -12,7 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 // import { MatListModule } from '@angular/material/list';
 // import { MatRadioModule } from '@angular/material/radio';
 // import { MatSidenavModule } from '@angular/material/sidenav';
-// import { MatSliderModule } from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
 // import { MatToolbarModule } from '@angular/material/toolbar';
 // import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
@@ -25,6 +26,7 @@ const modules = [
     // MatExpansionModule,
     // MatFormFieldModule,
     MatIconModule,
+    MatTableModule,
     // MatInputModule,
     // MatListModule,
     // MatRadioModule,
@@ -36,6 +38,8 @@ const modules = [
     BrowserAnimationsModule,
     FormsModule,
     CommonModule,
+    MatSliderModule,
+    MatButtonModule,
     // MatChipsModule,
 ];
 

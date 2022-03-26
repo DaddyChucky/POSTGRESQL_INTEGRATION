@@ -30,6 +30,7 @@ export class DatabaseController {
             hauteurMaximale: jardin.hauteurMaximale,
           } as Jardin));
           res.json(jardins);
+          console.log(res.json(jardins));
         })
         .catch((e: Error) => {
           console.error(e.stack);

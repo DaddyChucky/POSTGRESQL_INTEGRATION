@@ -7,7 +7,7 @@ import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class CommunicationService {
-  private readonly BASE_URL: string = "http://localhost:3000/database";
+  private readonly BASE_URL: string = "http://localhost:3000/database/";
   public constructor(private http: HttpClient) {}
 
   private _listeners: any = new Subject<any>();
@@ -22,7 +22,7 @@ export class CommunicationService {
 
   public getJardins(): Observable<Jardin[]> {
     return this.http
-      .get<Jardin[]>(this.BASE_URL + "/jardins")
+      .get<Jardin[]>(this.BASE_URL + "jardins")
       .pipe(catchError(this.handleError<Jardin[]>("getJardins")));
   }
 
