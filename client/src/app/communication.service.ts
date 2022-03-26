@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Jardin } from "../../../common/tables/Jardin"
 // tslint:disable-next-line:ordered-imports
 import { of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -9,21 +10,21 @@ export class CommunicationService {
   private readonly BASE_URL: string = "http://localhost:3000/database";
   public constructor(private http: HttpClient) {}
 
-  private _listners: any = new Subject<any>();
+  private _listeners: any = new Subject<any>();
 
   public listen(): Observable<any> {
-    return this._listners.asObservable();
+    return this._listeners.asObservable();
   }
 
   public filter(filterBy: string): void {
-    this._listners.next(filterBy);
+    this._listeners.next(filterBy);
   }
 
-  // public getHotels(): Observable<Hotel[]> {
-  //   return this.http
-  //     .get<Hotel[]>(this.BASE_URL + "/hotels")
-  //     .pipe(catchError(this.handleError<Hotel[]>("getHotels")));
-  // }
+  public getJardins(): Observable<Jardin[]> {
+    return this.http
+      .get<Jardin[]>(this.BASE_URL + "/jardins")
+      .pipe(catchError(this.handleError<Jardin[]>("getJardins")));
+  }
 
   // public insertHotel(hotel: Hotel): Observable<number> {
   //   return this.http
