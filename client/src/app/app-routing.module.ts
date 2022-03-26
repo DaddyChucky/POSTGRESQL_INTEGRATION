@@ -2,15 +2,15 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { AppComponent } from "./app.component";
-import { HotelComponent } from "./hotel/hotel.component";
-import { RoomComponent } from "./room/room.component";
-import { GuestComponent } from "./guest/guest.component";
+import { JardinsComponent } from './jardins/jardins.component';
+import { PlantesComponent } from './plantes/plantes.component';
+import { VarietesComponent } from './varietes/varietes.component';
 
 const routes: Routes = [
   { path: "app", component: AppComponent },
-  { path: "rooms", component: RoomComponent },
-  { path: "hotels", component: HotelComponent },
-  { path: "guests", component: GuestComponent },
+  { path: "jardins", component: JardinsComponent },
+  { path: "plantes", component: PlantesComponent },
+  { path: "varietes", component: VarietesComponent },
 ];
 
 @NgModule({
