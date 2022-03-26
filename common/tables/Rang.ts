@@ -5,6 +5,6 @@ export interface Rang {
     coordonneesParcelle: Coordonnnes_t;
     numero: number;
     coordonneesRang: Coordonnnes_t;
-    dateDebutJachere: Date;
-    dateFinJachere: Date;
+    dateDebutJachere: Date | null;
+    dateFinJachere: Date | null;
 }

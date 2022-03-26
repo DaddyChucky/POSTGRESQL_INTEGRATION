@@ -5,7 +5,7 @@ export interface Jardin {
     bPotager: boolean;
     bOrnement: boolean;
     bVerger: boolean;
-    typeSol: string;
-    hauteurMaximale: number;
+    typeSol: string | null;
+    hauteurMaximale: number | null;
   }
   
