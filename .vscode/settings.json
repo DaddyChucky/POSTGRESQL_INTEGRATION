@@ -5,7 +5,13 @@
         "coordonnees",
         "Coordonnnes",
         "Jardin",
+        "jardins",
+        "Maximale",
+        "Ornement",
         "Parcelle",
-        "Plante"
+        "Plante",
+        "Plantes",
+        "Potager",
+        "varietes"
     ]
 }

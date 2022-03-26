@@ -25,20 +25,14 @@ export class DatabaseService {
   // }
 
 
-  // // ======= HOTEL =======
-  // public async createHotel(hotel: Hotel): Promise<pg.QueryResult> {
-  //   const client = await this.pool.connect();
-
-  //   if (!hotel.hotelnb || !hotel.name || !hotel.city)
-  //     throw new Error("Invalid create hotel values");
-
-  //   const values: string[] = [hotel.hotelnb, hotel.name, hotel.city];
-  //   const queryText: string = `INSERT INTO HOTELDB.Hotel VALUES($1, $2, $3);`;
-
-  //   const res = await client.query(queryText, values);
-  //   client.release()
-  //   return res;
-  // }
+  // ======= JARDINS =======
+  public async getAllJardins(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Jardin;`;
+    const res = await client.query(queryText);
+    client.release()
+    return res;
+  }
 
 
   // // get hotels that correspond to certain caracteristics
