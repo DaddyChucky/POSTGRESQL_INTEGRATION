@@ -21,7 +21,7 @@ import { PlantesComponent } from './plantes/plantes.component';
     GuestComponent,
     JardinsComponent,
     VarietesComponent,
-    PlantesComponent,
+    PlantesComponent
   ],
   imports: [
     CommonModule,
