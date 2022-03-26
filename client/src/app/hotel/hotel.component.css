@@ -1,0 +1,79 @@
+#hotel {
+    background-color: #e2e2e2;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 3%;
+}
+
+#ht {
+    background-color: white;
+    text-align: left;
+}
+
+.divider {
+    border-bottom: 1px solid #9A75F0;
+    margin: auto;
+    width: 50%;
+    margin-bottom: 25px;
+}
+
+.header {
+    font-size: 18px;
+    color: #9A75F0;
+}
+
+.contentCell {
+    padding: 10px;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #9A75F033;
+}
+
+.btn {
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #9A75F0;
+    margin: 20px;
+    color: white;
+    font-size: 25px;
+    font-weight: 800;
+    font-family: 'Varela Round', sans-serif;
+}
+
+[placeholder]:empty::before {
+    content: attr(placeholder);
+    color: #9A75F0BB; 
+}
+
+[placeholder]:empty:focus::before {
+    content: "";
+}
+
+.blank_row {
+    color: #9A75F0;
+}
+
+.blank_row:not(.nohover):hover { 
+    color: #9A75F0; 
+}
+
+.actionCell {
+    padding: 10px;
+    color: #9A75F0; 
+}
+
+.deletebtn {
+    border-radius: 4px;
+    color: white; 
+    background-color: #9A75F0; 
+    border-style: none;
+}
+
+.submitbtn {
+    border-radius: 4px;
+    border-style: none;
+    margin-right: 10px;
+    color: white;
+    background-color: #6E9EEB;
+}

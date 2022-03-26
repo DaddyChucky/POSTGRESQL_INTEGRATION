@@ -1,0 +1,54 @@
+<div id="guest">
+  <h1>Guests</h1>
+
+  <div class="divider"></div>
+
+  <div class="container contentSelect">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="hotelSelect">Hotel</label>
+      </div>
+      <select
+        class="custom-select"
+        id="hotelSelect"
+        (change)="updateSelectedHotel($event.target.options.selectedIndex)"
+      >
+        <option *ngFor="let hotel of hotelPKs">{{ hotel.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="container contentSelect">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="roomSelect">Room</label>
+      </div>
+      <select
+        class="custom-select"
+        id="roomSelect"
+        (change)="updateSelectedRoom($event.target.options.selectedIndex)"
+      >
+        <option *ngFor="let room of rooms">{{ room.roomnb }}</option>
+      </select>
+    </div>
+  </div>
+
+  <table id="ht" align="center" border="1" width="1000" class="table-striped table-hover">
+    <thead class="header">
+      <th class="contentCell">GUEST NUMBER</th>
+      <th class="contentCell">NAS</th>
+      <th class="contentCell">NAME</th>
+      <th class="contentCell">GENDER</th>
+      <th class="contentCell">CITY</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let guest of guests">
+        <td class="contentCell">{{ guest.guestnb }}</td>
+        <td class="contentCell">{{ guest.nas }}</td>
+        <td class="contentCell">{{ guest.name }}</td>
+        <td class="contentCell">{{ guest.gender }}</td>
+        <td class="contentCell">{{ guest.city }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

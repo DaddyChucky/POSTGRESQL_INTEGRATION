@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+:root {
+    --theme-purple: #9A75F0;
+    --theme-purple-hover: #9A75F033;
+    --theme-purple-placeholder: #9A75F0BB;
+    --theme-blue: #6E9EEB;
+    --theme-blue-hover: #6E9EEB33;
+    --theme-blue-placeholder: #6E9EEBBB;
+    --theme-lightblue: #14F2E0;
+    --theme-lightblue-hover: #14F2E033;
+    --theme-lightblue-placeholder: #14F2E0BB;
+    --theme-background: #e2e2e2;
+}
+
+.btn-primary{
+    margin-top: 10px;
+}
+
+html { background-color: #e2e2e2; }

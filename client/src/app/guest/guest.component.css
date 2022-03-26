@@ -1,0 +1,68 @@
+#guest {
+    background-color: var(--theme-background);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 3%;
+}
+
+#ht {
+    background-color: white;
+    text-align: left;
+}
+
+.contentSelect {
+    width: 30%;
+    margin-bottom: 25px;
+}
+
+.divider {
+    border-bottom: 1px solid var(--theme-lightblue);
+    margin: auto;
+    width: 50%;
+    margin-bottom: 25px;
+}
+
+.header {
+    font-size: 18px;
+    color: var(--theme-lightblue);
+}
+
+.contentCell {
+    padding: 10px;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: var(--theme-lightblue-hover);
+}
+
+[placeholder]:empty::before {
+    content: attr(placeholder);
+    color: var(--theme-lightblue-placeholder); 
+}
+
+[placeholder]:empty:focus::before {
+    content: "";
+}
+
+.blank_row {
+    color: var(--theme-lightblue);
+}
+
+.blank_row:not(.nohover):hover { 
+    color: var(--theme-lightblue); 
+}
+
+.deletebtn {
+    border-radius: 4px;
+    color: white; 
+    background-color: #9A75F0; 
+    border-style: none;
+}
+
+.submitbtn {
+    border-radius: 4px;
+    border-style: none;
+    margin-right: 10px;
+    color: white;
+    background-color: #6E9EEB;
+}
