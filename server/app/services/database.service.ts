@@ -5,11 +5,11 @@ import "reflect-metadata";
 @injectable()
 export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
-    user: "sysadmin",
+    user: "postgres",
     database: "TP4",
     password: "root",
     port: 5432,
-    host: "localhost",
+    host: "127.0.0.1",
     keepAlive: true
   };
 
