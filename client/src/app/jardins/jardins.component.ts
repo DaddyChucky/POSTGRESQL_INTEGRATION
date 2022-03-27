@@ -20,12 +20,14 @@ export class JardinsComponent implements OnInit {
 
   private getJardins() {
     this.communicationService.getJardins().subscribe((jardins: Jardin[]) => {
+      console.log(jardins);
       this.jardins = jardins ? jardins : [];
     });
+    //console.log(this.jardins);
   }
 
   getJardins2() {
     this.getJardins();
-    console.log(this.jardins);
+    //console.log(this.jardins);
   }
 }

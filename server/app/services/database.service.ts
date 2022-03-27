@@ -5,11 +5,11 @@ import "reflect-metadata";
 @injectable()
 export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
-    user: "postgres",
+    user: "sysadmin",
     database: "TP4",
     password: "root",
     port: 5432,
-    host: "127.0.0.1",
+    host: "localhost",
     keepAlive: true
   };
 
@@ -27,10 +27,12 @@ export class DatabaseService {
 
   // ======= JARDINS =======
   public async getAllJardins(): Promise<pg.QueryResult> {
+    console.log('getAllJardins called');
     const client = await this.pool.connect();
+    console.log('connection success');
     const queryText: string = `SELECT * FROM jardinCommMR.Jardin;`;
     const res = await client.query(queryText);
-    client.release()
+    client.release();
     return res;
   }
 

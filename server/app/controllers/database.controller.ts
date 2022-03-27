@@ -16,9 +16,11 @@ export class DatabaseController {
 
     // ======= JARDINS ROUTES =======
     router.get("/jardins", (req: Request, res: Response, _: NextFunction) => {
+      console.log('database/jardins called')
       this.databaseService
         .getAllJardins()
         .then((result: pg.QueryResult) => {
+          console.log('in then');
           const jardins: Jardin[] = result.rows.map((jardin: Jardin) => ({
             ID: jardin.ID,
             nom: jardin.nom,
@@ -29,8 +31,8 @@ export class DatabaseController {
             typeSol:jardin.typeSol,
             hauteurMaximale: jardin.hauteurMaximale,
           } as Jardin));
+          console.log(jardins);
           res.json(jardins);
-          console.log(res.json(jardins));
         })
         .catch((e: Error) => {
           console.error(e.stack);
