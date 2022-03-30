@@ -1,9 +1,13 @@
 {
     "cSpell.words": [
         "Agencement",
+        "bornement",
+        "bpotager",
+        "bverger",
         "caracteristique",
         "coordonnees",
         "Coordonnnes",
+        "hauteurmaximale",
         "Jardin",
         "jardins",
         "Maximale",
@@ -12,6 +16,7 @@
         "Plante",
         "Plantes",
         "Potager",
+        "typesol",
         "varietes"
     ]
 }

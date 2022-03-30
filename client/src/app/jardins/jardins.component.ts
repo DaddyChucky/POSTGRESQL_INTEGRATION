@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Jardin } from '../../../../common/tables/Jardin';
 import { CommunicationService } from '../communication.service';
+import { DialogComponent } from './dialog.component';
 
 @Component({
   selector: 'app-jardins',
@@ -9,25 +11,30 @@ import { CommunicationService } from '../communication.service';
 })
 export class JardinsComponent implements OnInit {
   jardins: Jardin[];
-  displayedColumns: string[] = ['ID', 'nom'];
+  displayedColumns: string[] = ['ID', 'nom', 'surface', 'bPotager', 'bOrnement', 'bVerger', 'typeSol', 'hauteurMaximale', 'moreInfo'];
 
-  constructor(private readonly communicationService: CommunicationService) {
+  constructor(public dialog: MatDialog, private readonly communicationService: CommunicationService) {}
+
+  openDialog() {
+    this.dialog.open(DialogComponent, {
+      data: {
+        animal: 'panda',
+      },
+    });
   }
 
-    public ngOnInit(): void {
-      this.getJardins();
+  ngOnInit(): void {
+    this.getAllJardins();
   }
 
-  private getJardins() {
-    this.communicationService.getJardins().subscribe((jardins: Jardin[]) => {
+  private getAllJardins() {
+    this.communicationService.getAllJardins().subscribe((jardins: Jardin[]) => {
       console.log(jardins);
       this.jardins = jardins ? jardins : [];
     });
-    //console.log(this.jardins);
-  }
-
-  getJardins2() {
-    this.getJardins();
-    //console.log(this.jardins);
   }
 }
+
+
+
+

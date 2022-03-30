@@ -12,19 +12,39 @@ export class CommunicationService {
 
   private _listeners: any = new Subject<any>();
 
-  public listen(): Observable<any> {
+  listen(): Observable<any> {
     return this._listeners.asObservable();
   }
 
-  public filter(filterBy: string): void {
+  filter(filterBy: string): void {
     this._listeners.next(filterBy);
   }
 
-  public getJardins(): Observable<Jardin[]> {
+  getAllJardins(): Observable<Jardin[]> {
     return this.http
       .get<Jardin[]>(this.BASE_URL + "/jardins")
-      .pipe(catchError(this.handleError<Jardin[]>("getJardins")));
+      .pipe(catchError(this.handleError<Jardin[]>("getAllJardins")));
   }
+
+  getSpecificJardin(id: number): Observable<Jardin[]> {
+    return this.http
+      .get<Jardin[]>(this.BASE_URL + `/jardins/${id.toString()}`)
+      .pipe(catchError(this.handleError<Jardin[]>("getAllJardins")));
+  }
+
+  // getAllParcellesOfJardin(jardin: Jardin): Observable<Jardin[]> {
+  //   return this.http
+  //     .get<Jardin[]>(this.BASE_URL + `/parcelles/${jardin.id.toString()}`)
+  //     .pipe(catchError(this.handleError<Jardin[]>("getAllJardins")));
+  // }
+
+  // getAllRangsOfParcelle(parcelle: Parcelle): Observable<Parcelle[]> {
+  //   return this.http
+  //   .get<Jardin[]>(this.BASE_URL + `/rangs/${id.toString()}`)
+  //   .pipe(catchError(this.handleError<Jardin[]>("getAllJardins")));
+  // }
+
+
 
   // public insertHotel(hotel: Hotel): Observable<number> {
   //   return this.http

@@ -15,21 +15,20 @@ export class DatabaseController {
     const router: Router = Router();
 
     // ======= JARDINS ROUTES =======
-    router.get("/jardins", (req: Request, res: Response, _: NextFunction) => {
-      console.log('database/jardins called')
-      this.databaseService
-        .getAllJardins()
+    router.get("/jardins/:id?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.id) {
+        this.databaseService
+        .getJardin(req.params.id)
         .then((result: pg.QueryResult) => {
-          console.log('in then');
           const jardins: Jardin[] = result.rows.map((jardin: Jardin) => ({
-            ID: jardin.ID,
+            id: jardin.id,
             nom: jardin.nom,
             surface: jardin.surface,
-            bPotager: jardin.bPotager,
-            bOrnement: jardin.bOrnement,
-            bVerger: jardin.bVerger,
-            typeSol:jardin.typeSol,
-            hauteurMaximale: jardin.hauteurMaximale,
+            bpotager: jardin.bpotager,
+            bornement: jardin.bornement,
+            bverger: jardin.bverger,
+            typesol: jardin.typesol,
+            hauteurmaximale: jardin.hauteurmaximale,
           } as Jardin));
           console.log(jardins);
           res.json(jardins);
@@ -37,6 +36,26 @@ export class DatabaseController {
         .catch((e: Error) => {
           console.error(e.stack);
         });
+      } else {
+        this.databaseService
+        .getAllJardins()
+        .then((result: pg.QueryResult) => {
+          const jardins: Jardin[] = result.rows.map((jardin: Jardin) => ({
+            id: jardin.id,
+            nom: jardin.nom,
+            surface: jardin.surface,
+            bpotager: jardin.bpotager,
+            bornement: jardin.bornement,
+            bverger: jardin.bverger,
+            typesol: jardin.typesol,
+            hauteurmaximale: jardin.hauteurmaximale,
+          } as Jardin));
+          res.json(jardins);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
     });
 
 

@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import * as pg from "pg";
 import "reflect-metadata";
-
 @injectable()
 export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
@@ -15,22 +14,18 @@ export class DatabaseService {
 
   public pool: pg.Pool = new pg.Pool(this.connectionConfig);
 
-  // // ======= DEBUG =======
-  // public async getAllFromTable(tableName: string): Promise<pg.QueryResult> {
-    
-  //   const client = await this.pool.connect();
-  //   const res = await client.query(`SELECT * FROM jardinCommMR.${tableName};`);
-  //   client.release()
-  //   return res;
-  // }
-
-
   // ======= JARDINS =======
-  public async getAllJardins(): Promise<pg.QueryResult> {
-    console.log('getAllJardins called');
+  async getAllJardins(): Promise<pg.QueryResult> {
     const client = await this.pool.connect();
-    console.log('connection success');
     const queryText: string = `SELECT * FROM jardinCommMR.Jardin;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getJardin(id: number): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Jardin WHERE ID = ${id.toString()};`;
     const res = await client.query(queryText);
     client.release();
     return res;

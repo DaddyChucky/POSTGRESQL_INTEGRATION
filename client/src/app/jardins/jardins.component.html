@@ -1,25 +1,47 @@
 <div>
+  <h1>Nos jardins</h1>
   <table mat-table [dataSource]="jardins" class="mat-elevation-z8">
     <ng-container matColumnDef="ID">
       <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let jardin"> {{jardin.ID}} </td>
+      <td mat-cell *matCellDef="let jardin"> {{jardin.id}} </td>
     </ng-container>
-    <!-- ID: number;
-    nom: string;
-    surface: number;
-    bPotager: boolean;
-    bOrnement: boolean;
-    bVerger: boolean;
-    typeSol: string | null;
-    hauteurMaximale: number | null;
-  } -->
     <ng-container matColumnDef="nom">
-      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <th mat-header-cell *matHeaderCellDef> nom </th>
       <td mat-cell *matCellDef="let jardin"> {{jardin.nom}} </td>
     </ng-container>
-
+    <ng-container matColumnDef="surface">
+      <th mat-header-cell *matHeaderCellDef> surface </th>
+      <td mat-cell *matCellDef="let jardin"> {{jardin.surface}} </td>
+    </ng-container>
+    <ng-container matColumnDef="bPotager">
+      <th mat-header-cell *matHeaderCellDef> Est un potager </th>
+      <td mat-cell *matCellDef="let jardin"> {{jardin.bpotager}} </td>
+    </ng-container>
+    <ng-container matColumnDef="bOrnement">
+      <th mat-header-cell *matHeaderCellDef> Est un ornement </th>
+      <td mat-cell *matCellDef="let jardin"> {{jardin.bornement}} </td>
+    </ng-container>
+    <ng-container matColumnDef="bVerger">
+      <th mat-header-cell *matHeaderCellDef> Est un verger </th>
+      <td mat-cell *matCellDef="let jardin"> {{jardin.bverger}} </td>
+    </ng-container>
+    <ng-container matColumnDef="typeSol">
+      <th mat-header-cell *matHeaderCellDef> Type sol </th>
+      <td mat-cell *matCellDef="let jardin"> {{jardin.typesol}} </td>
+    </ng-container>
+    <ng-container matColumnDef="hauteurMaximale">
+      <th mat-header-cell *matHeaderCellDef> Hauteur maximale </th>
+      <td mat-cell *matCellDef="let jardin"> {{jardin.hauteurmaximale}} </td>
+    </ng-container>
+    <ng-container matColumnDef="moreInfo">
+      <th mat-header-cell *matHeaderCellDef> Plus d'informations </th>
+      <td mat-cell *matCellDef="let jardin">
+        <!-- <button mat-button (click)="openDialog()">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button> -->
+      </td>
+    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <button (click)="getJardins2()">Touch me</button>
 </div>
