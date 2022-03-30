@@ -1,15 +1,21 @@
 import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Jardin } from "../../../../common/tables/Jardin";
+import { Parcelle } from "../../../../common/tables/Parcelle";
 
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
+export interface DData {
+  jardin: Jardin;
+  parcelles: Parcelle[];
 }
 
 @Component ({
-  selector: 'dialog',
+  selector: 'DialogComponent',
   templateUrl: './dialog.component.html',
 })
-
 export class DialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DData) {}
 }
+
+// onNoClick(): void {
+//   this.dialogRef.close();
+// }

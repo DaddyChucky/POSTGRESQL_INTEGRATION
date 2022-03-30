@@ -1,15 +1,15 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
-<div mat-dialog-content>
-  My favorite animal is:
-  <ul>
-    <li>
-      <span *ngIf="data.animal === 'panda'">&#10003;</span> Panda
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'unicorn'">&#10003;</span> Unicorn
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'lion'">&#10003;</span> Lion
-    </li>
-  </ul>
+<h2 mat-dialog-title>Jardin #{{ data.jardin.id }} : {{ data.jardin.nom }}</h2>
+<mat-divider></mat-divider>
+<br />
+<div mat-dialog-content >
+  <mat-card style="border: 1px dashed rgba(0,0,0,0.5);">
+    <mat-card-subtitle>Superficie : {{ data.jardin.surface }} km²</mat-card-subtitle>
+    <mat-card-content>
+      <p>L: {{data.parcelles.length}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
 </div>

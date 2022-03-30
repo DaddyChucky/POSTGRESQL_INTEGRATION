@@ -36,9 +36,9 @@
     <ng-container matColumnDef="moreInfo">
       <th mat-header-cell *matHeaderCellDef> Plus d'informations </th>
       <td mat-cell *matCellDef="let jardin">
-        <!-- <button mat-button (click)="openDialog()">
+        <button mat-button (click)="openDialog(jardin)">
           <mat-icon>add_circle_outline</mat-icon>
-        </button> -->
+        </button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

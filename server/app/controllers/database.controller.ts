@@ -4,6 +4,9 @@ import * as pg from "pg";
 import { DatabaseService } from "../services/database.service";
 import Types from "../types";
 import { Jardin } from '../../../common/tables/Jardin';
+import { Parcelle } from '../../../common/tables/Parcelle';
+import { Coordonnnes_t } from '../../../common/c_types/Coordonnees_t';
+import { Dimensions_t } from '../../../common/c_types/Dimensions_t';
 
 @injectable()
 export class DatabaseController {
@@ -30,7 +33,6 @@ export class DatabaseController {
             typesol: jardin.typesol,
             hauteurmaximale: jardin.hauteurmaximale,
           } as Jardin));
-          console.log(jardins);
           res.json(jardins);
         })
         .catch((e: Error) => {
@@ -57,6 +59,41 @@ export class DatabaseController {
         });
       }
     });
+
+    // ======= PARCELLES ROUTES =======
+    router.get("/parcelles/:IDJardin?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.IDJardin) {
+        this.databaseService
+        .getAllParcellesOfJardin(req.params.IDJardin)
+        .then((result: pg.QueryResult) => {
+          const parcelles: Parcelle[] = result.rows.map((parcelle: Parcelle) => ({
+            idjardin: parcelle.idjardin,
+            coordonnees: parcelle.coordonnees as Coordonnnes_t,
+            dimensions: parcelle.dimensions as Dimensions_t
+          } as Parcelle));
+          res.json(parcelles);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      } else {
+        this.databaseService
+        .getAllParcelles()
+        .then((result: pg.QueryResult) => {
+          console.log(result.rows);
+          const parcelles: Parcelle[] = result.rows.map((parcelle: Parcelle) => ({
+            idjardin: parcelle.idjardin,
+            coordonnees: parcelle.coordonnees,
+            dimensions: parcelle.dimensions
+          } as Parcelle));
+          res.json(parcelles);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
+    });
+
 
 
   //   router.get(

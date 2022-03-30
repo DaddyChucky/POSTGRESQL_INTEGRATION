@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Jardin } from "../../../common/tables/Jardin"
+import { Parcelle } from "../../../common/tables/Parcelle"
 // tslint:disable-next-line:ordered-imports
 import { of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -20,6 +21,8 @@ export class CommunicationService {
     this._listeners.next(filterBy);
   }
 
+  // ======= JARDINS =======
+
   getAllJardins(): Observable<Jardin[]> {
     return this.http
       .get<Jardin[]>(this.BASE_URL + "/jardins")
@@ -29,14 +32,22 @@ export class CommunicationService {
   getSpecificJardin(id: number): Observable<Jardin[]> {
     return this.http
       .get<Jardin[]>(this.BASE_URL + `/jardins/${id.toString()}`)
-      .pipe(catchError(this.handleError<Jardin[]>("getAllJardins")));
+      .pipe(catchError(this.handleError<Jardin[]>("getSpecificJardin")));
   }
 
-  // getAllParcellesOfJardin(jardin: Jardin): Observable<Jardin[]> {
-  //   return this.http
-  //     .get<Jardin[]>(this.BASE_URL + `/parcelles/${jardin.id.toString()}`)
-  //     .pipe(catchError(this.handleError<Jardin[]>("getAllJardins")));
-  // }
+
+  // ======= PARCELLES =======
+  getAllParcelles(): Observable<Parcelle[]> {
+    return this.http
+      .get<Parcelle[]>(this.BASE_URL + `/parcelles}`)
+      .pipe(catchError(this.handleError<Parcelle[]>("getAllParcelles")));
+  }
+
+  getAllParcellesOfJardin(jardinID: number): Observable<Parcelle[]> {
+    return this.http
+      .get<Parcelle[]>(this.BASE_URL + `/parcelles/${jardinID.toString()}`)
+      .pipe(catchError(this.handleError<Parcelle[]>("getAllParcellesOfJardin")));
+  }
 
   // getAllRangsOfParcelle(parcelle: Parcelle): Observable<Parcelle[]> {
   //   return this.http

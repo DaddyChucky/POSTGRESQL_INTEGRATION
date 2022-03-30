@@ -31,6 +31,23 @@ export class DatabaseService {
     return res;
   }
 
+  // ======= PARCELLES =======
+  async getAllParcelles(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Parcelle;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getAllParcellesOfJardin(IDJardin: number): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Parcelle WHERE IDJardin = ${IDJardin.toString()};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
 
   // // get hotels that correspond to certain caracteristics
   // public async filterHotels(hotelNb: string, hotelName: string, city: string): Promise<pg.QueryResult> {
