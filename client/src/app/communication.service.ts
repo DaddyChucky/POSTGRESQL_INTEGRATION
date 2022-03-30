@@ -31,7 +31,7 @@ export class CommunicationService {
 
   getSpecificJardin(id: number): Observable<Jardin[]> {
     return this.http
-      .get<Jardin[]>(this.BASE_URL + `/jardins/${id.toString()}`)
+      .get<Jardin[]>(this.BASE_URL + `/jardins/${id}`)
       .pipe(catchError(this.handleError<Jardin[]>("getSpecificJardin")));
   }
 
@@ -39,13 +39,13 @@ export class CommunicationService {
   // ======= PARCELLES =======
   getAllParcelles(): Observable<Parcelle[]> {
     return this.http
-      .get<Parcelle[]>(this.BASE_URL + `/parcelles}`)
+      .get<Parcelle[]>(this.BASE_URL + `/parcelles`)
       .pipe(catchError(this.handleError<Parcelle[]>("getAllParcelles")));
   }
 
   getAllParcellesOfJardin(jardinID: number): Observable<Parcelle[]> {
     return this.http
-      .get<Parcelle[]>(this.BASE_URL + `/parcelles/${jardinID.toString()}`)
+      .get<Parcelle[]>(this.BASE_URL + `/parcelles/${jardinID}`)
       .pipe(catchError(this.handleError<Parcelle[]>("getAllParcellesOfJardin")));
   }
 

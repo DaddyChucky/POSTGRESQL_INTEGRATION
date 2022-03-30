@@ -68,8 +68,8 @@ export class DatabaseController {
         .then((result: pg.QueryResult) => {
           const parcelles: Parcelle[] = result.rows.map((parcelle: Parcelle) => ({
             idjardin: parcelle.idjardin,
-            coordonnees: parcelle.coordonnees as Coordonnnes_t,
-            dimensions: parcelle.dimensions as Dimensions_t
+            coordonnees: parcelle.coordonnees,
+            dimensions: parcelle.dimensions
           } as Parcelle));
           res.json(parcelles);
         })

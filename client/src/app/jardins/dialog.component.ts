@@ -11,6 +11,7 @@ export interface DData {
 @Component ({
   selector: 'DialogComponent',
   templateUrl: './dialog.component.html',
+  styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent {
   constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DData) {}
