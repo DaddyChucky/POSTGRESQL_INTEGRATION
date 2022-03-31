@@ -1,3 +1,35 @@
 table {
   width: 100%;
+  text-align: center;
 }
+
+.o-color {
+  color: #ffa90a;
+}
+
+.v-color {
+  color: #667a67;
+}
+
+.p-color {
+  color: #ec5732;
+}
+
+.circle-outline {
+  background: #f2edfd;
+}
+
+.circle-inline {
+  color: #9A75F0;
+}
+
+th {
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+

@@ -6,6 +6,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 const modules = [
     MatButtonModule,
@@ -14,7 +18,12 @@ const modules = [
     MatSliderModule,
     MatDialogModule,
     MatDividerModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatGridListModule
 ];
 
 @NgModule({

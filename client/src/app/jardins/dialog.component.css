@@ -1,5 +1,5 @@
 .card-border {
-  border: 1px dashed rgba(0,0,0,0.5);
+  border: 1px dashed #673ab7;
 }
 
 .no-content {
@@ -8,5 +8,11 @@
 }
 
 .no-content-icon {
+  font-size: 18px;
+}
+
+.card-subtitle {
+  color: #673ab7;
+  font-weight: bold;
   font-size: 18px;
 }

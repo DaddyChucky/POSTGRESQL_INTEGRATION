@@ -1,3 +1,42 @@
-<p>
-  plantes works!
-</p>
+<div>
+  <h1>Recherchez une plante</h1>
+  <form align="center">
+    <mat-form-field appearance="fill" (input)="this.switchToActive()">
+      <mat-label><mat-icon style="font-size: 16px;">search</mat-icon> Votre plante...</mat-label>
+      <input
+             type="text"
+             placeholder="Entrez un nom de plante..."
+             aria-label="Votre plante..."
+             matInput
+             [formControl]="myControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <mat-grid-list *ngIf="currentPlantes.length" cols="3" rowHeight="300px">
+    <mat-grid-tile *ngFor="let plante of currentPlantes">
+      <mat-card style="width: 400px; height: 200px;" class="card-bg">
+        <mat-card-title align="center">{{ plante.nom }}</mat-card-title>
+        <mat-card-subtitle align="center"><i>{{ plante.nomlatin }}</i></mat-card-subtitle>
+        <mat-card-content>
+          <ul>
+            <li>Catégorie : {{ plante.categorie }}</li>
+            <li>Variété : {{ plante.nomvariete }}</li>
+            <li>Type : {{ plante.typeplante }}</li>
+            <li *ngIf="plante.soustypeplante">Sous-type : {{ plante.soustypeplante }}</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div *ngIf="!currentPlantes.length && isActive" align="center">
+    <p class="no-content">
+      Aucune plante ne possède un tel nom au sein de nos jardins...
+      <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon>
+    </p>
+  </div>
+</div>

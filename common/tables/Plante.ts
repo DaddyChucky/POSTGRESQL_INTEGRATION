@@ -1,8 +1,8 @@
 export interface Plante {
-    nomLatin: string;
+    nomlatin: string;
     nom: string;
     categorie: string;
-    typePlante: string;
-    sousTypePlante: string | null;
-    nom: string;
+    typeplante: string;
+    soustypeplante: string | null;
+    nomvariete: string;
 }

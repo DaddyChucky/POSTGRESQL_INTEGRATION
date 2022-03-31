@@ -6,6 +6,7 @@ import Types from "../types";
 import { Jardin } from '../../../common/tables/Jardin';
 import { Parcelle } from '../../../common/tables/Parcelle';
 import { Rang } from '../../../common/tables/Rang';
+import { Plante } from '../../../common/tables/Plante';
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
 
 @injectable()
@@ -161,6 +162,45 @@ export class DatabaseController {
         console.error(e.stack);
       });
     }
+  });
+
+  // ======= PLANTES =======
+  router.get("/plantes/:nomLatin?", (req: Request, res: Response, _: NextFunction) => {
+  if(req.params.nomLatin) {
+    this.databaseService
+    .getSpecificPlante(req.params.nomLatin)
+    .then((result: pg.QueryResult) => {
+      const plantes: Plante[] = result.rows.map((plante: Plante) => ({
+        nomlatin: plante.nomlatin,
+        nom: plante.nom,
+        categorie: plante.categorie,
+        typeplante: plante.typeplante,
+        soustypeplante: plante.soustypeplante,
+        nomvariete: plante.nomvariete,
+      } as Plante));
+      res.json(plantes);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  } else {
+    this.databaseService
+    .getAllPlantes()
+    .then((result: pg.QueryResult) => {
+      const plantes: Plante[] = result.rows.map((plante: Plante) => ({
+        nomlatin: plante.nomlatin,
+        nom: plante.nom,
+        categorie: plante.categorie,
+        typeplante: plante.typeplante,
+        soustypeplante: plante.soustypeplante,
+        nomvariete: plante.nomvariete,
+      } as Plante));
+      res.json(plantes);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  }
   });
 
 

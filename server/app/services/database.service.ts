@@ -82,7 +82,22 @@ export class DatabaseService {
     return res;
   }
 
+  // ======= PLANTES =======
+  async getAllPlantes(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Plante;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
 
+  async getSpecificPlante(nomLatin: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Plante WHERE nomLatin = ${nomLatin};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
 
 
 

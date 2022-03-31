@@ -17,29 +17,35 @@
       <th mat-header-cell *matHeaderCellDef> Type </th>
       <td mat-cell *matCellDef="let jardin">
       <span *ngIf="jardin.bpotager">
-        <mat-icon>spa</mat-icon> Potager
+        <mat-icon class="p-color">spa</mat-icon> Potager
       </span>
       <span *ngIf="jardin.bornement">
-        <mat-icon>local_florist</mat-icon> Ornement
+        <mat-icon class="o-color">local_florist</mat-icon> Ornement
       </span>
       <span *ngIf="jardin.bverger">
-        <mat-icon>nature</mat-icon> Verger
+        <mat-icon class="v-color">nature</mat-icon> Verger
       </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="typeSol">
       <th mat-header-cell *matHeaderCellDef> Type sol </th>
-      <td mat-cell *matCellDef="let jardin"> {{jardin.typesol}} </td>
+      <td mat-cell *matCellDef="let jardin">
+        <span *ngIf="jardin.typesol">{{jardin.typesol}} </span>
+        <span *ngIf="!jardin.typesol"><mat-icon>not_interested</mat-icon> </span>
+      </td>
     </ng-container>
     <ng-container matColumnDef="hauteurMaximale">
       <th mat-header-cell *matHeaderCellDef> Hauteur maximale (m) </th>
-      <td mat-cell *matCellDef="let jardin"> {{jardin.hauteurmaximale}} </td>
+      <td mat-cell *matCellDef="let jardin">
+        <span *ngIf="jardin.hauteurmaximale">{{jardin.hauteurmaximale}}  </span>
+        <span *ngIf="!jardin.hauteurmaximale"><mat-icon>not_interested</mat-icon> </span>
+      </td>
     </ng-container>
     <ng-container matColumnDef="moreInfo">
       <th mat-header-cell *matHeaderCellDef> Plus d'informations </th>
       <td mat-cell *matCellDef="let jardin">
-        <button mat-button (click)="openDialog(jardin)">
-          <mat-icon>add_circle_outline</mat-icon>
+        <button mat-raised-button (click)="openDialog(jardin)" class="circle-outline">
+          <mat-icon class="circle-inline">add_circle_outline</mat-icon>
         </button>
       </td>
     </ng-container>

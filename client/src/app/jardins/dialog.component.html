@@ -12,7 +12,9 @@
   <div *ngIf="data.parcelles.length" >
     <div *ngFor="let parcelle of data.parcelles; index as i">
       <mat-card class='card-border'>
-        <mat-card-subtitle align="center">Parcelle #{{ i + 1 }}</mat-card-subtitle>
+        <mat-card-subtitle class="card-subtitle" align="center">Parcelle #{{ i + 1 }}</mat-card-subtitle>
+        <mat-divider></mat-divider>
+        <br />
         <mat-card-content>Coordonnées : {{ parcelle.coordonnees }}</mat-card-content>
         <mat-card-content>Dimensions : {{ parcelle.dimensions }}</mat-card-content>
         <mat-card-content>
@@ -55,10 +57,11 @@
           </div>
         </mat-card-content>
       </mat-card>
+      <br />
     </div>
   </div>
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Retour à la liste <mat-icon> local_florist</mat-icon></button>
+  <button mat-button mat-dialog-close color="primary">Retour à la liste <mat-icon> local_florist</mat-icon></button>
 </div>

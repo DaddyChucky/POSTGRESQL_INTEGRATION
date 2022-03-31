@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Jardin } from "../../../common/tables/Jardin"
 import { Parcelle } from "../../../common/tables/Parcelle"
 import { Rang } from "../../../common/tables/Rang"
-// tslint:disable-next-line:ordered-imports
+import { Plante } from "../../../common/tables/Plante"
 import { of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
@@ -74,6 +74,19 @@ export class CommunicationService {
     return this.http
       .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes/${coordonneesRang}`)
       .pipe(catchError(this.handleError<VarieteContenuDansUnRang[]>("getAllVarietesOfSpecificRang")));
+  }
+
+  // ======= PLANTES =======
+  getAllPlantes(): Observable<Plante[]> {
+    return this.http
+      .get<Plante[]>(this.BASE_URL + `/plantes`)
+      .pipe(catchError(this.handleError<Plante[]>("getAllPlantes")));
+  }
+
+  getSpecificPlante(nomLatin: string): Observable<Plante[]> {
+    return this.http
+      .get<Plante[]>(this.BASE_URL + `/plantes/${nomLatin}`)
+      .pipe(catchError(this.handleError<Plante[]>("getSpecificPlante")));
   }
 
 
