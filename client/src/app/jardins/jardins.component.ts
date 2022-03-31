@@ -6,6 +6,7 @@ import { Rang } from '../../../../common/tables/Rang';
 import { CommunicationService } from '../communication.service';
 import { DialogComponent } from './dialog.component';
 import { RangParcelle } from './rang-parcelle';
+import { VarieteContenuDansUnRang } from '../../../../common/tables/VarieteContenuDansUnRang';
 
 @Component({
   selector: 'app-jardins',
@@ -16,6 +17,7 @@ export class JardinsComponent implements OnInit {
   parcelles: Parcelle[];
   jardins: Jardin[];
   rangs: Rang[];
+  varietesInRangs: VarieteContenuDansUnRang[];
   displayedColumns: string[] = ['ID', 'nom', 'surface', 'type', 'typeSol', 'hauteurMaximale', 'moreInfo'];
 
   constructor(public dialog: MatDialog, private readonly communicationService: CommunicationService) {}
@@ -24,6 +26,7 @@ export class JardinsComponent implements OnInit {
     this.getAllJardins();
     this.getAllParcelles();
     this.getAllRangs();
+    this.getAllVarietesInRangs();
   }
 
   openDialog(jardin: Jardin) {
@@ -35,14 +38,13 @@ export class JardinsComponent implements OnInit {
     dialogConfig.data = {
       jardin,
       parcelles,
-      rangsParcelles: this.getRangsOfSpecificParcelles(parcelles)
+      rangsParcelles: this.getRangsOfSpecificParcelles(parcelles),
+      varietesInRangs: this.varietesInRangs
     };
-    console.log(dialogConfig.data.rangsParcelles);
     this.dialog.open(DialogComponent, dialogConfig);
   }
 
   private getAllParcellesOfJardin(jardin: Jardin): Parcelle[] {
-    console.log(this.parcelles.filter((parcelle: Parcelle) => parcelle.idjardin === jardin.id));
     return this.parcelles.filter((parcelle: Parcelle) => parcelle.idjardin === jardin.id);
   }
 
@@ -70,5 +72,11 @@ export class JardinsComponent implements OnInit {
       rangsEtParcelles.push({parcelle, rangs: this.rangs.filter((rang: Rang) => rang.coordonneesparcelle === parcelle.coordonnees)} as RangParcelle);
     });
     return rangsEtParcelles;
+  }
+
+  private getAllVarietesInRangs(): void {
+    this.communicationService.getAllVarietesInRangs().subscribe((varietesInRangs: VarieteContenuDansUnRang[]) => {
+      this.varietesInRangs = varietesInRangs ? varietesInRangs : [];
+    });
   }
 }

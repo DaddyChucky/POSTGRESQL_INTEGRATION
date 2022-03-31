@@ -65,6 +65,26 @@ export class DatabaseService {
     return res;
   }
 
+  // ======= VARIETES =======
+  async getAllVarietesInRangs(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.VarieteContenuDansUnRang;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getAllVarietesOfSpecificRang(coordonneesRang: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.VarieteContenuDansUnRang WHERE coordonneesRang = ${coordonneesRang};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+
+
+
 
   // // get hotels that correspond to certain caracteristics
   // public async filterHotels(hotelNb: string, hotelName: string, city: string): Promise<pg.QueryResult> {

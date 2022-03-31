@@ -6,6 +6,7 @@ import Types from "../types";
 import { Jardin } from '../../../common/tables/Jardin';
 import { Parcelle } from '../../../common/tables/Parcelle';
 import { Rang } from '../../../common/tables/Rang';
+import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
 
 @injectable()
 export class DatabaseController {
@@ -128,6 +129,39 @@ export class DatabaseController {
         });
       }
     });
+
+    // ======= VARIETES IN RANGS ROUTES =======
+    router.get("/varietes/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
+    if(req.params.coordsRang) {
+      this.databaseService
+      .getAllVarietesOfSpecificRang(req.params.coordsRang)
+      .then((result: pg.QueryResult) => {
+        const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
+          nomvariete: varieteInRang.nomvariete,
+          coordonneesrang: varieteInRang.coordonneesrang,
+          typemiseenplace: varieteInRang.typemiseenplace
+        } as VarieteContenuDansUnRang));
+        res.json(varietesInRangs);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+      });
+    } else {
+      this.databaseService
+      .getAllVarietesInRangs()
+      .then((result: pg.QueryResult) => {
+        const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
+          nomvariete: varieteInRang.nomvariete,
+          coordonneesrang: varieteInRang.coordonneesrang,
+          typemiseenplace: varieteInRang.typemiseenplace
+        } as VarieteContenuDansUnRang));
+        res.json(varietesInRangs);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+      });
+    }
+  });
 
 
 

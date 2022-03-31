@@ -6,6 +6,7 @@ import { Rang } from "../../../common/tables/Rang"
 // tslint:disable-next-line:ordered-imports
 import { of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
 
 @Injectable()
 export class CommunicationService {
@@ -61,6 +62,22 @@ export class CommunicationService {
       .get<Rang[]>(this.BASE_URL + `/rangs/${parcelleCoords}`)
       .pipe(catchError(this.handleError<Rang[]>("getAllRangsOfParcelle")));
   }
+
+  // ======= VARIETES IN RANGS =======
+  getAllVarietesInRangs(): Observable<VarieteContenuDansUnRang[]> {
+    return this.http
+      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes`)
+      .pipe(catchError(this.handleError<VarieteContenuDansUnRang[]>("getAllVarietesInRangs")));
+  }
+
+  getAllVarietesOfSpecificRang(coordonneesRang: string): Observable<VarieteContenuDansUnRang[]> {
+    return this.http
+      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes/${coordonneesRang}`)
+      .pipe(catchError(this.handleError<VarieteContenuDansUnRang[]>("getAllVarietesOfSpecificRang")));
+  }
+
+
+
 
   // getAllRangsOfParcelle(parcelle: Parcelle): Observable<Parcelle[]> {
   //   return this.http

@@ -29,6 +29,21 @@
                      au {{ rang.datefinjachere.substring(0, 10) }}
                   </span>
                 </p>
+                <div *ngIf="this.getVarietesOfRang(data.varietesInRangs, rang).length">
+                  <p>Plantes présentes :</p>
+                  <ul *ngFor="let varieteInRang of this.getVarietesOfRang(data.varietesInRangs, rang)">
+                    <li>
+                      Variété : {{ varieteInRang.nomvariete }}<br/>
+                      Mise en place : {{ varieteInRang.typemiseenplace }}
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="!this.getVarietesOfRang(data.varietesInRangs, rang).length">
+                  <p class="no-content">
+                    Ce rang ne contient aucune variété de plante...
+                    <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon>
+                  </p>
+                </div>
               </li>
             </ul>
           </div>
