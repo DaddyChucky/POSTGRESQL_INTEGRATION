@@ -5,8 +5,7 @@ import { DatabaseService } from "../services/database.service";
 import Types from "../types";
 import { Jardin } from '../../../common/tables/Jardin';
 import { Parcelle } from '../../../common/tables/Parcelle';
-import { Coordonnnes_t } from '../../../common/c_types/Coordonnees_t';
-import { Dimensions_t } from '../../../common/c_types/Dimensions_t';
+import { Rang } from '../../../common/tables/Rang';
 
 @injectable()
 export class DatabaseController {
@@ -80,13 +79,49 @@ export class DatabaseController {
         this.databaseService
         .getAllParcelles()
         .then((result: pg.QueryResult) => {
-          console.log(result.rows);
           const parcelles: Parcelle[] = result.rows.map((parcelle: Parcelle) => ({
             idjardin: parcelle.idjardin,
             coordonnees: parcelle.coordonnees,
             dimensions: parcelle.dimensions
           } as Parcelle));
           res.json(parcelles);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
+    });
+
+    // ======= RANGS ROUTES =======
+    router.get("/rangs/:coordsParcelle?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.coordsParcelle) {
+        this.databaseService
+        .getAllRangsOfParcelle(req.params.coordsParcelle)
+        .then((result: pg.QueryResult) => {
+          const rangs: Rang[] = result.rows.map((rang: Rang) => ({
+            coordonneesparcelle: rang.coordonneesparcelle,
+            numero: rang.numero,
+            coordonneesrang: rang.coordonneesrang,
+            datedebutjachere: rang.datedebutjachere,
+            datefinjachere: rang.datefinjachere,
+          } as Rang));
+          res.json(rangs);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      } else {
+        this.databaseService
+        .getAllRangs()
+        .then((result: pg.QueryResult) => {
+          const rangs: Rang[] = result.rows.map((rang: Rang) => ({
+            coordonneesparcelle: rang.coordonneesparcelle,
+            numero: rang.numero,
+            coordonneesrang: rang.coordonneesrang,
+            datedebutjachere: rang.datedebutjachere,
+            datefinjachere: rang.datefinjachere,
+          } as Rang));
+          res.json(rangs);
         })
         .catch((e: Error) => {
           console.error(e.stack);

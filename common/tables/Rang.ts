@@ -1,10 +1,7 @@
-import { Coordonnnes_t } from "../c_types/Coordonnees_t";
-
 export interface Rang {
-    IDJardin: number;
-    coordonneesParcelle: Coordonnnes_t;
+    coordonneesparcelle: string;
     numero: number;
-    coordonneesRang: Coordonnnes_t;
-    dateDebutJachere: Date | null;
-    dateFinJachere: Date | null;
+    coordonneesrang: string;
+    datedebutjachere: Date | null;
+    datefinjachere: Date | null;
 }

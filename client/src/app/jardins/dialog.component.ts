@@ -1,12 +1,8 @@
 import { Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Jardin } from "../../../../common/tables/Jardin";
 import { Parcelle } from "../../../../common/tables/Parcelle";
-
-export interface DData {
-  jardin: Jardin;
-  parcelles: Parcelle[];
-}
+import { DialogData } from "./dialog-data";
+import { RangParcelle } from "./rang-parcelle";
 
 @Component ({
   selector: 'DialogComponent',
@@ -14,9 +10,9 @@ export interface DData {
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent {
-  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DData) {}
-}
+  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
-// onNoClick(): void {
-//   this.dialogRef.close();
-// }
+  getRangsOfParcelle(parcelle: Parcelle, rangsParcelles: RangParcelle[]): RangParcelle[] {
+    return rangsParcelles.filter((rangParcelle: RangParcelle) => rangParcelle.parcelle.coordonnees === parcelle.coordonnees);
+  }
+}

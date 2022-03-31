@@ -48,6 +48,23 @@ export class DatabaseService {
     return res;
   }
 
+  // ======= RANGS =======
+  async getAllRangs(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Rang;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getAllRangsOfParcelle(coordsParcelle: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Rang WHERE coordonneesparcelle = ${coordsParcelle};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
 
   // // get hotels that correspond to certain caracteristics
   // public async filterHotels(hotelNb: string, hotelName: string, city: string): Promise<pg.QueryResult> {

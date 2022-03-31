@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Jardin } from '../../../../common/tables/Jardin';
 import { Parcelle } from '../../../../common/tables/Parcelle';
+import { Rang } from '../../../../common/tables/Rang';
 import { CommunicationService } from '../communication.service';
 import { DialogComponent } from './dialog.component';
+import { RangParcelle } from './rang-parcelle';
 
 @Component({
   selector: 'app-jardins',
@@ -13,13 +15,15 @@ import { DialogComponent } from './dialog.component';
 export class JardinsComponent implements OnInit {
   parcelles: Parcelle[];
   jardins: Jardin[];
-  displayedColumns: string[] = ['ID', 'nom', 'surface', 'bPotager', 'bOrnement', 'bVerger', 'typeSol', 'hauteurMaximale', 'moreInfo'];
+  rangs: Rang[];
+  displayedColumns: string[] = ['ID', 'nom', 'surface', 'type', 'typeSol', 'hauteurMaximale', 'moreInfo'];
 
   constructor(public dialog: MatDialog, private readonly communicationService: CommunicationService) {}
 
   ngOnInit(): void {
     this.getAllJardins();
     this.getAllParcelles();
+    this.getAllRangs();
   }
 
   openDialog(jardin: Jardin) {
@@ -27,10 +31,13 @@ export class JardinsComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = '650px';
+    const parcelles = this.getAllParcellesOfJardin(jardin);
     dialogConfig.data = {
       jardin,
-      parcelles: this.getAllParcellesOfJardin(jardin),
+      parcelles,
+      rangsParcelles: this.getRangsOfSpecificParcelles(parcelles)
     };
+    console.log(dialogConfig.data.rangsParcelles);
     this.dialog.open(DialogComponent, dialogConfig);
   }
 
@@ -50,8 +57,18 @@ export class JardinsComponent implements OnInit {
       this.jardins = jardins ? jardins : [];
     });
   }
+
+  private getAllRangs(): void {
+    this.communicationService.getAllRangs().subscribe((rangs: Rang[]) => {
+      this.rangs = rangs ? rangs : [];
+    });
+  }
+
+  private getRangsOfSpecificParcelles(parcelles: Parcelle[]): RangParcelle[] {
+    const rangsEtParcelles: RangParcelle[] = [];
+    parcelles.forEach((parcelle: Parcelle) => {
+      rangsEtParcelles.push({parcelle, rangs: this.rangs.filter((rang: Rang) => rang.coordonneesparcelle === parcelle.coordonnees)} as RangParcelle);
+    });
+    return rangsEtParcelles;
+  }
 }
-
-
-
-
