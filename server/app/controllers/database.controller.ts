@@ -8,6 +8,7 @@ import { Parcelle } from '../../../common/tables/Parcelle';
 import { Rang } from '../../../common/tables/Rang';
 import { Plante } from '../../../common/tables/Plante';
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
+import { Variete } from '../../../common/tables/Variete';
 
 @injectable()
 export class DatabaseController {
@@ -131,37 +132,77 @@ export class DatabaseController {
       }
     });
 
-    // ======= VARIETES IN RANGS ROUTES =======
-    router.get("/varietes/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
-    if(req.params.coordsRang) {
+  // ======= VARIETES ROUTES =======
+  router.get("/varietes/:nom?", (req: Request, res: Response, _: NextFunction) => {
+    if(req.params.nom) {
       this.databaseService
-      .getAllVarietesOfSpecificRang(req.params.coordsRang)
+      .getSpecificVariete(req.params.nom)
       .then((result: pg.QueryResult) => {
-        const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
-          nomvariete: varieteInRang.nomvariete,
-          coordonneesrang: varieteInRang.coordonneesrang,
-          typemiseenplace: varieteInRang.typemiseenplace
-        } as VarieteContenuDansUnRang));
-        res.json(varietesInRangs);
+        const varietes: Variete[] = result.rows.map((variete: Variete) => ({
+          nom: variete.nom,
+          anneemiseenmarche: variete.anneemiseenmarche,
+          description: variete.description,
+          periodemiseenplace: variete.periodemiseenplace,
+          perioderecolte: variete.perioderecolte,
+          commentairegeneral: variete.commentairegeneral
+        } as Variete));
+        res.json(varietes);
       })
       .catch((e: Error) => {
         console.error(e.stack);
       });
     } else {
       this.databaseService
-      .getAllVarietesInRangs()
+      .getAllVarietes()
       .then((result: pg.QueryResult) => {
-        const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
-          nomvariete: varieteInRang.nomvariete,
-          coordonneesrang: varieteInRang.coordonneesrang,
-          typemiseenplace: varieteInRang.typemiseenplace
-        } as VarieteContenuDansUnRang));
-        res.json(varietesInRangs);
+        const varietes: Variete[] = result.rows.map((variete: Variete) => ({
+          nom: variete.nom,
+          anneemiseenmarche: variete.anneemiseenmarche,
+          description: variete.description,
+          periodemiseenplace: variete.periodemiseenplace,
+          perioderecolte: variete.perioderecolte,
+          commentairegeneral: variete.commentairegeneral
+        } as Variete));
+        res.json(varietes);
       })
       .catch((e: Error) => {
         console.error(e.stack);
       });
     }
+  });
+
+
+  // ======= VARIETES IN RANGS ROUTES =======
+  router.get("/varietes/rangs/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
+  if(req.params.coordsRang) {
+    this.databaseService
+    .getAllVarietesOfSpecificRang(req.params.coordsRang)
+    .then((result: pg.QueryResult) => {
+      const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
+        nomvariete: varieteInRang.nomvariete,
+        coordonneesrang: varieteInRang.coordonneesrang,
+        typemiseenplace: varieteInRang.typemiseenplace
+      } as VarieteContenuDansUnRang));
+      res.json(varietesInRangs);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  } else {
+    this.databaseService
+    .getAllVarietesInRangs()
+    .then((result: pg.QueryResult) => {
+      const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
+        nomvariete: varieteInRang.nomvariete,
+        coordonneesrang: varieteInRang.coordonneesrang,
+        typemiseenplace: varieteInRang.typemiseenplace
+      } as VarieteContenuDansUnRang));
+      res.json(varietesInRangs);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  }
   });
 
   // ======= PLANTES =======

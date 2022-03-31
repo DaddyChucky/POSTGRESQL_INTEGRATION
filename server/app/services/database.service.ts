@@ -82,6 +82,22 @@ export class DatabaseService {
     return res;
   }
 
+  async getAllVarietes(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Variete;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getSpecificVariete(varieteName: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Variete WHERE nom = ${varieteName};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
   // ======= PLANTES =======
   async getAllPlantes(): Promise<pg.QueryResult> {
     const client = await this.pool.connect();

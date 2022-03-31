@@ -1,3 +1,16 @@
-<p>
-  varietes works!
-</p>
+<mat-grid-list *ngIf="currentPlantes.length" cols="3" rowHeight="300px">
+  <mat-grid-tile *ngFor="let plante of currentPlantes">
+    <mat-card style="width: 400px; height: 200px;" class="card-bg">
+      <mat-card-title align="center">{{ plante.nom }}</mat-card-title>
+      <mat-card-subtitle align="center"><i>{{ plante.nomlatin }}</i></mat-card-subtitle>
+      <mat-card-content>
+        <ul>
+          <li>Catégorie : {{ plante.categorie }}</li>
+          <li>Variété : {{ plante.nomvariete }}</li>
+          <li>Type : {{ plante.typeplante }}</li>
+          <li *ngIf="plante.soustypeplante">Sous-type : {{ plante.soustypeplante }}</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

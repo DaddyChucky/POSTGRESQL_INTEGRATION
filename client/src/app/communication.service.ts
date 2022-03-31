@@ -7,6 +7,7 @@ import { Plante } from "../../../common/tables/Plante"
 import { of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
+import { Variete } from '../../../common/tables/Variete';
 
 @Injectable()
 export class CommunicationService {
@@ -24,7 +25,6 @@ export class CommunicationService {
   }
 
   // ======= JARDINS =======
-
   getAllJardins(): Observable<Jardin[]> {
     return this.http
       .get<Jardin[]>(this.BASE_URL + "/jardins")
@@ -66,14 +66,27 @@ export class CommunicationService {
   // ======= VARIETES IN RANGS =======
   getAllVarietesInRangs(): Observable<VarieteContenuDansUnRang[]> {
     return this.http
-      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes`)
+      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes/rangs`)
       .pipe(catchError(this.handleError<VarieteContenuDansUnRang[]>("getAllVarietesInRangs")));
   }
 
   getAllVarietesOfSpecificRang(coordonneesRang: string): Observable<VarieteContenuDansUnRang[]> {
     return this.http
-      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes/${coordonneesRang}`)
+      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes/rangs/${coordonneesRang}`)
       .pipe(catchError(this.handleError<VarieteContenuDansUnRang[]>("getAllVarietesOfSpecificRang")));
+  }
+
+  // ======= VARIETES =======
+  getAllVarietes(): Observable<Variete[]> {
+    return this.http
+      .get<Variete[]>(this.BASE_URL + `/varietes`)
+      .pipe(catchError(this.handleError<Variete[]>("getAllVarietes")));
+  }
+
+  getSpecificVariete(nom: string): Observable<Variete[]> {
+    return this.http
+      .get<Variete[]>(this.BASE_URL + `/varietes/${nom}`)
+      .pipe(catchError(this.handleError<Variete[]>("getSpecificVariete")));
   }
 
   // ======= PLANTES =======
