@@ -66,13 +66,13 @@ export class CommunicationService {
   // ======= VARIETES IN RANGS =======
   getAllVarietesInRangs(): Observable<VarieteContenuDansUnRang[]> {
     return this.http
-      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes/rangs`)
+      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietesrangs`)
       .pipe(catchError(this.handleError<VarieteContenuDansUnRang[]>("getAllVarietesInRangs")));
   }
 
   getAllVarietesOfSpecificRang(coordonneesRang: string): Observable<VarieteContenuDansUnRang[]> {
     return this.http
-      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietes/rangs/${coordonneesRang}`)
+      .get<VarieteContenuDansUnRang[]>(this.BASE_URL + `/varietesrangs/${coordonneesRang}`)
       .pipe(catchError(this.handleError<VarieteContenuDansUnRang[]>("getAllVarietesOfSpecificRang")));
   }
 
@@ -92,7 +92,7 @@ export class CommunicationService {
   // ======= PLANTES =======
   getAllPlantes(): Observable<Plante[]> {
     return this.http
-      .get<Plante[]>(this.BASE_URL + `/plantes`)
+      .get<Plante[]>(this.BASE_URL + `/plantes/`)
       .pipe(catchError(this.handleError<Plante[]>("getAllPlantes")));
   }
 

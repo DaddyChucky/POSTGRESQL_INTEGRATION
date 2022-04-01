@@ -1,6 +1,6 @@
-export interface DescriptionVariete_t {
-    plantation: string;
-    entretien: string;
-    recolte: string;
-  }
+export const enum DescriptionVariete {
+  PLANTATION = 0,
+  ENTRETIEN = 1,
+  RECOLTE = 2
+}
   

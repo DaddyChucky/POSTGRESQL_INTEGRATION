@@ -173,7 +173,7 @@ export class DatabaseController {
 
 
   // ======= VARIETES IN RANGS ROUTES =======
-  router.get("/varietes/rangs/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
+  router.get("/varietesrangs/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
   if(req.params.coordsRang) {
     this.databaseService
     .getAllVarietesOfSpecificRang(req.params.coordsRang)

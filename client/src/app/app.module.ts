@@ -12,6 +12,7 @@ import { VarietesComponent } from './varietes/varietes.component';
 import { PlantesComponent } from './plantes/plantes.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from "./jardins/dialog.component";
+import { AddVarieteComponent } from "./varietes/add-variete.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { DialogComponent } from "./jardins/dialog.component";
     JardinsComponent,
     DialogComponent,
     VarietesComponent,
-    PlantesComponent
+    PlantesComponent,
+    AddVarieteComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,7 @@ import { DialogComponent } from "./jardins/dialog.component";
     AppMaterialModule
   ],
   providers: [CommunicationService],
-  entryComponents: [DialogComponent],
+  entryComponents: [DialogComponent, AddVarieteComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

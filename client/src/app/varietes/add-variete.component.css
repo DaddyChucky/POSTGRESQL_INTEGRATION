@@ -1,0 +1,18 @@
+.card-border {
+  border: 1px dashed #673ab7;
+}
+
+.no-content {
+  text-align: center;
+  color:rgb(120, 4, 0);
+}
+
+.no-content-icon {
+  font-size: 18px;
+}
+
+.card-subtitle {
+  color: #673ab7;
+  font-weight: bold;
+  font-size: 18px;
+}

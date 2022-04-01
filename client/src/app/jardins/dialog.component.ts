@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Parcelle } from "../../../../common/tables/Parcelle";
 import { Rang } from "../../../../common/tables/Rang";
 import { VarieteContenuDansUnRang } from "../../../../common/tables/VarieteContenuDansUnRang";
-import { DialogData } from "./dialog-data";
+import { DialogData } from "../../../../common/communication/dialog-data";
 import { RangParcelle } from "./rang-parcelle";
 
 @Component ({
