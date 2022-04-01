@@ -36,7 +36,6 @@
     "socket.io": "^4.4.1",
     "socket.io-client": "^2.2.0",
     "three": "^0.139.0",
-    "trim-newlines": "^4.0.2",
     "webpack": "^5.71.0",
     "xmlhttprequest-ssl": "^2.0.0",
     "yargs-parser": "^21.0.1",
