@@ -20,13 +20,21 @@
         <ng-template matStepLabel>Années et périodes</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Année de mise en marché</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="Ex. 01-01-1999"
-                 required>
+          <input matInput [matDatepicker]="dp" [formControl]="date">
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp
+                          startView="multi-year"
+                          (monthSelected)="setMonthAndYear($event, dp)"
+                          panelClass="example-month-picker">
+          </mat-datepicker>
         </mat-form-field>
+
+        <br/>
         <mat-form-field appearance="fill">
           <mat-label>Période de mise en place</mat-label>
           <input matInput placeholder="Ex. Entre le 10 et le 20 juin" formControlName="thirdCtrl" required>
         </mat-form-field>
+        <br/>
         <mat-form-field appearance="fill">
           <mat-label>Période de récolte</mat-label>
           <input matInput placeholder="Ex. Entre le 1er et le 31 août" formControlName="fourthCtrl" required>
