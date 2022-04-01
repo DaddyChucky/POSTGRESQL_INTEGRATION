@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Variete } from '../../../../common/tables/Variete';
 import { CommunicationService } from '../communication.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AddVarieteComponent } from './add-variete.component';
 
 @Component({
