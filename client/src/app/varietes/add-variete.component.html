@@ -1,67 +1,54 @@
-<!-- <h5 mat-dialog-title align="end">Superficie : {{ data.jardin.surface }} km²</h5>
-<h2 mat-dialog-title align="center">Jardin #{{ data.jardin.id }} : {{ data.jardin.nom }}</h2>
+<h2 mat-dialog-title align="center">Ajoutez une nouvelle variété de plante</h2>
 <mat-divider></mat-divider>
 <br />
 <div mat-dialog-content>
-  <div *ngIf="data.parcelles.length === 0">
-    <p class="no-content">
-      Ce jardin ne contient aucune parcelle...
-      <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon>
-    </p>
-  </div>
-  <div *ngIf="data.parcelles.length" >
-    <div *ngFor="let parcelle of data.parcelles; index as i">
-      <mat-card class='card-border'>
-        <mat-card-subtitle class="card-subtitle" align="center">Parcelle #{{ i + 1 }}</mat-card-subtitle>
-        <mat-divider></mat-divider>
-        <br />
-        <mat-card-content>Coordonnées : {{ parcelle.coordonnees }}</mat-card-content>
-        <mat-card-content>Dimensions : {{ parcelle.dimensions }}</mat-card-content>
-        <mat-card-content>
-          <div *ngIf="this.getRangsOfParcelle(parcelle, data.rangsParcelles).length">
-            <ul *ngFor="let rang of this.getRangsOfParcelle(parcelle, data.rangsParcelles)[0].rangs">
-              <li>
-                <p>Rang #{{ rang.numero }}</p>
-                <p>Coordonnées : {{ rang.coordonneesrang }}</p>
-                <p *ngIf="rang.datedebutjachere || rang.datefinjachere">Période de jachère :
-                  <span *ngIf="rang.datedebutjachere">
-                    {{ rang.datedebutjachere.substring(0, 10) }}
-                  </span>
-                  <span *ngIf="rang.datefinjachere">
-                     au {{ rang.datefinjachere.substring(0, 10) }}
-                  </span>
-                </p>
-                <div *ngIf="this.getVarietesOfRang(data.varietesInRangs, rang).length">
-                  <p>Plantes présentes :</p>
-                  <ul *ngFor="let varieteInRang of this.getVarietesOfRang(data.varietesInRangs, rang)">
-                    <li>
-                      Variété : {{ varieteInRang.nomvariete }}<br/>
-                      Mise en place : {{ varieteInRang.typemiseenplace }}
-                    </li>
-                  </ul>
-                </div>
-                <div *ngIf="!this.getVarietesOfRang(data.varietesInRangs, rang).length">
-                  <p class="no-content">
-                    Ce rang ne contient aucune variété de plante...
-                    <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon>
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div *ngIf="!this.getRangsOfParcelle(parcelle, data.rangsParcelles).length">
-            <p class="no-content">
-              Cette parcelle ne contient aucun rang...
-              <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon>
-            </p>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <br />
-    </div>
-  </div>
+  <mat-vertical-stepper [linear]="false" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Entrez un nom de variété</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Nom de variété</mat-label>
+          <input matInput placeholder="Ex. Nantaise 3" formControlName="firstCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Années et périodes</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Année de mise en marché</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="Ex. 01-01-1999"
+                 required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Période de mise en place</mat-label>
+          <input matInput placeholder="Ex. Entre le 10 et le 20 juin" formControlName="thirdCtrl" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Période de récolte</mat-label>
+          <input matInput placeholder="Ex. Entre le 1er et le 31 août" formControlName="fourthCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button (click)="stepper.reset()">Réinitialiser</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close color="primary">Retour à la liste <mat-icon> local_florist</mat-icon></button>
-</div> -->
+  <button mat-button mat-dialog-close color="primary">Ajoutez ! <mat-icon>local_florist</mat-icon></button>
+  <button mat-button mat-dialog-close color="primary">Annuler <mat-icon>clear</mat-icon></button>
+</div>

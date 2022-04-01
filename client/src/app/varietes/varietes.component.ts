@@ -24,6 +24,9 @@ export class VarietesComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = '650px';
+    dialogConfig.data = {
+      variete
+    };
     this.dialog.open(AddVarieteComponent, dialogConfig);
   }
 
