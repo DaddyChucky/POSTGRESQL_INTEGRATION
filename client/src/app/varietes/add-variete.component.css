@@ -24,3 +24,19 @@
 .mat-form-field {
   margin-top: 16px;
 }
+
+.to-be-defined {
+  color: indianred;
+}
+
+.wider {
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+}
+
+#randomize-adds {
+  justify-content: flex-end;
+  text-align: right;
+  height: 30px !important;
+}

@@ -14,6 +14,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 const modules = [
     MatButtonModule,
@@ -30,7 +31,8 @@ const modules = [
     MatGridListModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    TextFieldModule
 ];
 
 @NgModule({
