@@ -52,8 +52,8 @@ VALUES ('Rosabelle',
 			'Il faut arroser les patates tous les trois jours.',
 			'Il suffit de déraciner les patates.'
 		   )::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 20 juin',
-		'Entre le 1 et le 31 août',
+		'12/3/2022 au 30/3/2022',
+		'12/3/2022 au 30/3/2023',
 		'Utilisez optionnellement une tige de métal comme support.');
 		
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -63,8 +63,8 @@ VALUES ('Trèfle vert d''Alexandrie',
 			'Il faut arroser les graines 2 à trois fois par jour.',
 			'Il faut utiliser des outils spéciaux pour extraire les trèfles sans les endommager.'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 1 septembre',
-		'10 jours après le semis',
+		'12/3/2022 au 30/3/2024',
+		'12/3/2022 au 30/3/2025',
 		'Ne pas exposer à la lumière du soleil directement.');
 		
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -74,8 +74,8 @@ VALUES ('Nantaise 2',
 			'Il faut arroser les racines une fois par jour.',
 			'Tirer sur la racine'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 9 septembre',
-		'3 mois après la plantation',
+		'12/3/2022 au 30/3/2026',
+		'12/3/2022 au 30/3/2027',
 		'Les carottes adorent le soleil');
 
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -85,8 +85,8 @@ VALUES ('Adiantum6',
 			'Il faut arroser les graines 2 à trois fois par jour.',
 			'Il faut utiliser des outils spéciaux pour extraire les trèfles sans les endommager.'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 5 mai et le 20 septembre',
-		'10 jours après le semis',
+		'12/3/2022 au 30/3/2028',
+		'12/3/2022 au 30/3/2029',
 		'Exposer à la lumière du soleil directement.');
 		
 		
@@ -97,8 +97,8 @@ VALUES ('Tuberosum',
 			'Il faut arroser les racines une fois par jour.',
 			'Tirer sur la racine'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 9 septembre',
-		'3 mois après la plantation',
+		'12/3/2022 au 30/3/2030',
+		'12/3/2022 au 30/3/2031',
 		'Les pommes de terres aiment le soleil');
 	
 INSERT INTO jardinCommMR.Production (nomVariete, nomSemencier, produitBio)

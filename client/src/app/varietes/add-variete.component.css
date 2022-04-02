@@ -30,12 +30,12 @@
 }
 
 .wider {
-  min-width: 150px;
-  max-width: 300px;
+  min-width: 400px;
+  max-width: 100%;
   width: 100%;
 }
 
-#randomize-adds {
+.randomize-adds {
   justify-content: flex-end;
   text-align: right;
   height: 30px !important;

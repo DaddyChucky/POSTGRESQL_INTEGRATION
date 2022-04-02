@@ -1,4 +1,4 @@
 export interface Semencier {
     nom: string;
-    siteWeb: string;
+    siteweb: string;
 }

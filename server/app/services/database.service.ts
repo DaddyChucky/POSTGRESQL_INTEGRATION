@@ -115,6 +115,22 @@ export class DatabaseService {
     return res;
   }
 
+  // ======= SEMENCIER =======
+  async getAllSemencier(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Semencier;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getSpecificSemencier(nom: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Semencier WHERE nom = ${nom};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
 
 
   // // get hotels that correspond to certain caracteristics

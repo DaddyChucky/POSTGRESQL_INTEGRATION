@@ -6,6 +6,8 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/mater
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MatDatepicker } from "@angular/material/datepicker";
 import * as moment from "moment";
+import { CommunicationService } from "../communication.service";
+import { Variete } from "../../../../common/tables/Variete";
 
 export const MY_FORMATS = {
   parse: {
@@ -38,18 +40,24 @@ export class AddVarieteComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  fourthFormGroup: FormGroup;
   date = new FormControl(moment());
   nomVariete: string = '';
   miseEnPlaceStart: string = '';
   miseEnPlaceEnd: string = '';
   periodeRecolteStart: string = '';
   periodeRecolteEnd: string = '';
-  anneeMiseEnPlace: string = '';
+  anneeMiseEnMarche: string = '';
   plantation: string = '';
   entretien: string = '';
   recolte: string = '';
+  commentaire: string = '';
+  varietes: Variete[];
+  placeholderMP: boolean = false;
+  placeholderPR: boolean = false;
+  placeholderMEP: boolean = false;
 
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<AddVarieteComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<AddVarieteComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private readonly communicationService: CommunicationService) {}
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
@@ -67,16 +75,20 @@ export class AddVarieteComponent implements OnInit {
       eigthCtrl: ['', Validators.required],
       ninthCtrl: ['', Validators.required],
     });
+    this.fourthFormGroup = this._formBuilder.group({
+      tenthCtrl: ['', Validators.required],
+    });
+    this.getAllVarietes();
   }
 
   setYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     datepicker.close();
     const ctrlValue = this.date.value;
-    ctrlValue.day(normalizedMonthAndYear.day());
-    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.day(new Date('1'));
+    ctrlValue.month(new Date('1'));
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
-    this.anneeMiseEnPlace = normalizedMonthAndYear.year().toString();
+    this.anneeMiseEnMarche = normalizedMonthAndYear.year().toString();
   }
 
   convertToDate(dateStr: string): string {
@@ -84,7 +96,53 @@ export class AddVarieteComponent implements OnInit {
     return date.getDate().toString() + '/' + date.getMonth().toString() + '/' + date.getFullYear().toString();
   }
 
-  randomizer(): void {
+  resetPlaceHolderMP(): void {
+    this.placeholderMP = false;
+  }
 
+  resetPlaceHolderPR(): void {
+    this.placeholderPR = false;
+  }
+
+  resetPlaceHolderMEP(): void {
+    this.placeholderMEP = false;
+  }
+
+  resetAnneeMiseMarche(): void {
+    this.anneeMiseEnMarche = '';
+  }
+
+  randomizer(): void {
+    if (!this.varietes) return;
+    const rdEntry: Variete = this.varietes[this.getRandomIndex(this.varietes.length)];
+    const descriptions: string[] = rdEntry.description.replace('("', '').replace('")', '').split('","');
+    this.nomVariete = rdEntry.nom;
+    this.miseEnPlaceStart = '01/01/2022'; // TODO : FIX DATA
+    this.miseEnPlaceEnd = '01/01/2023';
+    this.periodeRecolteStart = '01/01/2024';
+    this.periodeRecolteEnd = '01/01/2025';
+    this.anneeMiseEnMarche = new Date(rdEntry.anneemiseenmarche).getFullYear().toString();
+    const ctrlValue = this.date.value;
+    ctrlValue.day(new Date('1'));
+    ctrlValue.month(new Date('1'));
+    ctrlValue.year(Number(this.anneeMiseEnMarche));
+    this.date.setValue(ctrlValue);
+    this.plantation = descriptions[0];
+    this.entretien = descriptions[1];
+    this.recolte = descriptions[2];
+    this.commentaire = rdEntry.commentairegeneral;
+    this.placeholderMP = true;
+    this.placeholderPR = true;
+    this.placeholderMEP = true;
+  }
+
+  private getRandomIndex(tableSizeCeil: number): number {
+    return Math.floor(Math.random() * (tableSizeCeil - 1));
+  }
+
+  private getAllVarietes(): void {
+    this.communicationService.getAllVarietes().subscribe((varietes: Variete[]) => {
+      this.varietes = varietes ? varietes : [];
+    });
   }
 }

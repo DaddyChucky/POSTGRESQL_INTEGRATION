@@ -9,6 +9,7 @@ import { Rang } from '../../../common/tables/Rang';
 import { Plante } from '../../../common/tables/Plante';
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
 import { Variete } from '../../../common/tables/Variete';
+import { Semencier } from '../../../common/tables/Semencier';
 
 @injectable()
 export class DatabaseController {
@@ -243,6 +244,37 @@ export class DatabaseController {
     });
   }
   });
+
+  // ======= SEMENCIERS =======
+  router.get("/semenciers/:nom?", (req: Request, res: Response, _: NextFunction) => {
+    if(req.params.nom) {
+      this.databaseService
+      .getSpecificSemencier(req.params.nom)
+      .then((result: pg.QueryResult) => {
+        const semenciers: Semencier[] = result.rows.map((semencier: Semencier) => ({
+          nom: semencier.nom,
+          siteweb: semencier.siteweb
+        } as Semencier));
+        res.json(semenciers);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+      });
+    } else {
+      this.databaseService
+      .getAllSemencier()
+      .then((result: pg.QueryResult) => {
+        const semenciers: Semencier[] = result.rows.map((semencier: Semencier) => ({
+          nom: semencier.nom,
+          siteweb: semencier.siteweb
+        } as Semencier));
+        res.json(semenciers);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+      });
+    }
+    });
 
 
 

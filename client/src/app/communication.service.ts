@@ -8,6 +8,7 @@ import { of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
 import { Variete } from '../../../common/tables/Variete';
+import { Semencier } from '../../../common/tables/Semencier';
 
 @Injectable()
 export class CommunicationService {
@@ -100,6 +101,19 @@ export class CommunicationService {
     return this.http
       .get<Plante[]>(this.BASE_URL + `/plantes/${nomLatin}`)
       .pipe(catchError(this.handleError<Plante[]>("getSpecificPlante")));
+  }
+
+  // ======= PLANTES =======
+  getAllSemencier(): Observable<Semencier[]> {
+    return this.http
+      .get<Semencier[]>(this.BASE_URL + `/semenciers/`)
+      .pipe(catchError(this.handleError<Semencier[]>("getAllSemencier")));
+  }
+
+  getSpecificSemencier(nom: string): Observable<Semencier[]> {
+    return this.http
+      .get<Semencier[]>(this.BASE_URL + `/semenciers/${nom}`)
+      .pipe(catchError(this.handleError<Semencier[]>("getSpecificSemencier")));
   }
 
 
