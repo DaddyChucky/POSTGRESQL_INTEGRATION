@@ -8,6 +8,7 @@ import { MatDatepicker } from "@angular/material/datepicker";
 import * as moment from "moment";
 import { CommunicationService } from "../communication.service";
 import { Variete } from "../../../../common/tables/Variete";
+import { Semencier } from "../../../../common/tables/Semencier";
 
 export const MY_FORMATS = {
   parse: {
@@ -41,6 +42,7 @@ export class AddVarieteComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
+  fifthFormGroup: FormGroup;
   date = new FormControl(moment());
   nomVariete: string = '';
   miseEnPlaceStart: string = '';
@@ -52,7 +54,10 @@ export class AddVarieteComponent implements OnInit {
   entretien: string = '';
   recolte: string = '';
   commentaire: string = '';
+  bio: boolean = false;
+  nomSemencier: string = '';
   varietes: Variete[];
+  semenciers: Semencier[];
   placeholderMP: boolean = false;
   placeholderPR: boolean = false;
   placeholderMEP: boolean = false;
@@ -78,7 +83,12 @@ export class AddVarieteComponent implements OnInit {
     this.fourthFormGroup = this._formBuilder.group({
       tenthCtrl: ['', Validators.required],
     });
+    this.fifthFormGroup = this._formBuilder.group({
+      eleventhCtrl: ['', Validators.required],
+      twelfthCtrl: ['', Validators.required],
+    });
     this.getAllVarietes();
+    this.getAllSemencier();
   }
 
   setYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
@@ -114,14 +124,15 @@ export class AddVarieteComponent implements OnInit {
 
   randomizer(): void {
     if (!this.varietes) return;
-    const rdEntry: Variete = this.varietes[this.getRandomIndex(this.varietes.length)];
-    const descriptions: string[] = rdEntry.description.replace('("', '').replace('")', '').split('","');
-    this.nomVariete = rdEntry.nom;
+    const rdEntryVariete: Variete = this.varietes[this.getRandomIndex(this.varietes.length)];
+    const rdEntrySemencier: Semencier = this.semenciers[this.getRandomIndex(this.semenciers.length)];
+    const descriptions: string[] = rdEntryVariete.description.replace('("', '').replace('")', '').split('","');
+    this.nomVariete = rdEntryVariete.nom;
     this.miseEnPlaceStart = '01/01/2022'; // TODO : FIX DATA
     this.miseEnPlaceEnd = '01/01/2023';
     this.periodeRecolteStart = '01/01/2024';
     this.periodeRecolteEnd = '01/01/2025';
-    this.anneeMiseEnMarche = new Date(rdEntry.anneemiseenmarche).getFullYear().toString();
+    this.anneeMiseEnMarche = new Date(rdEntryVariete.anneemiseenmarche).getFullYear().toString();
     const ctrlValue = this.date.value;
     ctrlValue.day(new Date('1'));
     ctrlValue.month(new Date('1'));
@@ -130,19 +141,31 @@ export class AddVarieteComponent implements OnInit {
     this.plantation = descriptions[0];
     this.entretien = descriptions[1];
     this.recolte = descriptions[2];
-    this.commentaire = rdEntry.commentairegeneral;
+    this.commentaire = rdEntryVariete.commentairegeneral;
+    this.nomSemencier = rdEntrySemencier.nom;
+    this.bio = Math.random() > 0.5;
     this.placeholderMP = true;
     this.placeholderPR = true;
     this.placeholderMEP = true;
   }
 
+  printBio(): string {
+    return this.bio ? "oui" : "non";
+  }
+
   private getRandomIndex(tableSizeCeil: number): number {
-    return Math.floor(Math.random() * (tableSizeCeil - 1));
+    return Math.floor(Math.random() * tableSizeCeil);
   }
 
   private getAllVarietes(): void {
     this.communicationService.getAllVarietes().subscribe((varietes: Variete[]) => {
       this.varietes = varietes ? varietes : [];
+    });
+  }
+
+  private getAllSemencier(): void {
+    this.communicationService.getAllSemencier().subscribe((semenciers: Semencier[]) => {
+      this.semenciers = semenciers ? semenciers : [];
     });
   }
 }

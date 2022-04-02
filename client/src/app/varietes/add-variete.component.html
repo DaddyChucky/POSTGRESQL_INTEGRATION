@@ -1,4 +1,3 @@
-<div align="end"><button ngClass="randomize-adds" (click)="this.randomizer()" color="primary">Primary</button></div>
 <h2 mat-dialog-title align="center">Ajoutez une nouvelle variété de plante</h2>
 <mat-divider></mat-divider>
 <br />
@@ -133,6 +132,21 @@
         </div>
       </form>
     </mat-step>
+    <mat-step [stepControl]="fifthFormGroup">
+      <form [formGroup]="fifthFormGroup">
+        <ng-template matStepLabel>Production</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Nom du semencier</mat-label>
+          <input [(ngModel)]="nomSemencier" maxlength='150' matInput placeholder="Ex. Récolte sauvage" formControlName="eleventhCtrl" required>
+        </mat-form-field>
+        <br/>
+        <mat-slide-toggle [(ngModel)]="bio" formControlName="twelfthCtrl" required>Production biologique</mat-slide-toggle>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
     <mat-step>
       <ng-template matStepLabel>Révision de l'ajout</ng-template>
       <mat-card class="example-card">
@@ -182,6 +196,15 @@
               <li *ngIf="!commentaire" ngClass="to-be-defined">
                 Commentaire général : à définir
               </li>
+            <li *ngIf="nomSemencier">
+              Nom du semencier : {{ nomSemencier }}
+            </li>
+              <li *ngIf="!nomSemencier" ngClass="to-be-defined">
+                Nom du semencier : à définir
+              </li>
+            <li>
+              Production biologique : {{ this.printBio() }}
+            </li>
           </ul>
         </mat-card-content>
       </mat-card>
@@ -193,7 +216,12 @@
   </mat-vertical-stepper>
 </div>
 <mat-divider></mat-divider>
-<div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire">Ajouter ! <mat-icon>local_florist</mat-icon></button>
-  <button mat-button mat-dialog-close color="primary">Annuler <mat-icon>clear</mat-icon></button>
+<div style="display: flex; justify-content: space-between; align-items: center; align-content: space-between; flex-direction: row;" mat-dialog-actions>
+  <div>
+    <button ngClass="randomize-adds" mat-raised-button (click)="this.randomizer()" color="primary">Saisies aléatoires</button>
+  </div>
+  <div>
+    <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire && nomSemencier">Ajouter ! <mat-icon>local_florist</mat-icon></button>
+    <button mat-button mat-dialog-close color="primary">Annuler <mat-icon>clear</mat-icon></button>
+  </div>
 </div>

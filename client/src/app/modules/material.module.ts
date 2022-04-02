@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const modules = [
     MatButtonModule,
@@ -32,7 +33,8 @@ const modules = [
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    TextFieldModule
+    TextFieldModule,
+    MatSlideToggleModule
 ];
 
 @NgModule({
