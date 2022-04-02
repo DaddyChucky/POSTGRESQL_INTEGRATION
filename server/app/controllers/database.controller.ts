@@ -173,6 +173,30 @@ export class DatabaseController {
     }
   });
 
+  router.post(
+  "/varietes/insert",
+  (req: Request, res: Response, _: NextFunction) => {
+    const variete: Variete = {
+      nom: req.body.nom,
+      anneemiseenmarche: req.body.anneemiseenmarche,
+      description: req.body.description,
+      periodemiseenplace: req.body.periodemiseenplace,
+      perioderecolte: req.body.perioderecolte,
+      commentairegeneral: req.body.commentairegeneral,
+    };
+    console.log("DBCONTROLER CALLED WITH", variete);
+    this.databaseService
+      .addVariete(variete)
+      .then((result: pg.QueryResult) => {
+        res.json(result.rowCount);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+        res.json(-1);
+      });
+  }
+);
+
 
   // ======= VARIETES IN RANGS ROUTES =======
   router.get("/varietesrangs/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
@@ -278,35 +302,35 @@ export class DatabaseController {
     });
 
     // ======= ADAPTATIONTYPESOLVARIETE =======
-  router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
-  if(req.params.nomVariete) {
-    this.databaseService
-    .getSpecificAdaptationTypeSolVariete(req.params.nomVariete)
-    .then((result: pg.QueryResult) => {
-      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
-        adaptationtypesol: adaptation.adaptationtypesol,
-        nomvariete: adaptation.nomvariete
-      } as AdaptationTypeSolVariete));
-      res.json(adaptations);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
+    router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
+    if(req.params.nomVariete) {
+      this.databaseService
+      .getSpecificAdaptationTypeSolVariete(req.params.nomVariete)
+      .then((result: pg.QueryResult) => {
+        const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+          adaptationtypesol: adaptation.adaptationtypesol,
+          nomvariete: adaptation.nomvariete
+        } as AdaptationTypeSolVariete));
+        res.json(adaptations);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+      });
+    } else {
+      this.databaseService
+      .getAllAdaptationTypeSolVariete()
+      .then((result: pg.QueryResult) => {
+        const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+          adaptationtypesol: adaptation.adaptationtypesol,
+          nomvariete: adaptation.nomvariete
+        } as AdaptationTypeSolVariete));
+        res.json(adaptations);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+      });
+    }
     });
-  } else {
-    this.databaseService
-    .getAllAdaptationTypeSolVariete()
-    .then((result: pg.QueryResult) => {
-      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
-        adaptationtypesol: adaptation.adaptationtypesol,
-        nomvariete: adaptation.nomvariete
-      } as AdaptationTypeSolVariete));
-      res.json(adaptations);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
-    });
-  }
-  });
 
 
   //   router.get(

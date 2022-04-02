@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import * as pg from "pg";
 import "reflect-metadata";
+import { Variete } from "../../../common/tables/Variete";
 @injectable()
 export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
@@ -95,6 +96,31 @@ export class DatabaseService {
     const queryText: string = `SELECT * FROM jardinCommMR.Variete WHERE nom = ${varieteName};`;
     const res = await client.query(queryText);
     client.release();
+    return res;
+  }
+
+  public async addVariete(variete: Variete): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    console.log('addVariete called');
+    if (!variete.anneemiseenmarche || !variete.commentairegeneral || variete.description.length !== 3 || !variete.nom || !variete.periodemiseenplace || !variete.perioderecolte) {
+      throw new Error("Impossible d'ajouter la variété désirée.");
+    }
+    const sep = "##//##";
+    const descriptions: string[] = variete.description.split(sep);
+    const values: string[] = [
+      variete.anneemiseenmarche.toString(),
+      variete.commentairegeneral,
+      descriptions[0],
+      descriptions[1],
+      descriptions[2],
+      variete.nom,
+      variete.periodemiseenplace,
+      variete.perioderecolte
+    ];
+    console.log(values);
+    const queryText: string = `INSERT INTO jardinCommMR.Variete VALUES($1, $2, ROW($3, $4, $5), $6, $7, $8);`;
+    const res = await client.query(queryText, values);
+    client.release()
     return res;
   }
 
@@ -205,27 +231,6 @@ export class DatabaseService {
   //   const query = `DELETE FROM HOTELDB.Hotel WHERE hotelNb = '${hotelNb}';`;
 
   //   const res = await client.query(query);
-  //   client.release()
-  //   return res;
-  // }
-
-
-  // // ======= ROOMS =======
-  // public async createRoom(room: Room): Promise<pg.QueryResult> {
-  //   const client = await this.pool.connect();
-
-  //   if (!room.roomnb || !room.hotelnb || !room.type || !room.price)
-  //     throw new Error("Invalid create room values");
-
-  //   const values: string[] = [
-  //     room.roomnb,
-  //     room.hotelnb,
-  //     room.type,
-  //     room.price.toString(),
-  //   ];
-  //   const queryText: string = `INSERT INTO HOTELDB.ROOM VALUES($1, $2, $3, $4);`;
-
-  //   const res = await client.query(queryText, values);
   //   client.release()
   //   return res;
   // }

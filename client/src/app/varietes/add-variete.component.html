@@ -174,13 +174,13 @@
                 Année de mise en marché : à définir
               </li>
             <li *ngIf="miseEnPlaceStart && miseEnPlaceEnd">
-              Période de mise en place : {{ convertToDate(miseEnPlaceStart) }} au {{ convertToDate(miseEnPlaceEnd) }}
+              Période de mise en place : {{ this.convertToDate(miseEnPlaceStart) }} au {{ this.convertToDate(miseEnPlaceEnd) }}
             </li>
               <li *ngIf="!miseEnPlaceStart || !miseEnPlaceEnd" ngClass="to-be-defined">
                 Période de mise en place : à définir
               </li>
             <li *ngIf="periodeRecolteStart && periodeRecolteEnd">
-              Période de récolte : {{ convertToDate(periodeRecolteStart) }} au {{ convertToDate(periodeRecolteEnd) }}
+              Période de récolte : {{ this.convertToDate(periodeRecolteStart) }} au {{ this.convertToDate(periodeRecolteEnd) }}
             </li>
               <li *ngIf="!periodeRecolteStart || !periodeRecolteEnd" ngClass="to-be-defined">
                 Période de récolte : à définir
@@ -240,7 +240,7 @@
     <button ngClass="randomize-adds" mat-raised-button (click)="this.randomizer()" color="primary">Saisies aléatoires</button>
   </div>
   <div>
-    <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire">Ajouter ! <mat-icon>local_florist</mat-icon></button>
+    <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire" (click)="this.addVariete()">Ajouter ! <mat-icon>local_florist</mat-icon></button>
     <button mat-button mat-dialog-close color="primary">Annuler <mat-icon>clear</mat-icon></button>
   </div>
 </div>

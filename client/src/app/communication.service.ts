@@ -130,6 +130,12 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<AdaptationTypeSolVariete[]>("getSpecificAdaptationTypeSolVariete")));
   }
 
+  public insertVariete(variete: Variete): Observable<number> {
+    return this.http
+      .post<number>(this.BASE_URL + "/varietes/insert", variete)
+      .pipe(catchError(this.handleError<number>("insertVariete")));
+  }
+
 
 
 
@@ -139,13 +145,6 @@ export class CommunicationService {
   //   .pipe(catchError(this.handleError<Jardin[]>("getAllJardins")));
   // }
 
-
-
-  // public insertHotel(hotel: Hotel): Observable<number> {
-  //   return this.http
-  //     .post<number>(this.BASE_URL + "/hotels/insert", hotel)
-  //     .pipe(catchError(this.handleError<number>("insertHotel")));
-  // }
 
   // public updateHotel(hotel: Hotel): Observable<number> {
   //   return this.http
