@@ -9,6 +9,7 @@ import { catchError } from "rxjs/operators";
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
 import { Variete } from '../../../common/tables/Variete';
 import { Semencier } from '../../../common/tables/Semencier';
+import { AdaptationTypeSolVariete } from '../../../common/tables/AdaptationTypeSolVariete';
 
 @Injectable()
 export class CommunicationService {
@@ -114,6 +115,19 @@ export class CommunicationService {
     return this.http
       .get<Semencier[]>(this.BASE_URL + `/semenciers/${nom}`)
       .pipe(catchError(this.handleError<Semencier[]>("getSpecificSemencier")));
+  }
+
+  // ======= ADAPTATIONTYPESOLVARIETE =======
+  getAllAdaptationTypeSolVariete(): Observable<AdaptationTypeSolVariete[]> {
+    return this.http
+      .get<AdaptationTypeSolVariete[]>(this.BASE_URL + `/adaptations/`)
+      .pipe(catchError(this.handleError<AdaptationTypeSolVariete[]>("getAllAdaptationTypeSolVariete")));
+  }
+
+  getSpecificAdaptationTypeSolVariete(nomVariete: string): Observable<AdaptationTypeSolVariete[]> {
+    return this.http
+      .get<AdaptationTypeSolVariete[]>(this.BASE_URL + `/adaptations/${nomVariete}`)
+      .pipe(catchError(this.handleError<AdaptationTypeSolVariete[]>("getSpecificAdaptationTypeSolVariete")));
   }
 
 

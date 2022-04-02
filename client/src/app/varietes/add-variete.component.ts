@@ -9,6 +9,7 @@ import * as moment from "moment";
 import { CommunicationService } from "../communication.service";
 import { Variete } from "../../../../common/tables/Variete";
 import { Semencier } from "../../../../common/tables/Semencier";
+import { AdaptationTypeSolVariete } from '../../../../common/tables/AdaptationTypeSolVariete';
 
 export const MY_FORMATS = {
   parse: {
@@ -43,6 +44,7 @@ export class AddVarieteComponent implements OnInit {
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
   fifthFormGroup: FormGroup;
+  sixthFormGroup: FormGroup;
   date = new FormControl(moment());
   nomVariete: string = '';
   miseEnPlaceStart: string = '';
@@ -56,8 +58,10 @@ export class AddVarieteComponent implements OnInit {
   commentaire: string = '';
   bio: boolean = false;
   nomSemencier: string = '';
+  adaptation: string = '';
   varietes: Variete[];
   semenciers: Semencier[];
+  adaptations: AdaptationTypeSolVariete[];
   placeholderMP: boolean = false;
   placeholderPR: boolean = false;
   placeholderMEP: boolean = false;
@@ -87,8 +91,12 @@ export class AddVarieteComponent implements OnInit {
       eleventhCtrl: ['', Validators.required],
       twelfthCtrl: ['', Validators.required],
     });
+    this.sixthFormGroup = this._formBuilder.group({
+      thirtheenthCtrl: ['', Validators.required],
+    });
     this.getAllVarietes();
     this.getAllSemencier();
+    this.getAllAdaptationTypeSolVariete();
   }
 
   setYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
@@ -126,6 +134,7 @@ export class AddVarieteComponent implements OnInit {
     if (!this.varietes) return;
     const rdEntryVariete: Variete = this.varietes[this.getRandomIndex(this.varietes.length)];
     const rdEntrySemencier: Semencier = this.semenciers[this.getRandomIndex(this.semenciers.length)];
+    const rdEntryAdaptation: AdaptationTypeSolVariete = this.adaptations[this.getRandomIndex(this.adaptations.length)];
     const descriptions: string[] = rdEntryVariete.description.replace('("', '').replace('")', '').split('","');
     this.nomVariete = rdEntryVariete.nom;
     this.miseEnPlaceStart = '01/01/2022'; // TODO : FIX DATA
@@ -147,6 +156,7 @@ export class AddVarieteComponent implements OnInit {
     this.placeholderMP = true;
     this.placeholderPR = true;
     this.placeholderMEP = true;
+    this.adaptation = rdEntryAdaptation.adaptationtypesol;
   }
 
   printBio(): string {
@@ -166,6 +176,12 @@ export class AddVarieteComponent implements OnInit {
   private getAllSemencier(): void {
     this.communicationService.getAllSemencier().subscribe((semenciers: Semencier[]) => {
       this.semenciers = semenciers ? semenciers : [];
+    });
+  }
+
+  private getAllAdaptationTypeSolVariete(): void {
+    this.communicationService.getAllAdaptationTypeSolVariete().subscribe((adaptations: AdaptationTypeSolVariete[]) => {
+      this.adaptations = adaptations ? adaptations : [];
     });
   }
 }

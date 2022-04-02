@@ -1,4 +1,4 @@
-<h2 mat-dialog-title align="center">Ajoutez une nouvelle variété de plante</h2>
+<h2 mat-dialog-title align="center">Ajouter une nouvelle variété de plante</h2>
 <mat-divider></mat-divider>
 <br />
 <div mat-dialog-content>
@@ -137,10 +137,23 @@
         <ng-template matStepLabel>Production</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Nom du semencier</mat-label>
-          <input [(ngModel)]="nomSemencier" maxlength='150' matInput placeholder="Ex. Récolte sauvage" formControlName="eleventhCtrl" required>
+          <input [(ngModel)]="nomSemencier" maxlength='150' matInput placeholder="Ex. Récolte sauvage" formControlName="eleventhCtrl">
         </mat-form-field>
         <br/>
-        <mat-slide-toggle [(ngModel)]="bio" formControlName="twelfthCtrl" required>Production biologique</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="bio" formControlName="twelfthCtrl">Production biologique</mat-slide-toggle>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="sixthFormGroup">
+      <form [formGroup]="sixthFormGroup">
+        <ng-template matStepLabel>Adaptation</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Type de sol adapté</mat-label>
+          <input [(ngModel)]="adaptation" maxlength='150' matInput placeholder="Ex. Sols argileux" formControlName="thirtheenthCtrl">
+        </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Retour</button>
           <button mat-button matStepperNext>Prochaine étape</button>
@@ -205,6 +218,12 @@
             <li>
               Production biologique : {{ this.printBio() }}
             </li>
+            <li *ngIf="adaptation">
+              Type de sol adapté : {{ adaptation }}
+            </li>
+              <li *ngIf="!adaptation" ngClass="to-be-defined">
+                Type de sol adapté : à définir
+              </li>
           </ul>
         </mat-card-content>
       </mat-card>
@@ -221,7 +240,7 @@
     <button ngClass="randomize-adds" mat-raised-button (click)="this.randomizer()" color="primary">Saisies aléatoires</button>
   </div>
   <div>
-    <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire && nomSemencier">Ajouter ! <mat-icon>local_florist</mat-icon></button>
+    <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire">Ajouter ! <mat-icon>local_florist</mat-icon></button>
     <button mat-button mat-dialog-close color="primary">Annuler <mat-icon>clear</mat-icon></button>
   </div>
 </div>

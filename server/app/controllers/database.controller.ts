@@ -10,6 +10,7 @@ import { Plante } from '../../../common/tables/Plante';
 import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuDansUnRang';
 import { Variete } from '../../../common/tables/Variete';
 import { Semencier } from '../../../common/tables/Semencier';
+import { AdaptationTypeSolVariete } from '../../../common/tables/AdaptationTypeSolVariete';
 
 @injectable()
 export class DatabaseController {
@@ -276,6 +277,36 @@ export class DatabaseController {
     }
     });
 
+    // ======= ADAPTATIONTYPESOLVARIETE =======
+  router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
+  if(req.params.nomVariete) {
+    this.databaseService
+    .getSpecificAdaptationTypeSolVariete(req.params.nomVariete)
+    .then((result: pg.QueryResult) => {
+      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+        adaptationtypesol: adaptation.adaptationtypesol,
+        nomvariete: adaptation.nomvariete
+      } as AdaptationTypeSolVariete));
+      res.json(adaptations);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  } else {
+    this.databaseService
+    .getAllAdaptationTypeSolVariete()
+    .then((result: pg.QueryResult) => {
+      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+        adaptationtypesol: adaptation.adaptationtypesol,
+        nomvariete: adaptation.nomvariete
+      } as AdaptationTypeSolVariete));
+      res.json(adaptations);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  }
+  });
 
 
   //   router.get(

@@ -132,6 +132,23 @@ export class DatabaseService {
     return res;
   }
 
+  // ======= ADAPTATIONTYPESOLVARIETE =======
+  async getAllAdaptationTypeSolVariete(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.AdaptationTypeSolVariete;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getSpecificAdaptationTypeSolVariete(nomVariete: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.AdaptationTypeSolVariete WHERE nomVariete = ${nomVariete};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
 
   // // get hotels that correspond to certain caracteristics
   // public async filterHotels(hotelNb: string, hotelName: string, city: string): Promise<pg.QueryResult> {

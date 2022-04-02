@@ -1,4 +1,4 @@
 export interface AdaptationTypeSolVariete {
-    adaptationTypeSol: string;
-    nomVariete: string;
+    adaptationtypesol: string;
+    nomvariete: string;
 }
