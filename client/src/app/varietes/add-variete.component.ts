@@ -11,6 +11,7 @@ import { Variete } from "../../../../common/tables/Variete";
 import { Semencier } from "../../../../common/tables/Semencier";
 import { AdaptationTypeSolVariete } from '../../../../common/tables/AdaptationTypeSolVariete';
 import { PendingQueryComponent } from "./pending-query.component";
+import { Production } from '../../../../common/tables/Production';
 
 export const MY_FORMATS = {
   parse: {
@@ -68,6 +69,8 @@ export class AddVarieteComponent implements OnInit {
   placeholderMEP: boolean = false;
   pending: boolean = true;
   success: boolean = false;
+  prodInsertError: boolean = false;
+  adaptInsertError: boolean = false;
 
   constructor(public dialog: MatDialog, private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<AddVarieteComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private readonly communicationService: CommunicationService) {}
 
@@ -109,7 +112,9 @@ export class AddVarieteComponent implements OnInit {
     dialogConfig.minWidth = '650px';
     dialogConfig.data = {
       pending: this.pending,
-      success: this.success
+      success: this.success,
+      prodInsertError: this.prodInsertError,
+      adaptInsertError: this.adaptInsertError
     };
     this.dialog.closeAll();
     this.dialog.open(PendingQueryComponent, dialogConfig);
@@ -125,15 +130,34 @@ export class AddVarieteComponent implements OnInit {
       periodemiseenplace: this.convertToDate(this.miseEnPlaceStart) + ' au ' +  this.convertToDate(this.miseEnPlaceEnd),
       perioderecolte: this.convertToDate(this.periodeRecolteStart) + ' au ' +  this.convertToDate(this.periodeRecolteEnd),
       commentairegeneral: this.commentaire
-    } as Variete).subscribe((res: number) => {
-      if (res !== -1) {
-        this.success = true;
+    } as Variete).subscribe((resInsVar: number) => {
+      if (resInsVar !== -1) {
+        this.communicationService.insertAdaptation({
+          adaptationtypesol: this.adaptation,
+          nomvariete: this.nomVariete
+        } as AdaptationTypeSolVariete).subscribe((resInsProd: number) => {
+          if (resInsProd !== -1) {
+            this.communicationService.insertProduction({
+              nomvariete: this.nomVariete,
+              nomsemencier: this.nomSemencier,
+              produitbio: this.bio
+            } as Production).subscribe((resInsAdapt: number) => {
+              if (resInsAdapt !== -1) {
+                this.success = true;
+              } else {
+                this.prodInsertError = true;
+              }
+            });
+          } else {
+            this.adaptInsertError = true;
+          }
+        })
       }
-      this.pending = false;
-      this.openDialog();
+      setTimeout(() => {
+        this.pending = false;
+        this.openDialog();
+      }, 500)
     });
-    this.pending = true;
-    this.success = false;
   }
 
   setYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {

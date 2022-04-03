@@ -1,9 +1,9 @@
 
 <div>
   <h1>Nos variétés de plantes</h1>
-  <table mat-table [dataSource]="varietes" class="mat-elevation-z8">
+  <table mat-table matSort matSortActive="nom" matSortDirection="desc" matSortDisableClear (matSortChange)="sortData($event)" [dataSource]="varietes" class="mat-elevation-z8">
     <ng-container matColumnDef="nom">
-      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="nom"> Nom </th>
       <td mat-cell *matCellDef="let variete"> {{variete.nom}} </td>
     </ng-container>
     <ng-container matColumnDef="anneemiseenmarche">

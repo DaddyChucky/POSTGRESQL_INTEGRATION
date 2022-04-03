@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
 import { Variete } from '../../../../common/tables/Variete';
 import { CommunicationService } from '../communication.service';
 import { AddVarieteComponent } from './add-variete.component';
@@ -14,11 +16,17 @@ import { ModifyVarieteComponent } from './modify-variete.component';
 export class VarietesComponent implements OnInit {
   varietes: Variete[];
   displayedColumns: string[] = ['nom', 'anneemiseenmarche', 'periodemiseenplace', 'perioderecolte', 'descriptionplantation', 'descriptionentretien', 'descriptionrecolte', 'commentairegeneral', 'actions'];
+  @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(public dialog: MatDialog, private readonly communicationService: CommunicationService) {}
 
   ngOnInit() {
     this.getAllVarietes();
+  }
+
+  sortData(sort: Sort): void {
+    this.doSort(sort.direction);
+    this.table.renderRows();
   }
 
   openModifyDialog(variete: Variete) {
@@ -58,9 +66,20 @@ export class VarietesComponent implements OnInit {
     return descriptions.replace('("', '').replace('")', '').split('","')[index];
   }
 
+  private doSort(dir: string): void {
+    switch(dir) {
+      case 'asc':
+        this.varietes.sort((a: Variete, b: Variete) => a.nom.toLowerCase() < b.nom.toLowerCase() ? 1 : -1)
+        break;
+      default:
+        this.varietes.sort((a: Variete, b: Variete) => a.nom.toLowerCase() < b.nom.toLowerCase() ? -1 : 1)
+      }
+  }
+
   private getAllVarietes(): void {
     this.communicationService.getAllVarietes().subscribe((varietes: Variete[]) => {
       this.varietes = varietes ? varietes : [];
+      this.doSort('desc');
     });
   }
 }

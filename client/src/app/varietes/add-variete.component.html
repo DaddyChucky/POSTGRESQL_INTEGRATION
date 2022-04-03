@@ -237,7 +237,7 @@
 <mat-divider></mat-divider>
 <div style="display: flex; justify-content: space-between; align-items: center; align-content: space-between; flex-direction: row;" mat-dialog-actions>
   <div>
-    <button ngClass="randomize-adds" mat-raised-button (click)="this.randomizer()" color="primary">Saisies aléatoires</button>
+    <button ngClass="randomize-adds" mat-raised-button (click)="this.randomizer()" color="primary">Saisies préexistantes</button>
   </div>
   <div>
     <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire" (click)="this.addVariete()">Ajouter ! <mat-icon>local_florist</mat-icon></button>

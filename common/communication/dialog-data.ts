@@ -14,4 +14,6 @@ export interface DialogData {
   success: boolean;
   update: boolean;
   delete: boolean;
+  prodInsertError: boolean;
+  adaptInsertError: boolean;
 }

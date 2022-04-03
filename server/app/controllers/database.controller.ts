@@ -371,6 +371,25 @@ router.put(
   }
   });
 
+  router.post(
+  "/adaptations",
+  (req: Request, res: Response, _: NextFunction) => {
+    const adaptation: AdaptationTypeSolVariete = {
+      adaptationtypesol: req.body.adaptationtypesol,
+      nomvariete: req.body.nomvariete,
+    };
+    this.databaseService
+      .addAdaptation(adaptation)
+      .then((result: pg.QueryResult) => {
+        res.json(result.rowCount);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+        res.json(-1);
+      });
+  }
+  );
+
   // ======= PRODUCTIONS =======
   router.get("/productions/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
   if(req.params.nomVariete) {
@@ -403,6 +422,26 @@ router.put(
     });
   }
   });
+
+  router.post(
+  "/productions",
+  (req: Request, res: Response, _: NextFunction) => {
+    const production: Production = {
+      nomvariete: req.body.nomvariete,
+      nomsemencier: req.body.nomsemencier,
+      produitbio: req.body.produitbio
+    };
+    this.databaseService
+      .addProduction(production)
+      .then((result: pg.QueryResult) => {
+        res.json(result.rowCount);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+        res.json(-1);
+      });
+  }
+  );
 
 
   //   router.get(

@@ -1,4 +1,4 @@
-<h2 *ngIf="!data.update && !data.delete" mat-dialog-title align="center">Résultat de votre addition</h2>
+<h2 *ngIf="!data.update && !data.delete" mat-dialog-title align="center">Résultat de votre insertion</h2>
 <h2 *ngIf="data.update && !data.delete" mat-dialog-title align="center">Résultat de votre modification</h2>
 <h2 *ngIf="!data.update && data.delete" mat-dialog-title align="center">Résultat de votre suppression</h2>
 <div align='center' *ngIf="data.pending">
@@ -6,14 +6,35 @@
 </div>
 <div *ngIf="!data.update && !data.delete">
   <div *ngIf="!data.pending && !data.success">
-    <p class="no-content">
+    <p class="no-content" *ngIf="!data.prodInsertError && !data.adaptInsertError">
       Erreur dans l'insertion d'une nouvelle variété de plante. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
       Il est possible que cette variété soit déjà présente au sein de la BD.
     </p>
+    <div *ngIf="data.prodInsertError && !data.adaptInsertError">
+      <p class="content">
+        Insertion d'une nouvelle variété réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      </p>
+      <p class="content">
+        Insertion d'une nouvelle adaptation réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      </p>
+      <p class="no-content">
+        Erreur dans l'insertion d'une nouvelle production. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
+        Il est possible qu'il y ait eu un souci avec le référencement des clefs primaires.
+      </p>
+    </div>
+    <div *ngIf="!data.prodInsertError && data.adaptInsertError">
+      <p class="content">
+        Insertion d'une nouvelle adaptation réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      </p>
+      <p class="no-content">
+        Erreur dans l'insertion d'une nouvelle adaptation. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
+        Il est possible qu'il y ait eu un souci avec le référencement des clefs primaires.
+      </p>
+    </div>
   </div>
   <div *ngIf="!data.pending && data.success">
     <p class="content">
-      Insertion réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      Insertions réussies ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
     </p>
   </div>
 </div>

@@ -1,7 +1,9 @@
 import { injectable } from "inversify";
 import * as pg from "pg";
 import "reflect-metadata";
+import { Production } from "../../../common/tables/Production";
 import { Variete } from "../../../common/tables/Variete";
+import { AdaptationTypeSolVariete } from '../../../common/tables/AdaptationTypeSolVariete';
 @injectable()
 export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
@@ -211,6 +213,21 @@ export class DatabaseService {
     return res;
   }
 
+  public async addAdaptation(adaptation: AdaptationTypeSolVariete): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    if (!adaptation.nomvariete || !adaptation.adaptationtypesol) {
+      throw new Error("Impossible d'ajouter l'adaptation désirée.");
+    }
+    const values: string[] = [
+      adaptation.nomvariete,
+      adaptation.adaptationtypesol
+    ];
+    const queryText: string = `INSERT INTO jardinCommMR.AdaptationTypeSolVariete (adaptationTypeSol, nomVariete) VALUES($1, $2);`;
+    const res = await client.query(queryText, values);
+    client.release()
+    return res;
+  }
+
   // ======= PRODUCTION =======
   async getAllProduction(): Promise<pg.QueryResult> {
     const client = await this.pool.connect();
@@ -225,6 +242,22 @@ export class DatabaseService {
     const queryText: string = `SELECT * FROM jardinCommMR.Production WHERE nomVariete = ${nomVariete};`;
     const res = await client.query(queryText);
     client.release();
+    return res;
+  }
+
+  public async addProduction(production: Production): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    if (!production.nomsemencier || !production.nomvariete) {
+      throw new Error("Impossible d'ajouter la production désirée.");
+    }
+    const values: (string | boolean)[] = [
+      production.nomsemencier,
+      production.nomvariete,
+      production.produitbio
+    ];
+    const queryText: string = `INSERT INTO jardinCommMR.Production (nomVariete, nomSemencier, produitBio) VALUES($1, $2, $3);`;
+    const res = await client.query(queryText, values);
+    client.release()
     return res;
   }
 

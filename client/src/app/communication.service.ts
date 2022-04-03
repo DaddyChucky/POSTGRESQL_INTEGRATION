@@ -118,6 +118,7 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<Semencier[]>("getSpecificSemencier")));
   }
 
+
   // ======= ADAPTATIONTYPESOLVARIETE =======
   getAllAdaptationTypeSolVariete(): Observable<AdaptationTypeSolVariete[]> {
     return this.http
@@ -131,6 +132,14 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<AdaptationTypeSolVariete[]>("getSpecificAdaptationTypeSolVariete")));
   }
 
+  public insertAdaptation(adaptation: AdaptationTypeSolVariete): Observable<number> {
+    return this.http
+      .post<number>(this.BASE_URL + "/adaptations", adaptation)
+      .pipe(catchError(this.handleError<number>("insertAdaptation")));
+  }
+
+
+  // ======= VARIETE =======
   public insertVariete(variete: Variete): Observable<number> {
     return this.http
       .post<number>(this.BASE_URL + "/varietes", variete)
@@ -149,6 +158,7 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<number>("deleteVariete")));
   }
 
+
   // ======= PRODUCTION =======
   getAllProduction(): Observable<Production[]> {
     return this.http
@@ -160,6 +170,12 @@ export class CommunicationService {
     return this.http
       .get<Production[]>(this.BASE_URL + `/productions/${nomVariete}`)
       .pipe(catchError(this.handleError<Production[]>("getSpecificProduction")));
+  }
+
+  public insertProduction(production: Production): Observable<number> {
+    return this.http
+      .post<number>(this.BASE_URL + "/productions", production)
+      .pipe(catchError(this.handleError<number>("insertProduction")));
   }
 
 

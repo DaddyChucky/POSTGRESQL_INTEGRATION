@@ -104,6 +104,7 @@ export class ModifyVarieteComponent implements OnInit {
     this.getAllSemencier();
     this.getAllProductions();
     this.getAllAdaptationTypeSolVariete();
+    setTimeout(() => {this.loadValues()}, 250);
   }
 
   loadValues(): void {
@@ -147,7 +148,7 @@ export class ModifyVarieteComponent implements OnInit {
     this.placeholderMEP = false;
   }
 
-  openDialog() {
+  async openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -233,7 +234,6 @@ export class ModifyVarieteComponent implements OnInit {
   private getAllAdaptationTypeSolVariete(): void {
     this.communicationService.getAllAdaptationTypeSolVariete().subscribe((adaptations: AdaptationTypeSolVariete[]) => {
       this.adaptations = adaptations ? adaptations : [];
-      this.loadValues();
     });
   }
 
