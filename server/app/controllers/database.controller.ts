@@ -185,7 +185,6 @@ export class DatabaseController {
       perioderecolte: req.body.perioderecolte,
       commentairegeneral: req.body.commentairegeneral,
     };
-    console.log("DBCONTROLER CALLED WITH", variete);
     this.databaseService
       .addVariete(variete)
       .then((result: pg.QueryResult) => {
@@ -210,7 +209,6 @@ router.put(
       commentairegeneral: req.body.commentairegeneral,
       oldvarietename: req.body.oldvarietename
     };
-    console.log("DBCONTROLER CALLED WITH", variete);
     this.databaseService
       .updateVariete(variete)
       .then((result: pg.QueryResult) => {

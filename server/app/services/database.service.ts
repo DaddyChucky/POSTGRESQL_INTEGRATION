@@ -116,7 +116,6 @@ export class DatabaseService {
       variete.perioderecolte,
       variete.commentairegeneral,
     ];
-    console.log(values);
     const queryText: string = `INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral) VALUES($1, $2, ROW($3, $4, $5), $6, $7, $8);`;
     const res = await client.query(queryText, values);
     client.release()
@@ -125,14 +124,11 @@ export class DatabaseService {
 
   public async updateVariete(variete: Variete): Promise<pg.QueryResult> {
     const client = await this.pool.connect();
-    console.log('called updt');
     const sep = "##//##";
     const descriptions: string[] = variete.description.split(sep);
-    console.log(variete.oldvarietename);
     if (!variete.oldvarietename || !variete.anneemiseenmarche.toString().length || !variete.commentairegeneral.length || descriptions.length !== 3 || !variete.nom.length || !variete.periodemiseenplace.length || !variete.perioderecolte.length) {
       throw new Error("Impossible de modifier la variété désirée.");
     }
-    console.log('working^');
     const values: (string | Date)[] = [
       variete.nom,
       variete.anneemiseenmarche,
@@ -144,7 +140,6 @@ export class DatabaseService {
       variete.commentairegeneral,
       variete.oldvarietename
     ];
-    console.log(values);
     const queryText: string = `UPDATE jardinCommMR.Variete SET nom = $1, anneeMiseEnMarche = $2, description = ROW($3, $4, $5), periodeMiseEnPlace = $6, periodeRecolte = $7, commentaireGeneral = $8 WHERE nom = $9;`;
     const res = await client.query(queryText, values);
     client.release()

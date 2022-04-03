@@ -173,7 +173,6 @@ export class ModifyVarieteComponent implements OnInit {
       commentairegeneral: this.commentaire,
       oldvarietename: this.deepSaveNomVariete
     } as Variete).subscribe((res: number) => {
-      console.log(res);
       if (res !== -1) {
         this.success = true;
       }

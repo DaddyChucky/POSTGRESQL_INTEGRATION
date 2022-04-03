@@ -138,7 +138,6 @@ export class CommunicationService {
   }
 
   public updateVariete(variete: Variete): Observable<number> {
-    console.log('called comm service');
     return this.http
       .put<number>(this.BASE_URL + "/varietes", variete)
       .pipe(catchError(this.handleError<number>("updateVariete")));
