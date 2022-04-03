@@ -146,6 +146,20 @@ export class DatabaseService {
     return res;
   }
 
+  public async deleteVariete(nomVariete: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    if (!nomVariete) {
+      throw new Error("Impossible de supprimer la variété désirée.");
+    }
+    const values: (string)[] = [
+      nomVariete
+    ];
+    const queryText: string = `DELETE FROM jardinCommMR.Variete WHERE nom = $1;`;
+    const res = await client.query(queryText, values);
+    client.release()
+    return res;
+  }
+
   // ======= PLANTES =======
   async getAllPlantes(): Promise<pg.QueryResult> {
     const client = await this.pool.connect();

@@ -1,9 +1,10 @@
-<h2 *ngIf="!data.update" mat-dialog-title align="center">Résultat de votre addition</h2>
-<h2 *ngIf="data.update" mat-dialog-title align="center">Résultat de votre modification</h2>
+<h2 *ngIf="!data.update && !data.delete" mat-dialog-title align="center">Résultat de votre addition</h2>
+<h2 *ngIf="data.update && !data.delete" mat-dialog-title align="center">Résultat de votre modification</h2>
+<h2 *ngIf="!data.update && data.delete" mat-dialog-title align="center">Résultat de votre suppression</h2>
 <div align='center' *ngIf="data.pending">
   <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="!data.update">
+<div *ngIf="!data.update && !data.delete">
   <div *ngIf="!data.pending && !data.success">
     <p class="no-content">
       Erreur dans l'insertion d'une nouvelle variété de plante. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
@@ -16,7 +17,7 @@
     </p>
   </div>
 </div>
-<div *ngIf="data.update">
+<div *ngIf="data.update && !data.delete">
   <div *ngIf="!data.pending && !data.success">
     <p class="no-content">
       Erreur dans la modification d'une nouvelle variété de plante. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
@@ -29,7 +30,20 @@
     </p>
   </div>
 </div>
+<div *ngIf="!data.update && data.delete">
+  <div *ngIf="!data.pending && !data.success">
+    <p class="no-content">
+      Erreur dans la suppression d'une nouvelle variété de plante. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
+      Il est possible qu'il y ait eu un souci avec le référencement des clefs primaires.
+    </p>
+  </div>
+  <div *ngIf="!data.pending && data.success">
+    <p class="content">
+      Suppression réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+    </p>
+  </div>
+</div>
 <div align="right">
-  <button mat-button mat-dialog-close color="primary">Fermer <mat-icon>clear</mat-icon></button>
+  <button mat-button mat-dialog-close color="primary" onClick="window.location.href=window.location.href">Fermer <mat-icon>clear</mat-icon></button>
 </div>
 

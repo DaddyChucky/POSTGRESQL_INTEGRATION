@@ -143,6 +143,12 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<number>("updateVariete")));
   }
 
+  public deleteVariete(nomVariete: string): Observable<number> {
+    return this.http
+      .delete<number>(this.BASE_URL + `/varietes/${nomVariete}`)
+      .pipe(catchError(this.handleError<number>("deleteVariete")));
+  }
+
   // ======= PRODUCTION =======
   getAllProduction(): Observable<Production[]> {
     return this.http

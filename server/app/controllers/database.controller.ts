@@ -221,6 +221,21 @@ router.put(
   }
   );
 
+  router.delete(
+  "/varietes/:variete",
+  (req: Request, res: Response, _: NextFunction) => {
+    this.databaseService
+      .deleteVariete(req.params.variete)
+      .then((result: pg.QueryResult) => {
+        res.json(result.rowCount);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+        res.json(-1);
+      });
+  }
+  );
+
 
   // ======= VARIETES IN RANGS ROUTES =======
   router.get("/varietesrangs/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {

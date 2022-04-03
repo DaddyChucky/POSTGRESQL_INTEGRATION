@@ -13,4 +13,5 @@ export interface DialogData {
   pending: boolean;
   success: boolean;
   update: boolean;
+  delete: boolean;
 }

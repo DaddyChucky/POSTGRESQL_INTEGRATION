@@ -15,6 +15,7 @@ import { DialogComponent } from "./jardins/dialog.component";
 import { AddVarieteComponent } from "./varietes/add-variete.component";
 import { PendingQueryComponent } from "./varietes/pending-query.component";
 import { ModifyVarieteComponent } from "./varietes/modify-variete.component";
+import { DeleteVarieteComponent } from "./varietes/delete-variete.component";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ModifyVarieteComponent } from "./varietes/modify-variete.component";
     PlantesComponent,
     AddVarieteComponent,
     PendingQueryComponent,
-    ModifyVarieteComponent
+    ModifyVarieteComponent,
+    DeleteVarieteComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,7 @@ import { ModifyVarieteComponent } from "./varietes/modify-variete.component";
     AppMaterialModule
   ],
   providers: [CommunicationService],
-  entryComponents: [DialogComponent, AddVarieteComponent, PendingQueryComponent, ModifyVarieteComponent],
+  entryComponents: [DialogComponent, AddVarieteComponent, PendingQueryComponent, ModifyVarieteComponent, DeleteVarieteComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
