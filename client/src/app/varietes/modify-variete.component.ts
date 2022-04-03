@@ -25,9 +25,9 @@ export const MY_FORMATS = {
 };
 
 @Component ({
-  selector: 'AddVarieteComponent',
-  templateUrl: './add-variete.component.html',
-  styleUrls: ['./add-variete.component.css', '../jardins/dialog.component.css'],
+  selector: 'ModifyVarieteComponent',
+  templateUrl: './modify-variete.component.html',
+  styleUrls: ['./modify-variete.component.css', './add-variete.component.css', '../jardins/dialog.component.css'],
   providers: [
     {
       provide: DateAdapter,
@@ -39,7 +39,7 @@ export const MY_FORMATS = {
   ],
 })
 
-export class AddVarieteComponent implements OnInit {
+export class ModifyVarieteComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -69,7 +69,7 @@ export class AddVarieteComponent implements OnInit {
   pending: boolean = true;
   success: boolean = false;
 
-  constructor(public dialog: MatDialog, private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<AddVarieteComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private readonly communicationService: CommunicationService) {}
+  constructor(public dialog: MatDialog, private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ModifyVarieteComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private readonly communicationService: CommunicationService) {}
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
@@ -100,6 +100,38 @@ export class AddVarieteComponent implements OnInit {
     this.getAllVarietes();
     this.getAllSemencier();
     this.getAllAdaptationTypeSolVariete();
+  }
+
+  loadValues(): void {
+    if (!this.data || !this.data.variete) return;
+    for (const variete of this.varietes) {
+      if (variete.nom === this.data.variete.nom) {
+        this.nomVariete = this.data.variete.nom;
+        this.commentaire = this.data.variete.commentairegeneral;
+        const descriptions: string[] = this.data.variete.description.replace('("', '').replace('")', '').split('","');
+        this.plantation = descriptions[0];
+        this.entretien = descriptions[1];
+        this.recolte = descriptions[2];
+        this.miseEnPlaceStart = '01/01/2022'; // TODO : FIX DATA
+        this.miseEnPlaceEnd = '01/01/2023'; // TODO : FIX DATA
+        this.periodeRecolteStart = '01/01/2024'; // TODO : FIX DATA
+        this.periodeRecolteEnd = '01/01/2025'; // TODO : FIX DATA
+        this.anneeMiseEnMarche = new Date(this.data.variete.anneemiseenmarche).getFullYear().toString();
+        const ctrlValue = this.date.value;
+        ctrlValue.day(new Date('1'));
+        ctrlValue.month(new Date('1'));
+        ctrlValue.year(Number(this.anneeMiseEnMarche));
+        this.date.setValue(ctrlValue);
+        break;
+      }
+    }
+    console.log(this.miseEnPlaceStart && this.miseEnPlaceEnd && this.placeholderMP);
+    console.log(this.miseEnPlaceStart);
+    console.log(this.miseEnPlaceEnd);
+    console.log(this.placeholderMP);
+    this.placeholderMP = true;
+    this.placeholderPR = true;
+    this.placeholderMEP = false;
   }
 
   openDialog() {
@@ -167,41 +199,8 @@ export class AddVarieteComponent implements OnInit {
     this.anneeMiseEnMarche = '';
   }
 
-  randomizer(): void {
-    if (!this.varietes) return;
-    const rdEntryVariete: Variete = this.varietes[this.getRandomIndex(this.varietes.length)];
-    const rdEntrySemencier: Semencier = this.semenciers[this.getRandomIndex(this.semenciers.length)];
-    const rdEntryAdaptation: AdaptationTypeSolVariete = this.adaptations[this.getRandomIndex(this.adaptations.length)];
-    const descriptions: string[] = rdEntryVariete.description.replace('("', '').replace('")', '').split('","');
-    this.nomVariete = rdEntryVariete.nom;
-    this.miseEnPlaceStart = '01/01/2022'; // TODO : FIX DATA
-    this.miseEnPlaceEnd = '01/01/2023'; // TODO : FIX DATA
-    this.periodeRecolteStart = '01/01/2024'; // TODO : FIX DATA
-    this.periodeRecolteEnd = '01/01/2025';
-    this.anneeMiseEnMarche = new Date(rdEntryVariete.anneemiseenmarche).getFullYear().toString();
-    const ctrlValue = this.date.value;
-    ctrlValue.day(new Date('1'));
-    ctrlValue.month(new Date('1'));
-    ctrlValue.year(Number(this.anneeMiseEnMarche));
-    this.date.setValue(ctrlValue);
-    this.plantation = descriptions[0];
-    this.entretien = descriptions[1];
-    this.recolte = descriptions[2];
-    this.commentaire = rdEntryVariete.commentairegeneral;
-    this.nomSemencier = rdEntrySemencier.nom;
-    this.bio = Math.random() > 0.5;
-    this.placeholderMP = true;
-    this.placeholderPR = true;
-    this.placeholderMEP = true;
-    this.adaptation = rdEntryAdaptation.adaptationtypesol;
-  }
-
   printBio(): string {
     return this.bio ? "oui" : "non";
-  }
-
-  private getRandomIndex(tableSizeCeil: number): number {
-    return Math.floor(Math.random() * tableSizeCeil);
   }
 
   private getAllVarietes(): void {
@@ -219,6 +218,7 @@ export class AddVarieteComponent implements OnInit {
   private getAllAdaptationTypeSolVariete(): void {
     this.communicationService.getAllAdaptationTypeSolVariete().subscribe((adaptations: AdaptationTypeSolVariete[]) => {
       this.adaptations = adaptations ? adaptations : [];
+      this.loadValues();
     });
   }
 }

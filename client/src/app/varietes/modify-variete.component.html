@@ -1,0 +1,242 @@
+<h2 mat-dialog-title align="center">Modifier la variété {{ data.variete.nom }}</h2>
+<mat-divider></mat-divider>
+<br />
+<div mat-dialog-content>
+  <mat-vertical-stepper [linear]="false" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Nom de variété</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Nom de variété</mat-label>
+          <input [(ngModel)]="nomVariete" maxlength='150' matInput placeholder="Ex. Nantaise 3" formControlName="firstCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Années et périodes</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label *ngIf="!anneeMiseEnMarche || !placeholderMEP">Mise en marché</mat-label>
+          <mat-label *ngIf="anneeMiseEnMarche && placeholderMEP">{{ convertToDate(this.date.value) }}</mat-label>
+          <input (click)="picker.open()" matInput [matDatepicker]="dp" formControlName="secondCtrl" [formControl]="date" readonly required>
+          <mat-datepicker-toggle (click)="this.resetPlaceHolderMEP()" matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp
+                          startView="multi-year"
+                          (yearSelected)="setYear($event, dp)">
+          </mat-datepicker>
+        </mat-form-field>
+        <br/>
+        <mat-form-field appearance="fill">
+          <mat-label *ngIf="!miseEnPlaceStart || !miseEnPlaceEnd || !placeholderMP">Période de mise en place</mat-label>
+            <mat-label *ngIf="miseEnPlaceStart && miseEnPlaceEnd && placeholderMP">{{ convertToDate(miseEnPlaceStart) }} au {{ convertToDate(miseEnPlaceEnd) }}</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Début" [(ngModel)]="miseEnPlaceStart" formControlName="thirdCtrl" readonly required>
+            <input matEndDate placeholder="Fin" [(ngModel)]="miseEnPlaceEnd" formControlName="fourthCtrl" readonly required>
+          </mat-date-range-input>
+          <mat-datepicker-toggle (click)="this.resetPlaceHolderMP()" matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <br/>
+        <mat-form-field appearance="fill">
+          <mat-label *ngIf="!periodeRecolteStart || !periodeRecolteEnd || !placeholderPR">Période de récolte</mat-label>
+          <mat-label *ngIf="periodeRecolteStart && periodeRecolteEnd && placeholderPR">{{ convertToDate(periodeRecolteStart) }} au {{ convertToDate(periodeRecolteEnd) }}</mat-label>
+          <mat-date-range-input [rangePicker]="picker2">
+            <input matStartDate placeholder="Début" [(ngModel)]="periodeRecolteStart" formControlName="fifthCtrl" readonly required>
+            <input matEndDate placeholder="Fin" [(ngModel)]="periodeRecolteEnd" formControlName="sixthCtrl" readonly required>
+          </mat-date-range-input>
+          <mat-datepicker-toggle (click)="this.resetPlaceHolderPR()" matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker2></mat-date-range-picker>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel>Descriptions</ng-template>
+        <mat-form-field appearance="fill" ngClass="wider">
+          <mat-label>Plantation</mat-label>
+          <textarea matInput
+                    placeholder="Ex. Il faut semer les graines."
+                    formControlName="seventhCtrl"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    [(ngModel)]="plantation"
+                    [maxLength]="300"
+                    required>
+          </textarea>
+        </mat-form-field>
+        <br/>
+        <mat-form-field appearance="fill" ngClass="wider">
+          <mat-label>Entretien</mat-label>
+          <textarea matInput
+            placeholder="Ex. Il faut arroser les racines une fois par jour."
+            formControlName="eigthCtrl"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            [(ngModel)]="entretien"
+            [maxLength]="300"
+            required>
+          </textarea>
+        </mat-form-field>
+        <br/>
+        <mat-form-field appearance="fill" ngClass="wider">
+          <mat-label>Récolte</mat-label>
+          <textarea matInput
+            placeholder="Ex. Tirer sur la racine."
+            formControlName="ninthCtrl"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            [(ngModel)]="recolte"
+            [maxLength]="300"
+            required>
+          </textarea>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="fourthFormGroup">
+      <form [formGroup]="fourthFormGroup">
+        <ng-template matStepLabel>Commentaire général</ng-template>
+        <mat-form-field appearance="fill" ngClass="wider">
+          <mat-label>Commentaire général</mat-label>
+          <textarea matInput
+            placeholder="Ex. Utilisez optionnellement une tige de métal comme support."
+            formControlName="tenthCtrl"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            [(ngModel)]="commentaire"
+            [maxLength]="300"
+            required>
+          </textarea>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="fifthFormGroup">
+      <form [formGroup]="fifthFormGroup">
+        <ng-template matStepLabel>Production</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Nom du semencier</mat-label>
+          <input [(ngModel)]="nomSemencier" maxlength='150' matInput placeholder="Ex. Récolte sauvage" formControlName="eleventhCtrl">
+        </mat-form-field>
+        <br/>
+        <mat-slide-toggle [(ngModel)]="bio" formControlName="twelfthCtrl">Production biologique</mat-slide-toggle>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="sixthFormGroup">
+      <form [formGroup]="sixthFormGroup">
+        <ng-template matStepLabel>Adaptation</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Type de sol adapté</mat-label>
+          <input [(ngModel)]="adaptation" maxlength='150' matInput placeholder="Ex. Sols argileux" formControlName="thirtheenthCtrl">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Prochaine étape</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Révision de la modification</ng-template>
+      <mat-card class="example-card">
+        <mat-card-subtitle *ngIf="nomVariete">Variété : {{ nomVariete }}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="!nomVariete" ngClass="to-be-defined">Nom de variété : à définir</mat-card-subtitle>
+        <mat-card-content>
+          <ul>
+            <li *ngIf="anneeMiseEnMarche">
+              Année de mise en marché : {{ anneeMiseEnMarche }}
+            </li>
+              <li *ngIf="!anneeMiseEnMarche" ngClass="to-be-defined">
+                Année de mise en marché : à définir
+              </li>
+            <li *ngIf="miseEnPlaceStart && miseEnPlaceEnd">
+              Période de mise en place : {{ this.convertToDate(miseEnPlaceStart) }} au {{ this.convertToDate(miseEnPlaceEnd) }}
+            </li>
+              <li *ngIf="!miseEnPlaceStart || !miseEnPlaceEnd" ngClass="to-be-defined">
+                Période de mise en place : à définir
+              </li>
+            <li *ngIf="periodeRecolteStart && periodeRecolteEnd">
+              Période de récolte : {{ this.convertToDate(periodeRecolteStart) }} au {{ this.convertToDate(periodeRecolteEnd) }}
+            </li>
+              <li *ngIf="!periodeRecolteStart || !periodeRecolteEnd" ngClass="to-be-defined">
+                Période de récolte : à définir
+              </li>
+            <li *ngIf="plantation">
+              Description de la plantation :<br/>{{ plantation }}
+            </li>
+              <li *ngIf="!plantation" ngClass="to-be-defined">
+                Description de la plantation : à définir
+              </li>
+            <li *ngIf="entretien">
+              Description de l'entretien :<br/>{{ entretien }}
+            </li>
+              <li *ngIf="!entretien" ngClass="to-be-defined">
+                Description de l'entretien : à définir
+              </li>
+            <li *ngIf="recolte">
+              Description de la récolte :<br/>{{ recolte }}
+            </li>
+              <li *ngIf="!recolte" ngClass="to-be-defined">
+                Description de la récolte : à définir
+              </li>
+            <li *ngIf="commentaire">
+              Commentaire général :<br/>{{ commentaire }}
+            </li>
+              <li *ngIf="!commentaire" ngClass="to-be-defined">
+                Commentaire général : à définir
+              </li>
+            <li *ngIf="nomSemencier">
+              Nom du semencier : {{ nomSemencier }}
+            </li>
+              <li *ngIf="!nomSemencier" ngClass="to-be-defined">
+                Nom du semencier : à définir
+              </li>
+            <li>
+              Production biologique : {{ this.printBio() }}
+            </li>
+            <li *ngIf="adaptation">
+              Type de sol adapté : {{ adaptation }}
+            </li>
+              <li *ngIf="!adaptation" ngClass="to-be-defined">
+                Type de sol adapté : à définir
+              </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      <div>
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button (click)="stepper.reset()" (click)="this.resetAnneeMiseMarche()">Réinitialiser</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>
+<mat-divider></mat-divider>
+
+<div style="display: flex; justify-content: flex-end; align-items: center; align-content: space-between; flex-direction: row;" mat-dialog-actions>
+  <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire" (click)="this.addVariete()">Modifier ! <mat-icon>local_florist</mat-icon></button>
+  <button mat-button mat-dialog-close color="primary">Annuler <mat-icon>clear</mat-icon></button>
+</div>

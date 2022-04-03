@@ -10,4 +10,6 @@ export interface DialogData {
   rangsParcelles: RangParcelle[];
   varietesInRangs: VarieteContenuDansUnRang[];
   variete: Variete;
+  pending: boolean;
+  success: boolean;
 }

@@ -13,6 +13,8 @@ import { PlantesComponent } from './plantes/plantes.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from "./jardins/dialog.component";
 import { AddVarieteComponent } from "./varietes/add-variete.component";
+import { PendingQueryComponent } from "./varietes/pending-query.component";
+import { ModifyVarieteComponent } from "./varietes/modify-variete.component";
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { AddVarieteComponent } from "./varietes/add-variete.component";
     DialogComponent,
     VarietesComponent,
     PlantesComponent,
-    AddVarieteComponent
+    AddVarieteComponent,
+    PendingQueryComponent,
+    ModifyVarieteComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +38,7 @@ import { AddVarieteComponent } from "./varietes/add-variete.component";
     AppMaterialModule
   ],
   providers: [CommunicationService],
-  entryComponents: [DialogComponent, AddVarieteComponent],
+  entryComponents: [DialogComponent, AddVarieteComponent, PendingQueryComponent, ModifyVarieteComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

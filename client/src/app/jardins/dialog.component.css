@@ -7,6 +7,11 @@
   color:rgb(120, 4, 0);
 }
 
+.content {
+  text-align: center;
+  color:rgb(132, 165, 0);
+}
+
 .no-content-icon {
   font-size: 18px;
 }

@@ -1,0 +1,14 @@
+<div align='center' *ngIf="data.pending">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!data.pending && !data.success">
+    <p class="no-content">
+      Erreur dans l'insertion d'une nouvelle variété de plante. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
+      Il est possible que cette variété soit déjà présente au sein de la BD.
+    </p>
+</div>
+<div *ngIf="!data.pending && data.success">
+  <p class="content">
+    Insertion réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+  </p>
+</div>

@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Variete } from '../../../../common/tables/Variete';
 import { CommunicationService } from '../communication.service';
 import { AddVarieteComponent } from './add-variete.component';
+import { ModifyVarieteComponent } from './modify-variete.component';
 
 @Component({
   selector: 'app-varietes',
@@ -19,14 +20,24 @@ export class VarietesComponent implements OnInit {
     this.getAllVarietes();
   }
 
-  openDialog(variete?: Variete) {
+  openModifyDialog(variete: Variete) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = '650px';
+    dialogConfig.maxWidth = '650px';
     dialogConfig.data = {
       variete
     };
+    this.dialog.open(ModifyVarieteComponent, dialogConfig);
+  }
+
+  openAddDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '650px';
+    dialogConfig.maxWidth = '650px';
     this.dialog.open(AddVarieteComponent, dialogConfig);
   }
 
