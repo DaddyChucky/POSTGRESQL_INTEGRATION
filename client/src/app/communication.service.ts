@@ -132,7 +132,7 @@ export class CommunicationService {
 
   public insertVariete(variete: Variete): Observable<number> {
     return this.http
-      .post<number>(this.BASE_URL + "/varietes/insert", variete)
+      .post<number>(this.BASE_URL + "/varietes", variete)
       .pipe(catchError(this.handleError<number>("insertVariete")));
   }
 

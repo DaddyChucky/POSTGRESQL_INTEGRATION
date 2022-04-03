@@ -101,11 +101,12 @@ export class AddVarieteComponent implements OnInit {
 
   addVariete(): void {
     const sep = "##//##";
-    this.communicationService.insertVariete({    nom: this.nomVariete,
+    this.communicationService.insertVariete({
+      nom: this.nomVariete,
       anneemiseenmarche: new Date(this.anneeMiseEnMarche),
       description: this.plantation + sep +  this.entretien + sep + this.recolte,
-      periodemiseenplace: this.convertToDate(this.miseEnPlaceStart) + 'au' +  this.convertToDate(this.miseEnPlaceEnd),
-      perioderecolte: this.convertToDate(this.periodeRecolteStart) + 'au' +  this.convertToDate(this.periodeRecolteEnd),
+      periodemiseenplace: this.convertToDate(this.miseEnPlaceStart) + ' au ' +  this.convertToDate(this.miseEnPlaceEnd),
+      perioderecolte: this.convertToDate(this.periodeRecolteStart) + ' au ' +  this.convertToDate(this.periodeRecolteEnd),
       commentairegeneral: this.commentaire
     } as Variete).subscribe((res: number) => {
       console.log(res);

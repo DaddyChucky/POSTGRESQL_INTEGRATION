@@ -102,23 +102,23 @@ export class DatabaseService {
   public async addVariete(variete: Variete): Promise<pg.QueryResult> {
     const client = await this.pool.connect();
     console.log('addVariete called');
-    if (!variete.anneemiseenmarche || !variete.commentairegeneral || variete.description.length !== 3 || !variete.nom || !variete.periodemiseenplace || !variete.perioderecolte) {
-      throw new Error("Impossible d'ajouter la variété désirée.");
-    }
     const sep = "##//##";
     const descriptions: string[] = variete.description.split(sep);
-    const values: string[] = [
-      variete.anneemiseenmarche.toString(),
-      variete.commentairegeneral,
+    if (!variete.anneemiseenmarche.toString().length || !variete.commentairegeneral.length || descriptions.length !== 3 || !variete.nom.length || !variete.periodemiseenplace.length || !variete.perioderecolte.length) {
+      throw new Error("Impossible d'ajouter la variété désirée.");
+    }
+    const values: (string | Date)[] = [
+      variete.nom,
+      variete.anneemiseenmarche,
       descriptions[0],
       descriptions[1],
       descriptions[2],
-      variete.nom,
       variete.periodemiseenplace,
-      variete.perioderecolte
+      variete.perioderecolte,
+      variete.commentairegeneral,
     ];
     console.log(values);
-    const queryText: string = `INSERT INTO jardinCommMR.Variete VALUES($1, $2, ROW($3, $4, $5), $6, $7, $8);`;
+    const queryText: string = `INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral) VALUES($1, $2, ROW($3, $4, $5), $6, $7, $8);`;
     const res = await client.query(queryText, values);
     client.release()
     return res;

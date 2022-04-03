@@ -174,7 +174,7 @@ export class DatabaseController {
   });
 
   router.post(
-  "/varietes/insert",
+  "/varietes",
   (req: Request, res: Response, _: NextFunction) => {
     const variete: Variete = {
       nom: req.body.nom,
