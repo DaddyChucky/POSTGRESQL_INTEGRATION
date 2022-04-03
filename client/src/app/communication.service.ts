@@ -10,6 +10,7 @@ import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuD
 import { Variete } from '../../../common/tables/Variete';
 import { Semencier } from '../../../common/tables/Semencier';
 import { AdaptationTypeSolVariete } from '../../../common/tables/AdaptationTypeSolVariete';
+import { Production } from '../../../common/tables/Production';
 
 @Injectable()
 export class CommunicationService {
@@ -94,7 +95,7 @@ export class CommunicationService {
   // ======= PLANTES =======
   getAllPlantes(): Observable<Plante[]> {
     return this.http
-      .get<Plante[]>(this.BASE_URL + `/plantes/`)
+      .get<Plante[]>(this.BASE_URL + `/plantes`)
       .pipe(catchError(this.handleError<Plante[]>("getAllPlantes")));
   }
 
@@ -107,7 +108,7 @@ export class CommunicationService {
   // ======= PLANTES =======
   getAllSemencier(): Observable<Semencier[]> {
     return this.http
-      .get<Semencier[]>(this.BASE_URL + `/semenciers/`)
+      .get<Semencier[]>(this.BASE_URL + `/semenciers`)
       .pipe(catchError(this.handleError<Semencier[]>("getAllSemencier")));
   }
 
@@ -120,7 +121,7 @@ export class CommunicationService {
   // ======= ADAPTATIONTYPESOLVARIETE =======
   getAllAdaptationTypeSolVariete(): Observable<AdaptationTypeSolVariete[]> {
     return this.http
-      .get<AdaptationTypeSolVariete[]>(this.BASE_URL + `/adaptations/`)
+      .get<AdaptationTypeSolVariete[]>(this.BASE_URL + `/adaptations`)
       .pipe(catchError(this.handleError<AdaptationTypeSolVariete[]>("getAllAdaptationTypeSolVariete")));
   }
 
@@ -134,6 +135,26 @@ export class CommunicationService {
     return this.http
       .post<number>(this.BASE_URL + "/varietes", variete)
       .pipe(catchError(this.handleError<number>("insertVariete")));
+  }
+
+  public updateVariete(variete: Variete): Observable<number> {
+    console.log('called comm service');
+    return this.http
+      .put<number>(this.BASE_URL + "/varietes", variete)
+      .pipe(catchError(this.handleError<number>("updateVariete")));
+  }
+
+  // ======= PRODUCTION =======
+  getAllProduction(): Observable<Production[]> {
+    return this.http
+      .get<Production[]>(this.BASE_URL + `/productions`)
+      .pipe(catchError(this.handleError<Production[]>("getAllProduction")));
+  }
+
+  getSpecificProduction(nomVariete: string): Observable<Production[]> {
+    return this.http
+      .get<Production[]>(this.BASE_URL + `/productions/${nomVariete}`)
+      .pipe(catchError(this.handleError<Production[]>("getSpecificProduction")));
   }
 
 

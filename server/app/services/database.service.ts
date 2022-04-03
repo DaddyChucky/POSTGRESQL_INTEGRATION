@@ -101,7 +101,6 @@ export class DatabaseService {
 
   public async addVariete(variete: Variete): Promise<pg.QueryResult> {
     const client = await this.pool.connect();
-    console.log('addVariete called');
     const sep = "##//##";
     const descriptions: string[] = variete.description.split(sep);
     if (!variete.anneemiseenmarche.toString().length || !variete.commentairegeneral.length || descriptions.length !== 3 || !variete.nom.length || !variete.periodemiseenplace.length || !variete.perioderecolte.length) {
@@ -119,6 +118,34 @@ export class DatabaseService {
     ];
     console.log(values);
     const queryText: string = `INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral) VALUES($1, $2, ROW($3, $4, $5), $6, $7, $8);`;
+    const res = await client.query(queryText, values);
+    client.release()
+    return res;
+  }
+
+  public async updateVariete(variete: Variete): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    console.log('called updt');
+    const sep = "##//##";
+    const descriptions: string[] = variete.description.split(sep);
+    console.log(variete.oldvarietename);
+    if (!variete.oldvarietename || !variete.anneemiseenmarche.toString().length || !variete.commentairegeneral.length || descriptions.length !== 3 || !variete.nom.length || !variete.periodemiseenplace.length || !variete.perioderecolte.length) {
+      throw new Error("Impossible de modifier la variété désirée.");
+    }
+    console.log('working^');
+    const values: (string | Date)[] = [
+      variete.nom,
+      variete.anneemiseenmarche,
+      descriptions[0],
+      descriptions[1],
+      descriptions[2],
+      variete.periodemiseenplace,
+      variete.perioderecolte,
+      variete.commentairegeneral,
+      variete.oldvarietename
+    ];
+    console.log(values);
+    const queryText: string = `UPDATE jardinCommMR.Variete SET nom = $1, anneeMiseEnMarche = $2, description = ROW($3, $4, $5), periodeMiseEnPlace = $6, periodeRecolte = $7, commentaireGeneral = $8 WHERE nom = $9;`;
     const res = await client.query(queryText, values);
     client.release()
     return res;
@@ -170,6 +197,23 @@ export class DatabaseService {
   async getSpecificAdaptationTypeSolVariete(nomVariete: string): Promise<pg.QueryResult> {
     const client = await this.pool.connect();
     const queryText: string = `SELECT * FROM jardinCommMR.AdaptationTypeSolVariete WHERE nomVariete = ${nomVariete};`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  // ======= PRODUCTION =======
+  async getAllProduction(): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Production;`;
+    const res = await client.query(queryText);
+    client.release();
+    return res;
+  }
+
+  async getSpecificProduction(nomVariete: string): Promise<pg.QueryResult> {
+    const client = await this.pool.connect();
+    const queryText: string = `SELECT * FROM jardinCommMR.Production WHERE nomVariete = ${nomVariete};`;
     const res = await client.query(queryText);
     client.release();
     return res;

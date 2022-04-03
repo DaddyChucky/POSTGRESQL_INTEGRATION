@@ -11,6 +11,7 @@ import { Variete } from "../../../../common/tables/Variete";
 import { Semencier } from "../../../../common/tables/Semencier";
 import { AdaptationTypeSolVariete } from '../../../../common/tables/AdaptationTypeSolVariete';
 import { PendingQueryComponent } from "./pending-query.component";
+import { Production } from '../../../../common/tables/Production';
 
 export const MY_FORMATS = {
   parse: {
@@ -63,11 +64,13 @@ export class ModifyVarieteComponent implements OnInit {
   varietes: Variete[];
   semenciers: Semencier[];
   adaptations: AdaptationTypeSolVariete[];
+  productions: Production[];
   placeholderMP: boolean = false;
   placeholderPR: boolean = false;
   placeholderMEP: boolean = false;
   pending: boolean = true;
   success: boolean = false;
+  private deepSaveNomVariete: string = '';
 
   constructor(public dialog: MatDialog, private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ModifyVarieteComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private readonly communicationService: CommunicationService) {}
 
@@ -99,6 +102,7 @@ export class ModifyVarieteComponent implements OnInit {
     });
     this.getAllVarietes();
     this.getAllSemencier();
+    this.getAllProductions();
     this.getAllAdaptationTypeSolVariete();
   }
 
@@ -107,6 +111,7 @@ export class ModifyVarieteComponent implements OnInit {
     for (const variete of this.varietes) {
       if (variete.nom === this.data.variete.nom) {
         this.nomVariete = this.data.variete.nom;
+        this.deepSaveNomVariete = this.data.variete.nom;
         this.commentaire = this.data.variete.commentairegeneral;
         const descriptions: string[] = this.data.variete.description.replace('("', '').replace('")', '').split('","');
         this.plantation = descriptions[0];
@@ -125,10 +130,18 @@ export class ModifyVarieteComponent implements OnInit {
         break;
       }
     }
-    console.log(this.miseEnPlaceStart && this.miseEnPlaceEnd && this.placeholderMP);
-    console.log(this.miseEnPlaceStart);
-    console.log(this.miseEnPlaceEnd);
-    console.log(this.placeholderMP);
+    for (const production of this.productions) {
+      if (production.nomvariete === this.data.variete.nom) {
+        this.bio = production.produitbio;
+        this.nomSemencier = production.nomsemencier;
+      }
+    }
+    for (const adaptation of this.adaptations) {
+      if (adaptation.nomvariete === this.data.variete.nom) {
+        this.adaptation = adaptation.adaptationtypesol;
+        break;
+      }
+    }
     this.placeholderMP = true;
     this.placeholderPR = true;
     this.placeholderMEP = false;
@@ -141,23 +154,26 @@ export class ModifyVarieteComponent implements OnInit {
     dialogConfig.minWidth = '650px';
     dialogConfig.data = {
       pending: this.pending,
-      success: this.success
+      success: this.success,
+      update: true
     };
     this.dialog.closeAll();
     this.dialog.open(PendingQueryComponent, dialogConfig);
   }
 
-  addVariete(): void {
+  modifyVariete(): void {
     this.openDialog();
     const sep = "##//##";
-    this.communicationService.insertVariete({
+    this.communicationService.updateVariete({
       nom: this.nomVariete,
       anneemiseenmarche: new Date(this.anneeMiseEnMarche),
       description: this.plantation + sep +  this.entretien + sep + this.recolte,
       periodemiseenplace: this.convertToDate(this.miseEnPlaceStart) + ' au ' +  this.convertToDate(this.miseEnPlaceEnd),
       perioderecolte: this.convertToDate(this.periodeRecolteStart) + ' au ' +  this.convertToDate(this.periodeRecolteEnd),
-      commentairegeneral: this.commentaire
+      commentairegeneral: this.commentaire,
+      oldvarietename: this.deepSaveNomVariete
     } as Variete).subscribe((res: number) => {
+      console.log(res);
       if (res !== -1) {
         this.success = true;
       }
@@ -219,6 +235,12 @@ export class ModifyVarieteComponent implements OnInit {
     this.communicationService.getAllAdaptationTypeSolVariete().subscribe((adaptations: AdaptationTypeSolVariete[]) => {
       this.adaptations = adaptations ? adaptations : [];
       this.loadValues();
+    });
+  }
+
+  private getAllProductions(): void {
+    this.communicationService.getAllProduction().subscribe((productions: Production[]) => {
+      this.productions = productions ? productions : [];
     });
   }
 }

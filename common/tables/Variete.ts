@@ -5,4 +5,5 @@ export interface Variete {
     periodemiseenplace: string;
     perioderecolte: string;
     commentairegeneral: string;
+    oldvarietename?: string;
 }

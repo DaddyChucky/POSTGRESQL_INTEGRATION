@@ -12,4 +12,5 @@ export interface DialogData {
   variete: Variete;
   pending: boolean;
   success: boolean;
+  update: boolean;
 }

@@ -11,6 +11,7 @@ import { VarieteContenuDansUnRang } from '../../../common/tables/VarieteContenuD
 import { Variete } from '../../../common/tables/Variete';
 import { Semencier } from '../../../common/tables/Semencier';
 import { AdaptationTypeSolVariete } from '../../../common/tables/AdaptationTypeSolVariete';
+import { Production } from '../../../common/tables/Production';
 
 @injectable()
 export class DatabaseController {
@@ -195,7 +196,32 @@ export class DatabaseController {
         res.json(-1);
       });
   }
-);
+  );
+
+router.put(
+  "/varietes",
+  (req: Request, res: Response, _: NextFunction) => {
+    const variete: Variete = {
+      nom: req.body.nom,
+      anneemiseenmarche: req.body.anneemiseenmarche,
+      description: req.body.description,
+      periodemiseenplace: req.body.periodemiseenplace,
+      perioderecolte: req.body.perioderecolte,
+      commentairegeneral: req.body.commentairegeneral,
+      oldvarietename: req.body.oldvarietename
+    };
+    console.log("DBCONTROLER CALLED WITH", variete);
+    this.databaseService
+      .updateVariete(variete)
+      .then((result: pg.QueryResult) => {
+        res.json(result.rowCount);
+      })
+      .catch((e: Error) => {
+        console.error(e.stack);
+        res.json(-1);
+      });
+  }
+  );
 
 
   // ======= VARIETES IN RANGS ROUTES =======
@@ -301,36 +327,69 @@ export class DatabaseController {
     }
     });
 
-    // ======= ADAPTATIONTYPESOLVARIETE =======
-    router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
-    if(req.params.nomVariete) {
-      this.databaseService
-      .getSpecificAdaptationTypeSolVariete(req.params.nomVariete)
-      .then((result: pg.QueryResult) => {
-        const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
-          adaptationtypesol: adaptation.adaptationtypesol,
-          nomvariete: adaptation.nomvariete
-        } as AdaptationTypeSolVariete));
-        res.json(adaptations);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-      });
-    } else {
-      this.databaseService
-      .getAllAdaptationTypeSolVariete()
-      .then((result: pg.QueryResult) => {
-        const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
-          adaptationtypesol: adaptation.adaptationtypesol,
-          nomvariete: adaptation.nomvariete
-        } as AdaptationTypeSolVariete));
-        res.json(adaptations);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-      });
-    }
+  // ======= ADAPTATIONTYPESOLVARIETE =======
+  router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
+  if(req.params.nomVariete) {
+    this.databaseService
+    .getSpecificAdaptationTypeSolVariete(req.params.nomVariete)
+    .then((result: pg.QueryResult) => {
+      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+        adaptationtypesol: adaptation.adaptationtypesol,
+        nomvariete: adaptation.nomvariete
+      } as AdaptationTypeSolVariete));
+      res.json(adaptations);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
     });
+  } else {
+    this.databaseService
+    .getAllAdaptationTypeSolVariete()
+    .then((result: pg.QueryResult) => {
+      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+        adaptationtypesol: adaptation.adaptationtypesol,
+        nomvariete: adaptation.nomvariete
+      } as AdaptationTypeSolVariete));
+      res.json(adaptations);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  }
+  });
+
+  // ======= PRODUCTIONS =======
+  router.get("/productions/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
+  if(req.params.nomVariete) {
+    this.databaseService
+    .getSpecificProduction(req.params.nomVariete)
+    .then((result: pg.QueryResult) => {
+      const productions: Production[] = result.rows.map((production: Production) => ({
+        nomvariete: production.nomvariete,
+        nomsemencier: production.nomsemencier,
+        produitbio: production.produitbio,
+      } as Production));
+      res.json(productions);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  } else {
+    this.databaseService
+    .getAllProduction()
+    .then((result: pg.QueryResult) => {
+      const productions: Production[] = result.rows.map((production: Production) => ({
+        nomvariete: production.nomvariete,
+        nomsemencier: production.nomsemencier,
+        produitbio: production.produitbio,
+      } as Production));
+      res.json(productions);
+    })
+    .catch((e: Error) => {
+      console.error(e.stack);
+    });
+  }
+  });
 
 
   //   router.get(
