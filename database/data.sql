@@ -53,7 +53,7 @@ VALUES ('Rosabelle',
 			'Il suffit de déraciner les patates.'
 		   )::DESCRIPTIONVARIETE_T,
 		'10/06/22 au 20/06/22',
-		'01/04/22 et 31/04/22 ',
+		'01/04/22 au 31/04/22',
 		'Utilisez optionne llement une tige de métal comme support.');
 		
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)

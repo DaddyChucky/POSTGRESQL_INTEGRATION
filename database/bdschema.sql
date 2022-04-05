@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS jardinCommMR.Variete(
 	nom VARCHAR(150) NOT NULL,
 	anneeMiseEnMarche DATE NOT NULL,
 	description DESCRIPTIONVARIETE_T NOT NULL,
-	periodeMiseEnPlace VARCHAR(24) NOT NULL,
-	periodeRecolte VARCHAR(24) NOT NULL,
+	periodeMiseEnPlace VARCHAR(25) NOT NULL,
+	periodeRecolte VARCHAR(25) NOT NULL,
 	CONSTRAINT periodes CHECK(periodeMiseEnPlace != periodeRecolte),
 	commentaireGeneral VARCHAR(300) NOT NULL,
 	PRIMARY KEY (nom)
