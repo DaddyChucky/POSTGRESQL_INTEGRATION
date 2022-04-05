@@ -144,7 +144,7 @@ export class DatabaseService {
     ];
     const queryText: string = `UPDATE jardinCommMR.Variete SET nom = $1, anneeMiseEnMarche = $2, description = ROW($3, $4, $5), periodeMiseEnPlace = $6, periodeRecolte = $7, commentaireGeneral = $8 WHERE nom = $9;`;
     const res = await client.query(queryText, values);
-    client.release()
+    client.release();
     return res;
   }
 
@@ -222,7 +222,7 @@ export class DatabaseService {
       adaptation.nomvariete,
       adaptation.adaptationtypesol
     ];
-    const queryText: string = `INSERT INTO jardinCommMR.AdaptationTypeSolVariete (adaptationTypeSol, nomVariete) VALUES($1, $2);`;
+    const queryText: string = `INSERT INTO jardinCommMR.AdaptationTypeSolVariete (nomVariete, adaptationTypeSol) VALUES($1, $2);`;
     const res = await client.query(queryText, values);
     client.release()
     return res;
@@ -251,8 +251,8 @@ export class DatabaseService {
       throw new Error("Impossible d'ajouter la production désirée.");
     }
     const values: (string | boolean)[] = [
-      production.nomsemencier,
       production.nomvariete,
+      production.nomsemencier,
       production.produitbio
     ];
     const queryText: string = `INSERT INTO jardinCommMR.Production (nomVariete, nomSemencier, produitBio) VALUES($1, $2, $3);`;

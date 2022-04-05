@@ -1,6 +1,7 @@
 {
   "name": "server",
-  "description": "Projet de base pour le cours de LOG2990",
+  "description": "INF3710",
+  "author": "Nikolay Radoev, adapté par Charles De Lafontaine",
   "version": "1.1.0",
   "private": true,
   "scripts": {

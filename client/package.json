@@ -1,6 +1,7 @@
 {
   "name": "INF3710-client",
   "version": "1.0.0",
+  "author": "Nikolay Radoev, adapté par Charles De Lafontaine",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
