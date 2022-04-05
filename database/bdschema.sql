@@ -87,14 +87,6 @@ CREATE TABLE IF NOT EXISTS jardinCommMR.AdaptationTypeSolVariete(
 	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS jardinCommMR.Parcelle(
-	IDJardin SMALLINT NOT NULL,
-	coordonnees COORDONNEES_T NOT NULL,
-	dimensions DIMENSIONS_T NOT NULL,
-	PRIMARY KEY (coordonnees),
-	FOREIGN KEY (IDJardin) REFERENCES Jardin(ID) ON UPDATE CASCADE ON DELETE RESTRICT
-);
-
 CREATE TABLE IF NOT EXISTS jardinCommMR.AgencementPlante(
 	nomPlante1 VARCHAR(150) NOT NULL,
 	nomPlante2 VARCHAR(150) NOT NULL,
@@ -113,24 +105,36 @@ CREATE TABLE IF NOT EXISTS jardinCommMR.PlanteContenuJardin(
 	FOREIGN KEY (IDJardin) REFERENCES Jardin(ID) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS jardinCommMR.Parcelle(
+	coordonnees COORDONNEES_T NOT NULL,
+	IDJardin SMALLINT NOT NULL,
+	dimensions DIMENSIONS_T NOT NULL,
+	PRIMARY KEY (coordonnees, IDJardin),
+	FOREIGN KEY (IDJardin) REFERENCES Jardin(ID) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
 CREATE TABLE IF NOT EXISTS jardinCommMR.Rang(
-	coordonneesParcelle COORDONNEES_T NOT NULL,
+	IDJardin SMALLINT NOT NULL,
 	numero SMALLINT NOT NULL,
+	coordonneesRang COORDONNEES_T NOT NULL,
 	CONSTRAINT numero CHECK (numero >= 1),
-	coordonneesRang COORDONNEES_T UNIQUE NOT NULL,
+	coordonneesParcelle COORDONNEES_T NOT NULL,
 	dateDebutJachere DATE NULL,
 	dateFinJachere DATE NULL,
 	CONSTRAINT jachere CHECK (dateDebutJachere IS NULL AND dateFinJachere IS NULL OR dateFinJachere > dateDebutJachere AND DATE_PART('day', dateFinJachere::TIMESTAMP - dateDebutJachere::TIMESTAMP)::SMALLINT <= 365),
-	PRIMARY KEY (numero, coordonneesRang),
-	FOREIGN KEY (coordonneesParcelle) REFERENCES Parcelle(coordonnees) ON UPDATE CASCADE ON DELETE RESTRICT
+	PRIMARY KEY (numero, coordonneesRang, coordonneesParcelle),
+	FOREIGN KEY (coordonneesParcelle, IDJardin) REFERENCES Parcelle(coordonnees, IDJardin) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS jardinCommMR.VarieteContenuDansUnRang(
 	nomVariete VARCHAR(150) NOT NULL,
+	numero SMALLINT NOT NULL,
 	coordonneesRang COORDONNEES_T NOT NULL,
+	coordonneesParcelle COORDONNEES_T NOT NULL,
 	typeMiseEnPlace VARCHAR(150) NOT NULL,
 	PRIMARY KEY (nomVariete, coordonneesRang),
-	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (numero, coordonneesRang, coordonneesParcelle) REFERENCES Rang(numero, coordonneesRang, coordonneesParcelle) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS jardinCommMR.MenaceSubit(

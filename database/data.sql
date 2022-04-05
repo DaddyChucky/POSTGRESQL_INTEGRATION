@@ -52,8 +52,8 @@ VALUES ('Rosabelle',
 			'Il faut arroser les patates tous les trois jours.',
 			'Il suffit de déraciner les patates.'
 		   )::DESCRIPTIONVARIETE_T,
-		'12/3/2022 au 30/3/2022',
-		'12/3/2022 au 30/3/2023',
+		'Entre le 10 juin et le 20 juin',
+		'Entre le 1 et le 31 août',
 		'Utilisez optionnellement une tige de métal comme support.');
 		
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -63,8 +63,8 @@ VALUES ('Trèfle vert d''Alexandrie',
 			'Il faut arroser les graines 2 à trois fois par jour.',
 			'Il faut utiliser des outils spéciaux pour extraire les trèfles sans les endommager.'
 			)::DESCRIPTIONVARIETE_T,
-		'12/3/2022 au 30/3/2024',
-		'12/3/2022 au 30/3/2025',
+		'Entre le 10 juin et le 1 septembre',
+		'10 jours après le semis',
 		'Ne pas exposer à la lumière du soleil directement.');
 		
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -74,8 +74,8 @@ VALUES ('Nantaise 2',
 			'Il faut arroser les racines une fois par jour.',
 			'Tirer sur la racine'
 			)::DESCRIPTIONVARIETE_T,
-		'12/3/2022 au 30/3/2026',
-		'12/3/2022 au 30/3/2027',
+		'Entre le 10 juin et le 9 septembre',
+		'3 mois après la plantation',
 		'Les carottes adorent le soleil');
 
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -85,8 +85,8 @@ VALUES ('Adiantum6',
 			'Il faut arroser les graines 2 à trois fois par jour.',
 			'Il faut utiliser des outils spéciaux pour extraire les trèfles sans les endommager.'
 			)::DESCRIPTIONVARIETE_T,
-		'12/3/2022 au 30/3/2028',
-		'12/3/2022 au 30/3/2029',
+		'Entre le 5 mai et le 20 septembre',
+		'10 jours après le semis',
 		'Exposer à la lumière du soleil directement.');
 		
 		
@@ -97,8 +97,8 @@ VALUES ('Tuberosum',
 			'Il faut arroser les racines une fois par jour.',
 			'Tirer sur la racine'
 			)::DESCRIPTIONVARIETE_T,
-		'12/3/2022 au 30/3/2030',
-		'12/3/2022 au 30/3/2031',
+		'Entre le 10 juin et le 9 septembre',
+		'3 mois après la plantation',
 		'Les pommes de terres aiment le soleil');
 	
 INSERT INTO jardinCommMR.Production (nomVariete, nomSemencier, produitBio)
@@ -221,60 +221,75 @@ INSERT INTO jardinCommMR.Parcelle (IDJardin, dimensions, coordonnees)
 VALUES (10001,
 		ROW(300.00, 4000.00, 800.00)::DIMENSIONS_T,
 		ROW('45.507800', '-73.596700')::COORDONNEES_T);
-		
 
 -- rang1, parcelle 1, jardin 2
-INSERT INTO jardinCommMR.Rang (coordonneesParcelle, numero, coordonneesRang, dateDebutJachere, dateFinJachere)
-VALUES (ROW('45.607787', '-73.606462')::COORDONNEES_T,
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10002,
 		1,
+		ROW('45.607787', '-73.606462')::COORDONNEES_T,
 		ROW('45.507234', '-73.596254')::COORDONNEES_T,
 		'2022-03-10',
 		'2022-10-10');
 
 -- rang1, parcelle 1, jardin 1
-INSERT INTO jardinCommMR.Rang (coordonneesParcelle, numero, coordonneesRang, dateDebutJachere, dateFinJachere)
-VALUES (ROW('45.507787', '-73.596462')::COORDONNEES_T,
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10001,
 		1,
+		ROW('45.507787', '-73.596462')::COORDONNEES_T,
 		ROW('45.507234', '-73.596143')::COORDONNEES_T,
 		'2022-03-10',
 		'2022-10-10');
 		
 -- rang2, parcelle 1, jardin 1
-INSERT INTO jardinCommMR.Rang (coordonneesParcelle, numero, coordonneesRang, dateDebutJachere, dateFinJachere)
-VALUES (ROW('45.507787', '-73.596462')::COORDONNEES_T,
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10001,
 		2,
+		ROW('45.507787', '-73.596462')::COORDONNEES_T,
 		ROW('45.507123', '-73.596423')::COORDONNEES_T,
 		'2022-05-10',
 		'2022-10-10');
 		
--- rang2, parcelle 1, jardin 1
-INSERT INTO jardinCommMR.Rang (coordonneesParcelle, numero, coordonneesRang, dateDebutJachere, dateFinJachere)
-VALUES (ROW('45.507787', '-73.596462')::COORDONNEES_T,
+-- rang3, parcelle 1, jardin 1
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10001,
 		3,
+		ROW('45.507787', '-73.596462')::COORDONNEES_T,
 		ROW('45.507787', '-73.596462')::COORDONNEES_T,
 		'2022-05-10',
 		'2022-10-10');
 
 -- rang1, parcelle 2, jardin 1
-INSERT INTO jardinCommMR.Rang (coordonneesParcelle, numero, coordonneesRang, dateDebutJachere, dateFinJachere)
-VALUES (ROW('45.507800', '-73.596500')::COORDONNEES_T,
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10001,
 		1,
+		ROW('45.507800', '-73.596500')::COORDONNEES_T,
 		ROW('45.507809', '-73.596505')::COORDONNEES_T,
 		'2022-05-10',
 		'2022-10-10');
 		
 -- rang1, parcelle 3, jardin 1
-INSERT INTO jardinCommMR.Rang (coordonneesParcelle, numero, coordonneesRang, dateDebutJachere, dateFinJachere)
-VALUES (ROW('45.507800', '-73.596600')::COORDONNEES_T,
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10001,
 		1,
+		ROW('45.507800', '-73.596600')::COORDONNEES_T,
 		ROW('45.507809', '-73.596610')::COORDONNEES_T,
 		'2022-05-10',
 		'2022-10-10');
 
 -- rang1, parcelle 4, jardin 1
-INSERT INTO jardinCommMR.Rang (coordonneesParcelle, numero, coordonneesRang, dateDebutJachere, dateFinJachere)
-VALUES (ROW('45.507800', '-73.596700')::COORDONNEES_T,
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10001,
 		1,
+		ROW('45.507800', '-73.596700')::COORDONNEES_T,
+		ROW('45.507809', '-73.596710')::COORDONNEES_T,
+		'2022-05-10',
+		'2022-10-10');
+		
+-- rang2, parcelle 4, jardin 1
+INSERT INTO jardinCommMR.Rang (IDJardin, numero, coordonneesParcelle, coordonneesRang, dateDebutJachere, dateFinJachere)
+VALUES (10001,
+		2,
+		ROW('45.507800', '-73.596700')::COORDONNEES_T,
 		ROW('45.507809', '-73.596710')::COORDONNEES_T,
 		'2022-05-10',
 		'2022-10-10');
@@ -289,44 +304,58 @@ INSERT INTO jardinCommMR.PlanteContenuJardin (nomPlante, IDJardin)
 VALUES ('Daucus carota (L.)', 10001);
 
 -- rang1, parcelle 1, jardin 1
-INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, coordonneesRang, typeMiseEnPlace)
+INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, numero, coordonneesParcelle, coordonneesRang, typeMiseEnPlace)
 VALUES ('Nantaise 2',
+		1,
+		ROW('45.507787', '-73.596462')::COORDONNEES_T,
 		ROW('45.507234', '-73.596143')::COORDONNEES_T,
 		'En rangés');
-		
--- rang1, parcelle 1, jardin 1
-INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, coordonneesRang, typeMiseEnPlace)
+
+-- rang1, parcelle 1, jardin 1 - probleme
+INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, numero, coordonneesParcelle, coordonneesRang, typeMiseEnPlace)
 VALUES ('Trèfle vert d''Alexandrie',
+		1,
+		ROW('45.507787', '-73.596462')::COORDONNEES_T,
 		ROW('45.507234', '-73.596143')::COORDONNEES_T,
 		'semis');
 		
--- rang 2, parcelle 1, jardin 1
-INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, coordonneesRang, typeMiseEnPlace)
+-- rang 2, parcelle 1, jardin 1 -- probleme
+INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, numero, coordonneesParcelle, coordonneesRang, typeMiseEnPlace)
 VALUES ('Rosabelle',
+		2,
+		ROW('45.507787', '-73.596462')::COORDONNEES_T,
 		ROW('45.507123', '-73.596423')::COORDONNEES_T,
 		'Enfouicement des graines');
 		
--- rang 1, parcelle 2, jardin 1
-INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, coordonneesRang, typeMiseEnPlace)
+-- rang 1, parcelle 2, jardin 1 -- probleme
+INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, numero, coordonneesParcelle, coordonneesRang, typeMiseEnPlace)
 VALUES ('Rosabelle',
+		1,
+		ROW('45.507800', '-73.596500')::COORDONNEES_T,
 		ROW('45.507809', '-73.596505')::COORDONNEES_T,
 		'Enfouicement des graines');
 		
--- rang 1, parcelle 2, jardin 1
-INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, coordonneesRang, typeMiseEnPlace)
+-- rang 1, parcelle 2, jardin 1 - probleme
+INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, numero, coordonneesParcelle, coordonneesRang, typeMiseEnPlace)
 VALUES ('Trèfle vert d''Alexandrie',
+		1,
+		ROW('45.507800', '-73.596500')::COORDONNEES_T,
 		ROW('45.507809', '-73.596505')::COORDONNEES_T,
 		'semis');
 		
--- rang 1, parcelle 3, jardin 1
-INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, coordonneesRang, typeMiseEnPlace)
+-- rang 1, parcelle 3, jardin 1 - probleme
+INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, numero, coordonneesParcelle, coordonneesRang, typeMiseEnPlace)
 VALUES ('Rosabelle',
+		1,
+		ROW('45.507800', '-73.596600')::COORDONNEES_T,
 		ROW('45.507809', '-73.596610')::COORDONNEES_T,
 		'semis');
 		
--- rang 1, parcelle 4, jardin 1
-INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, coordonneesRang, typeMiseEnPlace)
+-- rang 1, parcelle 4, jardin 1 - probleme
+INSERT INTO jardinCommMR.VarieteContenuDansUnRang (nomVariete, numero, coordonneesParcelle, coordonneesRang, typeMiseEnPlace)
 VALUES ('Rosabelle',
+		1,
+		ROW('45.507800', '-73.596700')::COORDONNEES_T,
 		ROW('45.507809', '-73.596710')::COORDONNEES_T,
 		'semis');
 			
