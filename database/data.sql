@@ -52,9 +52,9 @@ VALUES ('Rosabelle',
 			'Il faut arroser les patates tous les trois jours.',
 			'Il suffit de déraciner les patates.'
 		   )::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 20 juin',
-		'Entre le 1 et le 31 août',
-		'Utilisez optionnellement une tige de métal comme support.');
+		'10/06/22 au 20/06/22',
+		'01/04/22 et 31/04/22 ',
+		'Utilisez optionne llement une tige de métal comme support.');
 		
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
 VALUES ('Trèfle vert d''Alexandrie',
@@ -63,8 +63,8 @@ VALUES ('Trèfle vert d''Alexandrie',
 			'Il faut arroser les graines 2 à trois fois par jour.',
 			'Il faut utiliser des outils spéciaux pour extraire les trèfles sans les endommager.'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 1 septembre',
-		'10 jours après le semis',
+		'10/06/22 au 01/09/22',
+		'01/09/22 au 20/10/22',
 		'Ne pas exposer à la lumière du soleil directement.');
 		
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -74,8 +74,8 @@ VALUES ('Nantaise 2',
 			'Il faut arroser les racines une fois par jour.',
 			'Tirer sur la racine'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 9 septembre',
-		'3 mois après la plantation',
+		'10/06/22 au 01/09/22',
+		'01/09/22 au 20/10/22',
 		'Les carottes adorent le soleil');
 
 INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral)
@@ -85,8 +85,8 @@ VALUES ('Adiantum6',
 			'Il faut arroser les graines 2 à trois fois par jour.',
 			'Il faut utiliser des outils spéciaux pour extraire les trèfles sans les endommager.'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 5 mai et le 20 septembre',
-		'10 jours après le semis',
+		'10/05/22 au 01/08/22',
+		'01/09/22 au 15/10/22',
 		'Exposer à la lumière du soleil directement.');
 		
 		
@@ -97,8 +97,8 @@ VALUES ('Tuberosum',
 			'Il faut arroser les racines une fois par jour.',
 			'Tirer sur la racine'
 			)::DESCRIPTIONVARIETE_T,
-		'Entre le 10 juin et le 9 septembre',
-		'3 mois après la plantation',
+		'10/05/22 au 01/08/22',
+		'01/09/22 au 15/10/22',
 		'Les pommes de terres aiment le soleil');
 	
 INSERT INTO jardinCommMR.Production (nomVariete, nomSemencier, produitBio)
