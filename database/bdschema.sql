@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS jardinCommMR.Production(
 	nomSemencier VARCHAR(150) NOT NULL,
 	produitBio BOOLEAN NOT NULL,
 	PRIMARY KEY (nomVariete, nomSemencier),
-	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE RESTRICT,
+	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (nomSemencier) REFERENCES Semencier(nom) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS jardinCommMR.AdaptationTypeSolVariete(
 	adaptationTypeSol VARCHAR(150) NOT NULL,
 	nomVariete VARCHAR(150) NOT NULL,
 	PRIMARY KEY (adaptationTypeSol, nomVariete),
-	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE RESTRICT
+	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS jardinCommMR.Parcelle(
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS jardinCommMR.VarieteContenuDansUnRang(
 	coordonneesRang COORDONNEES_T NOT NULL,
 	typeMiseEnPlace VARCHAR(150) NOT NULL,
 	PRIMARY KEY (nomVariete, coordonneesRang),
-	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE RESTRICT
+	FOREIGN KEY (nomVariete) REFERENCES Variete(nom) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS jardinCommMR.MenaceSubit(
