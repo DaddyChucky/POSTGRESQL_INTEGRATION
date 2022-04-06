@@ -16,11 +16,12 @@ import { Production } from '../../../common/tables/Production';
 @injectable()
 export class DatabaseController {
   public constructor(
-    @inject(Types.DatabaseService) private databaseService: DatabaseService
+    @inject(Types.DatabaseService) private readonly databaseService: DatabaseService
   ) {}
 
   public get router(): Router {
     const router: Router = Router();
+
 
     // ======= JARDINS ROUTES =======
     router.get("/jardins/:id?", (req: Request, res: Response, _: NextFunction) => {
@@ -134,205 +135,174 @@ export class DatabaseController {
         });
       }
     });
-
-  // ======= VARIETES ROUTES =======
-  router.get("/varietes/:nom?", (req: Request, res: Response, _: NextFunction) => {
-    if(req.params.nom) {
+  
+    // ======= VARIETES ROUTES =======
+    router.get("/varietes/:nom?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.nom) {
+        this.databaseService
+        .getSpecificVariete(req.params.nom)
+        .then((result: pg.QueryResult) => {
+          const varietes: Variete[] = result.rows.map((variete: Variete) => ({
+            nom: variete.nom,
+            anneemiseenmarche: variete.anneemiseenmarche,
+            description: variete.description,
+            periodemiseenplace: variete.periodemiseenplace,
+            perioderecolte: variete.perioderecolte,
+            commentairegeneral: variete.commentairegeneral
+          } as Variete));
+          res.json(varietes);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      } else {
+        this.databaseService
+        .getAllVarietes()
+        .then((result: pg.QueryResult) => {
+          const varietes: Variete[] = result.rows.map((variete: Variete) => ({
+            nom: variete.nom,
+            anneemiseenmarche: variete.anneemiseenmarche,
+            description: variete.description,
+            periodemiseenplace: variete.periodemiseenplace,
+            perioderecolte: variete.perioderecolte,
+            commentairegeneral: variete.commentairegeneral
+          } as Variete));
+          res.json(varietes);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
+    });
+  
+    router.post(
+      "/varietes",
+      (req: Request, res: Response, _: NextFunction) => {
+        const variete: Variete = {
+          nom: req.body.nom,
+          anneemiseenmarche: req.body.anneemiseenmarche,
+          description: req.body.description,
+          periodemiseenplace: req.body.periodemiseenplace,
+          perioderecolte: req.body.perioderecolte,
+          commentairegeneral: req.body.commentairegeneral,
+        };
+        this.databaseService
+          .addVariete(variete)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+  
+    router.put(
+      "/varietes",
+      (req: Request, res: Response, _: NextFunction) => {
+        const variete: Variete = {
+          nom: req.body.nom,
+          anneemiseenmarche: req.body.anneemiseenmarche,
+          description: req.body.description,
+          periodemiseenplace: req.body.periodemiseenplace,
+          perioderecolte: req.body.perioderecolte,
+          commentairegeneral: req.body.commentairegeneral,
+          oldvarietename: req.body.oldvarietename
+        };
+        this.databaseService
+          .updateVariete(variete)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+  
+    router.delete(
+      "/varietes/:variete",
+      (req: Request, res: Response, _: NextFunction) => {
+        this.databaseService
+          .deleteVariete(req.params.variete)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+  
+  
+    // ======= VARIETES IN RANGS ROUTES =======
+    router.get("/varietesrangs/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.coordsRang) {
+        this.databaseService
+        .getAllVarietesOfSpecificRang(req.params.coordsRang)
+        .then((result: pg.QueryResult) => {
+          const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
+            nomvariete: varieteInRang.nomvariete,
+            coordonneesrang: varieteInRang.coordonneesrang,
+            typemiseenplace: varieteInRang.typemiseenplace
+          } as VarieteContenuDansUnRang));
+          res.json(varietesInRangs);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      } else {
+        this.databaseService
+        .getAllVarietesInRangs()
+        .then((result: pg.QueryResult) => {
+          const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
+            nomvariete: varieteInRang.nomvariete,
+            coordonneesrang: varieteInRang.coordonneesrang,
+            typemiseenplace: varieteInRang.typemiseenplace
+          } as VarieteContenuDansUnRang));
+          res.json(varietesInRangs);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
+    });
+  
+    // ======= PLANTES =======
+    router.get("/plantes/:nomLatin?", (req: Request, res: Response, _: NextFunction) => {
+    if(req.params.nomLatin) {
       this.databaseService
-      .getSpecificVariete(req.params.nom)
+      .getSpecificPlante(req.params.nomLatin)
       .then((result: pg.QueryResult) => {
-        const varietes: Variete[] = result.rows.map((variete: Variete) => ({
-          nom: variete.nom,
-          anneemiseenmarche: variete.anneemiseenmarche,
-          description: variete.description,
-          periodemiseenplace: variete.periodemiseenplace,
-          perioderecolte: variete.perioderecolte,
-          commentairegeneral: variete.commentairegeneral
-        } as Variete));
-        res.json(varietes);
+        const plantes: Plante[] = result.rows.map((plante: Plante) => ({
+          nomlatin: plante.nomlatin,
+          nom: plante.nom,
+          categorie: plante.categorie,
+          typeplante: plante.typeplante,
+          soustypeplante: plante.soustypeplante,
+          nomvariete: plante.nomvariete,
+        } as Plante));
+        res.json(plantes);
       })
       .catch((e: Error) => {
         console.error(e.stack);
       });
     } else {
       this.databaseService
-      .getAllVarietes()
+      .getAllPlantes()
       .then((result: pg.QueryResult) => {
-        const varietes: Variete[] = result.rows.map((variete: Variete) => ({
-          nom: variete.nom,
-          anneemiseenmarche: variete.anneemiseenmarche,
-          description: variete.description,
-          periodemiseenplace: variete.periodemiseenplace,
-          perioderecolte: variete.perioderecolte,
-          commentairegeneral: variete.commentairegeneral
-        } as Variete));
-        res.json(varietes);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-      });
-    }
-  });
-
-  router.post(
-  "/varietes",
-  (req: Request, res: Response, _: NextFunction) => {
-    const variete: Variete = {
-      nom: req.body.nom,
-      anneemiseenmarche: req.body.anneemiseenmarche,
-      description: req.body.description,
-      periodemiseenplace: req.body.periodemiseenplace,
-      perioderecolte: req.body.perioderecolte,
-      commentairegeneral: req.body.commentairegeneral,
-    };
-    this.databaseService
-      .addVariete(variete)
-      .then((result: pg.QueryResult) => {
-        res.json(result.rowCount);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-        res.json(-1);
-      });
-  }
-  );
-
-router.put(
-  "/varietes",
-  (req: Request, res: Response, _: NextFunction) => {
-    const variete: Variete = {
-      nom: req.body.nom,
-      anneemiseenmarche: req.body.anneemiseenmarche,
-      description: req.body.description,
-      periodemiseenplace: req.body.periodemiseenplace,
-      perioderecolte: req.body.perioderecolte,
-      commentairegeneral: req.body.commentairegeneral,
-      oldvarietename: req.body.oldvarietename
-    };
-    this.databaseService
-      .updateVariete(variete)
-      .then((result: pg.QueryResult) => {
-        res.json(result.rowCount);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-        res.json(-1);
-      });
-  }
-  );
-
-  router.delete(
-  "/varietes/:variete",
-  (req: Request, res: Response, _: NextFunction) => {
-    this.databaseService
-      .deleteVariete(req.params.variete)
-      .then((result: pg.QueryResult) => {
-        res.json(result.rowCount);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-        res.json(-1);
-      });
-  }
-  );
-
-
-  // ======= VARIETES IN RANGS ROUTES =======
-  router.get("/varietesrangs/:coordsRang?", (req: Request, res: Response, _: NextFunction) => {
-  if(req.params.coordsRang) {
-    this.databaseService
-    .getAllVarietesOfSpecificRang(req.params.coordsRang)
-    .then((result: pg.QueryResult) => {
-      const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
-        nomvariete: varieteInRang.nomvariete,
-        coordonneesrang: varieteInRang.coordonneesrang,
-        typemiseenplace: varieteInRang.typemiseenplace
-      } as VarieteContenuDansUnRang));
-      res.json(varietesInRangs);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
-    });
-  } else {
-    this.databaseService
-    .getAllVarietesInRangs()
-    .then((result: pg.QueryResult) => {
-      const varietesInRangs: VarieteContenuDansUnRang[] = result.rows.map((varieteInRang: VarieteContenuDansUnRang) => ({
-        nomvariete: varieteInRang.nomvariete,
-        coordonneesrang: varieteInRang.coordonneesrang,
-        typemiseenplace: varieteInRang.typemiseenplace
-      } as VarieteContenuDansUnRang));
-      res.json(varietesInRangs);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
-    });
-  }
-  });
-
-  // ======= PLANTES =======
-  router.get("/plantes/:nomLatin?", (req: Request, res: Response, _: NextFunction) => {
-  if(req.params.nomLatin) {
-    this.databaseService
-    .getSpecificPlante(req.params.nomLatin)
-    .then((result: pg.QueryResult) => {
-      const plantes: Plante[] = result.rows.map((plante: Plante) => ({
-        nomlatin: plante.nomlatin,
-        nom: plante.nom,
-        categorie: plante.categorie,
-        typeplante: plante.typeplante,
-        soustypeplante: plante.soustypeplante,
-        nomvariete: plante.nomvariete,
-      } as Plante));
-      res.json(plantes);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
-    });
-  } else {
-    this.databaseService
-    .getAllPlantes()
-    .then((result: pg.QueryResult) => {
-      const plantes: Plante[] = result.rows.map((plante: Plante) => ({
-        nomlatin: plante.nomlatin,
-        nom: plante.nom,
-        categorie: plante.categorie,
-        typeplante: plante.typeplante,
-        soustypeplante: plante.soustypeplante,
-        nomvariete: plante.nomvariete,
-      } as Plante));
-      res.json(plantes);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
-    });
-  }
-  });
-
-  // ======= SEMENCIERS =======
-  router.get("/semenciers/:nom?", (req: Request, res: Response, _: NextFunction) => {
-    if(req.params.nom) {
-      this.databaseService
-      .getSpecificSemencier(req.params.nom)
-      .then((result: pg.QueryResult) => {
-        const semenciers: Semencier[] = result.rows.map((semencier: Semencier) => ({
-          nom: semencier.nom,
-          siteweb: semencier.siteweb
-        } as Semencier));
-        res.json(semenciers);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-      });
-    } else {
-      this.databaseService
-      .getAllSemencier()
-      .then((result: pg.QueryResult) => {
-        const semenciers: Semencier[] = result.rows.map((semencier: Semencier) => ({
-          nom: semencier.nom,
-          siteweb: semencier.siteweb
-        } as Semencier));
-        res.json(semenciers);
+        const plantes: Plante[] = result.rows.map((plante: Plante) => ({
+          nomlatin: plante.nomlatin,
+          nom: plante.nom,
+          categorie: plante.categorie,
+          typeplante: plante.typeplante,
+          soustypeplante: plante.soustypeplante,
+          nomvariete: plante.nomvariete,
+        } as Plante));
+        res.json(plantes);
       })
       .catch((e: Error) => {
         console.error(e.stack);
@@ -340,344 +310,182 @@ router.put(
     }
     });
 
-  // ======= ADAPTATIONTYPESOLVARIETE =======
-  router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
-  if(req.params.nomVariete) {
-    this.databaseService
-    .getSpecificAdaptationTypeSolVariete(req.params.nomVariete)
-    .then((result: pg.QueryResult) => {
-      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
-        adaptationtypesol: adaptation.adaptationtypesol,
-        nomvariete: adaptation.nomvariete
-      } as AdaptationTypeSolVariete));
-      res.json(adaptations);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
+    // ======= SEMENCIERS =======
+    router.get("/semenciers/:nom?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.nom) {
+        this.databaseService
+        .getSpecificSemencier(req.params.nom)
+        .then((result: pg.QueryResult) => {
+          const semenciers: Semencier[] = result.rows.map((semencier: Semencier) => ({
+            nom: semencier.nom,
+            siteweb: semencier.siteweb
+          } as Semencier));
+          res.json(semenciers);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      } else {
+        this.databaseService
+        .getAllSemencier()
+        .then((result: pg.QueryResult) => {
+          const semenciers: Semencier[] = result.rows.map((semencier: Semencier) => ({
+            nom: semencier.nom,
+            siteweb: semencier.siteweb
+          } as Semencier));
+          res.json(semenciers);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
     });
-  } else {
-    this.databaseService
-    .getAllAdaptationTypeSolVariete()
-    .then((result: pg.QueryResult) => {
-      const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
-        adaptationtypesol: adaptation.adaptationtypesol,
-        nomvariete: adaptation.nomvariete
-      } as AdaptationTypeSolVariete));
-      res.json(adaptations);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
+  
+    // ======= ADAPTATIONTYPESOLVARIETE =======
+    router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.nomVariete) {
+        this.databaseService
+        .getSpecificAdaptationTypeSolVariete(req.params.nomVariete)
+        .then((result: pg.QueryResult) => {
+          const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+            adaptationtypesol: adaptation.adaptationtypesol,
+            nomvariete: adaptation.nomvariete
+          } as AdaptationTypeSolVariete));
+          res.json(adaptations);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      } else {
+        this.databaseService
+        .getAllAdaptationTypeSolVariete()
+        .then((result: pg.QueryResult) => {
+          const adaptations: AdaptationTypeSolVariete[] = result.rows.map((adaptation: AdaptationTypeSolVariete) => ({
+            adaptationtypesol: adaptation.adaptationtypesol,
+            nomvariete: adaptation.nomvariete
+          } as AdaptationTypeSolVariete));
+          res.json(adaptations);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
     });
-  }
-  });
+  
+    router.post(
+      "/adaptations",
+      (req: Request, res: Response, _: NextFunction) => {
+        const adaptation: AdaptationTypeSolVariete = {
+          adaptationtypesol: req.body.adaptationtypesol,
+          nomvariete: req.body.nomvariete,
+        };
+        this.databaseService
+          .addAdaptation(adaptation)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
 
-  router.post(
-  "/adaptations",
-  (req: Request, res: Response, _: NextFunction) => {
-    const adaptation: AdaptationTypeSolVariete = {
-      adaptationtypesol: req.body.adaptationtypesol,
-      nomvariete: req.body.nomvariete,
-    };
-    this.databaseService
-      .addAdaptation(adaptation)
-      .then((result: pg.QueryResult) => {
-        res.json(result.rowCount);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-        res.json(-1);
-      });
-  }
-  );
+    router.put(
+      "/adaptations",
+      (req: Request, res: Response, _: NextFunction) => {
+        const adaptation: AdaptationTypeSolVariete = {
+          nomvariete: req.body.nomvariete,
+          adaptationtypesol: req.body.adaptationtypesol,
+          oldnomvariete: req.body.oldnomvariete,
+          oldadaptationtypesol: req.body.oldadaptationtypesol,
+        };
+        this.databaseService
+          .updateAdaptation(adaptation)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
 
-  // ======= PRODUCTIONS =======
-  router.get("/productions/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
-  if(req.params.nomVariete) {
-    this.databaseService
-    .getSpecificProduction(req.params.nomVariete)
-    .then((result: pg.QueryResult) => {
-      const productions: Production[] = result.rows.map((production: Production) => ({
-        nomvariete: production.nomvariete,
-        nomsemencier: production.nomsemencier,
-        produitbio: production.produitbio,
-      } as Production));
-      res.json(productions);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
+    // ======= PRODUCTIONS =======
+    router.get("/productions/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
+      if(req.params.nomVariete) {
+        this.databaseService
+        .getSpecificProduction(req.params.nomVariete)
+        .then((result: pg.QueryResult) => {
+          const productions: Production[] = result.rows.map((production: Production) => ({
+            nomvariete: production.nomvariete,
+            nomsemencier: production.nomsemencier,
+            produitbio: production.produitbio,
+          } as Production));
+          res.json(productions);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      } else {
+        this.databaseService
+        .getAllProduction()
+        .then((result: pg.QueryResult) => {
+          const productions: Production[] = result.rows.map((production: Production) => ({
+            nomvariete: production.nomvariete,
+            nomsemencier: production.nomsemencier,
+            produitbio: production.produitbio,
+          } as Production));
+          res.json(productions);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+      }
     });
-  } else {
-    this.databaseService
-    .getAllProduction()
-    .then((result: pg.QueryResult) => {
-      const productions: Production[] = result.rows.map((production: Production) => ({
-        nomvariete: production.nomvariete,
-        nomsemencier: production.nomsemencier,
-        produitbio: production.produitbio,
-      } as Production));
-      res.json(productions);
-    })
-    .catch((e: Error) => {
-      console.error(e.stack);
-    });
-  }
-  });
 
-  router.post(
-  "/productions",
-  (req: Request, res: Response, _: NextFunction) => {
-    const production: Production = {
-      nomvariete: req.body.nomvariete,
-      nomsemencier: req.body.nomsemencier,
-      produitbio: req.body.produitbio
-    };
-    this.databaseService
-      .addProduction(production)
-      .then((result: pg.QueryResult) => {
-        res.json(result.rowCount);
-      })
-      .catch((e: Error) => {
-        console.error(e.stack);
-        res.json(-1);
-      });
-  }
-  );
+    router.post(
+      "/productions",
+      (req: Request, res: Response, _: NextFunction) => {
+        const production: Production = {
+          nomvariete: req.body.nomvariete,
+          nomsemencier: req.body.nomsemencier,
+          produitbio: req.body.produitbio
+        };
+        this.databaseService
+          .addProduction(production)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
 
-
-  //   router.get(
-  //     "/hotels/hotelNb",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       this.databaseService
-  //         .getHotelNamesByNos()
-  //         .then((result: pg.QueryResult) => {
-  //           const hotelsNbsNames = result.rows.map((hotel: HotelPK) => ({
-  //             hotelnb: hotel.hotelnb,
-  //             name: hotel.name,
-  //           }));
-  //           res.json(hotelsNbsNames);
-  //         })
-
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //         });
-  //     }
-  //   );
-
-
-  //   router.post(
-  //     "/hotels/insert",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const hotel: Hotel = {
-  //         hotelnb: req.body.hotelnb,
-  //         name: req.body.name,
-  //         city: req.body.city,
-  //       };
-
-  //       this.databaseService
-  //         .createHotel(hotel)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rowCount);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //           res.json(-1);
-  //         });
-  //     }
-  //   );
-
-
-  //   router.post(
-  //     "/hotels/delete/:hotelNb",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const hotelNb: string = req.params.hotelNb;
-  //       this.databaseService
-  //         .deleteHotel(hotelNb)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rowCount);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //         });
-  //     }
-  //   );
-
-
-  //   router.put(
-  //     "/hotels/update",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const hotel: Hotel = {
-  //         hotelnb: req.body.hotelnb,
-  //         name: req.body.name ? req.body.name : "",
-  //         city: req.body.city ? req.body.city : "",
-  //       };
-
-  //       this.databaseService
-  //         .updateHotel(hotel)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rowCount);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //         });
-  //     }
-  //   );
-
-
-  //   // ======= ROOMS ROUTES =======
-  //   router.get("/rooms", (req: Request, res: Response, _: NextFunction) => {
-  //     const hotelNb = req.query.hotelNb ? req.query.hotelNb : "";
-  //     const roomNb = req.query.roomNb ? req.query.roomNb : "";
-  //     const roomType = req.query.type ? req.query.type : "";
-  //     const roomPrice = req.query.price ? parseFloat(req.query.price) : -1;
-
-  //     this.databaseService
-  //       .filterRooms(hotelNb, roomNb, roomType, roomPrice)
-  //       .then((result: pg.QueryResult) => {
-  //         const rooms: Room[] = result.rows.map((room: Room) => ({
-  //           hotelnb: room.hotelnb,
-  //           roomnb: room.roomnb,
-  //           type: room.type,
-  //           price: parseFloat(room.price.toString()),
-  //         }));
-
-  //         res.json(rooms);
-  //       })
-  //       .catch((e: Error) => {
-  //         console.error(e.stack);
-  //       });
-  //   });
-
-
-  //   router.post(
-  //     "/rooms/insert",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const room: Room = {
-  //         hotelnb: req.body.hotelnb,
-  //         roomnb: req.body.roomnb,
-  //         type: req.body.type,
-  //         price: parseFloat(req.body.price),
-  //       };
-
-  //       this.databaseService
-  //         .createRoom(room)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rowCount);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //           res.json(-1);
-  //         });
-  //     }
-  //   );
-
-
-  //   router.put(
-  //     "/rooms/update",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const room: Room = {
-  //         hotelnb: req.body.hotelnb,
-  //         roomnb: req.body.roomnb,
-  //         type: req.body.type,
-  //         price: parseFloat(req.body.price),
-  //       };
-
-  //       this.databaseService
-  //         .updateRoom(room)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rowCount);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //           res.json(-1);
-  //         });
-  //     }
-  //   );
-
-
-  //   router.post(
-  //     "/rooms/delete/:hotelNb/:roomNb",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const hotelNb: string = req.params.hotelNb;
-  //       const roomNb: string = req.params.roomNb;
-
-  //       this.databaseService
-  //         .deleteRoom(hotelNb, roomNb)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rowCount);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //           res.json(-1);
-  //         });
-  //     }
-  //   );
-
-
-  //   // ======= GUEST ROUTES =======
-  //   router.post(
-  //     "/guests/insert",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const guest: Guest = {
-  //         guestnb: req.body.guestnb,
-  //         nas: req.body.nas,
-  //         name: req.body.name,
-  //         gender: req.body.gender,
-  //         city: req.body.city
-  //       };
-
-  //       this.databaseService
-  //         .createGuest(guest)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rowCount);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //           res.json(-1);
-  //         });
-  //     }
-  //   );
-
-
-  //   router.get(
-  //     "/guests/:hotelNb/:roomNb",
-  //     (req: Request, res: Response, _: NextFunction) => {
-  //       const hotelNb: string = req.params.hotelNb;
-  //       const roomNb: string = req.params.roomNb;
-
-  //       this.databaseService
-  //       .getGuests(hotelNb, roomNb)
-  //       .then((result: pg.QueryResult) => {
-  //         const guests: Guest[] = result.rows.map((guest: any) => ({
-  //           guestnb: guest.guestnb,
-  //           nas: guest.nas,
-  //           name: guest.name,
-  //           gender: guest.gender,
-  //           city: guest.city,
-  //         }));
-  //         res.json(guests);
-  //       })
-  //       .catch((e: Error) => {
-  //         console.error(e.stack);
-  //         res.json(-1);
-  //       });
-  //     }
-  //   );
-
-
-  //   // ======= GENERAL ROUTES =======
-  //   router.get(
-  //     "/tables/:tableName",
-  //     (req: Request, res: Response, next: NextFunction) => {
-  //       this.databaseService
-  //         .getAllFromTable(req.params.tableName)
-  //         .then((result: pg.QueryResult) => {
-  //           res.json(result.rows);
-  //         })
-  //         .catch((e: Error) => {
-  //           console.error(e.stack);
-  //         });
-  //     }
-  //   );
+    router.put(
+      "/productions",
+      (req: Request, res: Response, _: NextFunction) => {
+        const production: Production = {
+          nomvariete: req.body.nomvariete,
+          nomsemencier: req.body.nomsemencier,
+          produitbio: req.body.produitbio,
+          oldnomvariete: req.body.oldnomvariete,
+          oldnomsemencier: req.body.oldnomsemencier
+        };
+        this.databaseService
+          .updateProduction(production)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
 
     return router;
   }

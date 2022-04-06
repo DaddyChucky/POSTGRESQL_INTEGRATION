@@ -135,14 +135,14 @@ export class AddVarieteComponent implements OnInit {
         this.communicationService.insertAdaptation({
           adaptationtypesol: this.adaptation,
           nomvariete: this.nomVariete
-        } as AdaptationTypeSolVariete).subscribe((resInsProd: number) => {
-          if (resInsProd !== -1) {
+        } as AdaptationTypeSolVariete).subscribe((resInsAdapt: number) => {
+          if (resInsAdapt !== -1) {
             this.communicationService.insertProduction({
               nomvariete: this.nomVariete,
               nomsemencier: this.nomSemencier,
               produitbio: this.bio
-            } as Production).subscribe((resInsAdapt: number) => {
-              if (resInsAdapt !== -1) {
+            } as Production).subscribe((resInsProd: number) => {
+              if (resInsProd !== -1) {
                 this.success = true;
               } else {
                 this.prodInsertError = true;
@@ -156,7 +156,7 @@ export class AddVarieteComponent implements OnInit {
       setTimeout(() => {
         this.pending = false;
         this.openDialog();
-      }, 500)
+      }, 500);
     });
   }
 

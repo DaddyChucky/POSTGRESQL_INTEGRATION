@@ -40,14 +40,35 @@
 </div>
 <div *ngIf="data.update && !data.delete">
   <div *ngIf="!data.pending && !data.success">
-    <p class="no-content">
+    <p class="no-content" *ngIf="!data.prodModError && !data.adaptModError">
       Erreur dans la modification d'une nouvelle variété de plante. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
       Il est possible qu'il y ait eu un souci avec le référencement des clefs primaires.
     </p>
+    <div *ngIf="data.prodModError && !data.adaptModError">
+      <p class="content">
+        Modification d'une nouvelle variété réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      </p>
+      <p class="content">
+        Modification d'une nouvelle adaptation réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      </p>
+      <p class="no-content">
+        Erreur dans la modification d'une nouvelle production. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
+        Il est possible qu'il y ait eu un souci avec le référencement des clefs primaires.
+      </p>
+    </div>
+    <div *ngIf="!data.prodModError && data.adaptModError">
+      <p class="content">
+        Modification d'une nouvelle adaptation réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      </p>
+      <p class="no-content">
+        Erreur dans la modification d'une nouvelle adaptation. <mat-icon class="no-content-icon">sentiment_very_dissatisfied</mat-icon><br/>
+        Il est possible qu'il y ait eu un souci avec le référencement des clefs primaires.
+      </p>
+    </div>
   </div>
   <div *ngIf="!data.pending && data.success">
     <p class="content">
-      Modification réussie ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
+      Modifications réussies ! <mat-icon class="no-content-icon">sentiment_satisfied_alt</mat-icon><br/>
     </p>
   </div>
 </div>

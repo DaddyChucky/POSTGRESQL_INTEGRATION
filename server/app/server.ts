@@ -51,14 +51,10 @@ export class Server {
         throw error;
     }
   }
-
-  /**
-   * Se produit lorsque le serveur se met à écouter sur le port.
-   */
+  
   private onListening(): void {
     const addr: string | AddressInfo = this.server.address();
     const bind: string = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-    // tslint:disable-next-line:no-console
     console.log(`Listening on ${bind}`);
   }
 }

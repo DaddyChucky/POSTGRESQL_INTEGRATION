@@ -70,7 +70,11 @@ export class ModifyVarieteComponent implements OnInit {
   placeholderMEP: boolean = false;
   pending: boolean = true;
   success: boolean = false;
+  prodModError: boolean = false;
+  adaptModError: boolean = false;
   private deepSaveNomVariete: string = '';
+  private deepSaveAdaptationTypeSol: string = '';
+  private deepSaveNomSemencier: string = '';
 
   constructor(public dialog: MatDialog, private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ModifyVarieteComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private readonly communicationService: CommunicationService) {}
 
@@ -135,11 +139,13 @@ export class ModifyVarieteComponent implements OnInit {
       if (production.nomvariete === this.data.variete.nom) {
         this.bio = production.produitbio;
         this.nomSemencier = production.nomsemencier;
+        this.deepSaveNomSemencier = production.nomsemencier;
       }
     }
     for (const adaptation of this.adaptations) {
       if (adaptation.nomvariete === this.data.variete.nom) {
         this.adaptation = adaptation.adaptationtypesol;
+        this.deepSaveAdaptationTypeSol = adaptation.adaptationtypesol;
         break;
       }
     }
@@ -156,7 +162,9 @@ export class ModifyVarieteComponent implements OnInit {
     dialogConfig.data = {
       pending: this.pending,
       success: this.success,
-      update: true
+      update: true,
+      prodModError: this.prodModError,
+      adaptModError: this.adaptModError
     };
     this.dialog.closeAll();
     this.dialog.open(PendingQueryComponent, dialogConfig);
@@ -173,15 +181,72 @@ export class ModifyVarieteComponent implements OnInit {
       perioderecolte: this.convertToDate(this.periodeRecolteStart) + ' au ' +  this.convertToDate(this.periodeRecolteEnd),
       commentairegeneral: this.commentaire,
       oldvarietename: this.deepSaveNomVariete
-    } as Variete).subscribe((res: number) => {
-      if (res !== -1) {
-        this.success = true;
+    } as Variete).subscribe(async (resModVar: number) => {
+      console.log(resModVar);
+      if (resModVar !== -1) {
+        let isPresent: boolean = false;
+        for (const adaptation of this.adaptations) {
+          if (adaptation.adaptationtypesol === this.deepSaveAdaptationTypeSol) {
+            isPresent = true;
+            break;
+          }
+        }
+        if (!isPresent) {
+          this.communicationService.insertAdaptation({
+            adaptationtypesol: this.adaptation,
+            nomvariete: this.nomVariete,
+          } as AdaptationTypeSolVariete);
+          await setTimeout(async () => {}, 250);
+          this.loadValues();
+        }
+        isPresent = false;
+        this.communicationService.modifyAdaptation({
+          adaptationtypesol: this.adaptation,
+          nomvariete: this.nomVariete,
+          oldadaptationtypesol: this.deepSaveAdaptationTypeSol,
+          oldnomvariete: this.deepSaveNomVariete,
+        } as AdaptationTypeSolVariete).subscribe(async (resModAdapt: number) => {
+          console.log(resModAdapt);
+          if (resModAdapt !== -1) {
+            for (const production of this.productions) {
+              if (production.nomsemencier === this.deepSaveNomSemencier) {
+                isPresent = true;
+                break;
+              }
+            }
+            if (!isPresent) {
+              this.communicationService.insertProduction({
+                nomvariete: this.nomVariete,
+                nomsemencier: this.nomSemencier,
+                produitbio: this.bio,
+              } as Production);
+              await setTimeout(async () => {}, 250);
+              this.loadValues();
+            }
+            this.communicationService.modifyProduction({
+              nomvariete: this.nomVariete,
+              nomsemencier: this.nomSemencier,
+              produitbio: this.bio,
+              oldnomvariete: this.deepSaveNomVariete,
+              oldnomsemencier: this.deepSaveNomSemencier,
+            } as Production).subscribe((resModProd: number) => {
+              console.log(resModProd);
+              if (resModProd !== -1) {
+                this.success = true;
+              } else {
+                this.prodModError = true;
+              }
+            });
+          } else {
+            this.adaptModError = true;
+          }
+        })
       }
-      this.pending = false;
-      this.openDialog();
+      setTimeout(() => {
+        this.pending = false;
+        this.openDialog();
+      }, 1000);
     });
-    this.pending = true;
-    this.success = false;
   }
 
   setYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
