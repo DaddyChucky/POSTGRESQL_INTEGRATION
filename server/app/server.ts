@@ -53,8 +53,8 @@ export class Server {
   }
   
   private onListening(): void {
-    const addr: string | AddressInfo = this.server.address();
-    const bind: string = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
+    const addr: string | AddressInfo | null = this.server.address();
+    const bind: string = typeof addr === "string" ? `pipe ${addr}` : `port ${addr!.port}`;
     console.log(`Listening on ${bind}`);
   }
 }

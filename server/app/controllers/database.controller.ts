@@ -27,7 +27,7 @@ export class DatabaseController {
     router.get("/jardins/:id?", (req: Request, res: Response, _: NextFunction) => {
       if(req.params.id) {
         this.databaseService
-        .getJardin(req.params.id)
+        .getJardin(Number(req.params.id))
         .then((result: pg.QueryResult) => {
           const jardins: Jardin[] = result.rows.map((jardin: Jardin) => ({
             id: jardin.id,
@@ -70,7 +70,7 @@ export class DatabaseController {
     router.get("/parcelles/:IDJardin?", (req: Request, res: Response, _: NextFunction) => {
       if(req.params.IDJardin) {
         this.databaseService
-        .getAllParcellesOfJardin(req.params.IDJardin)
+        .getAllParcellesOfJardin(Number(req.params.IDJardin))
         .then((result: pg.QueryResult) => {
           const parcelles: Parcelle[] = result.rows.map((parcelle: Parcelle) => ({
             idjardin: parcelle.idjardin,
