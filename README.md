@@ -1,27 +1,18 @@
-# INF3710_TutorielApp
+# INF3710 - TP4
+## Auteurs:
+- Charles De Lafontaine;
+- Geneviève Pelletier-Mc Duff;
+- Thierry Beaulieu.
 
-Tutoriel du projet d'INF3710
+## Avant de lancer l'application
+- Assurez-vous d'avoir installé Postgres (la version ~8.2 est utilisée pour ce projet).
+- Assurez-vous d'avoir installé Node (la version ^16 est utilisée pour ce projet).
 
-## Avant de lancer le projet
-- Assurez-vous que Postgres roule sur vos machines 
+- Allez dans `/client`  et lancez `npm install`.
+- Allez dans `/server` et lancez `npm install`.
 
-- Vérifiez que vous avez NodeJs installé avec `node –v`, si vous ne l'avez pas fait, veuillez suivre les étapes dans les dispos du labo
-
-- Allez dans `/client`  et lancez `npm install`
-
-- Allez dans `/server` et lancez `npm install​`
-
-- Allez dans `/server/app/services/database.service.ts` et modifiez `connectionConfig` avec les bons paramètres de votre BD​
+- Allez dans `/server/app/services/database.service.ts` et modifiez `connectionConfig` avec les bons paramètres de votre BD.
 
 ## Pour lancer le projet
-
-- Allez dans `/server` et faites `npm start`​
-
-- Allez dans `/client` et faites `npm start`​
-
-## Demo Screenshots (remove for actual readme)
-
-![Main Page](./imgs/mainpage.PNG "Welcome Page")
-![Hotels Page](./imgs/hotels.PNG "Hotels Page")
-![Rooms Page](./imgs/rooms.PNG "Rooms Page")
-![Guests Page](./imgs/guests.PNG "Guests Page")
+- Allez dans `/server` et faites `npm start`. Le serveur est lancé au `localhost:3000`.
+- Allez dans `/client` et faites `npm start`. Le client est lancé au `localhost:4200` par défaut.
