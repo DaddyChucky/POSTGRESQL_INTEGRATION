@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Variete } from '../../../../common/tables/Variete';
-import { CommunicationService } from '../communication.service';
+import { CommunicationService } from '../services/communication.service';
 import { AddVarieteComponent } from './add-variete.component';
 import { DeleteVarieteComponent } from './delete-variete.component';
 import { ModifyVarieteComponent } from './modify-variete.component';

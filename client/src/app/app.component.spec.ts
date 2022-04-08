@@ -3,7 +3,7 @@
 import { HttpClientModule } from "@angular/common/http";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
-import { CommunicationService } from "./communication.service";
+import { CommunicationService } from "./services/communication.service";
 
 describe("AppComponent", () => {
   beforeEach(async(() => {

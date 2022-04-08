@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./modules/app-routing.module";
 import { AppComponent } from "./app.component";
-import { CommunicationService } from "./communication.service";
+import { CommunicationService } from "./services/communication.service";
 import { AppMaterialModule } from './modules/material.module';
 import { JardinsComponent } from './jardins/jardins.component';
 import { VarietesComponent } from './varietes/varietes.component';

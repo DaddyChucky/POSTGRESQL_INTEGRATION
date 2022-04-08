@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Plante } from '../../../../common/tables/Plante';
-import { CommunicationService } from '../communication.service';
+import { CommunicationService } from '../services/communication.service';
 
 @Component({
   selector: 'app-plantes',

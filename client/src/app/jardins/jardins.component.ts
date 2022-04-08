@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Jardin } from '../../../../common/tables/Jardin';
 import { Parcelle } from '../../../../common/tables/Parcelle';
 import { Rang } from '../../../../common/tables/Rang';
-import { CommunicationService } from '../communication.service';
+import { CommunicationService } from '../services/communication.service';
 import { DialogComponent } from './dialog.component';
 import { RangParcelle } from './rang-parcelle';
 import { VarieteContenuDansUnRang } from '../../../../common/tables/VarieteContenuDansUnRang';
