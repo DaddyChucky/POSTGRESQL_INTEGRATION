@@ -161,6 +161,13 @@ export class ModifyVarieteComponent implements OnInit {
     return new Date(Number(startPeriodeMiseEnPlace[2]), Number(startPeriodeMiseEnPlace[1]), Number(startPeriodeMiseEnPlace[0]));
   }
 
+  getSetOfNomsSemenciers(): Set<string> | undefined {
+    if (!this.productions) return;
+    const setOfNomsSemenciers: Set<string> = new Set<string>();
+    this.productions.forEach((production: Production) => setOfNomsSemenciers.add(production.nomsemencier));
+    return setOfNomsSemenciers;
+  }
+
   async openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -197,14 +204,17 @@ export class ModifyVarieteComponent implements OnInit {
             break;
           }
         }
+        console.log(!isPresent);
         if (!isPresent) {
           this.communicationService.insertAdaptation({
             adaptationtypesol: this.adaptation,
             nomvariete: this.nomVariete,
-          } as AdaptationTypeSolVariete);
-          await setTimeout(async () => {}, 300);
+          } as AdaptationTypeSolVariete).subscribe((_: number) => {});
+          await new Promise(_ => setTimeout(_, 250));
           this.loadValues();
+          console.log('working');
         }
+        console.log('working2');
         isPresent = false;
         this.communicationService.modifyAdaptation({
           adaptationtypesol: this.adaptation,
@@ -224,8 +234,8 @@ export class ModifyVarieteComponent implements OnInit {
                 nomvariete: this.nomVariete,
                 nomsemencier: this.nomSemencier,
                 produitbio: this.bio,
-              } as Production);
-              await setTimeout(async () => {}, 300);
+              } as Production).subscribe((_: number) => {});
+              await new Promise(_ => setTimeout(_, 250));
               this.loadValues();
             }
             this.communicationService.modifyProduction({

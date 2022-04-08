@@ -160,6 +160,13 @@ export class AddVarieteComponent implements OnInit {
     });
   }
 
+  getSetOfNomsSemenciers(): Set<string> | undefined {
+    if (!this.semenciers) return;
+    const setOfNomsSemenciers: Set<string> = new Set<string>();
+    this.semenciers.forEach((semencier: Semencier) => setOfNomsSemenciers.add(semencier.nom));
+    return setOfNomsSemenciers;
+  }
+
   setYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     datepicker.close();
     const ctrlValue = this.date.value;

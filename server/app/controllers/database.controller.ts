@@ -342,6 +342,25 @@ export class DatabaseController {
     });
   
     // ======= ADAPTATIONTYPESOLVARIETE =======
+    router.post(
+      "/adaptations",
+      (req: Request, res: Response, _: NextFunction) => {
+        const adaptation: AdaptationTypeSolVariete = {
+          adaptationtypesol: req.body.adaptationtypesol,
+          nomvariete: req.body.nomvariete,
+        };
+        this.databaseService
+          .addAdaptation(adaptation)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+    
     router.get("/adaptations/:nomVariete?", (req: Request, res: Response, _: NextFunction) => {
       if(req.params.nomVariete) {
         this.databaseService
@@ -371,25 +390,6 @@ export class DatabaseController {
         });
       }
     });
-  
-    router.post(
-      "/adaptations",
-      (req: Request, res: Response, _: NextFunction) => {
-        const adaptation: AdaptationTypeSolVariete = {
-          adaptationtypesol: req.body.adaptationtypesol,
-          nomvariete: req.body.nomvariete,
-        };
-        this.databaseService
-          .addAdaptation(adaptation)
-          .then((result: pg.QueryResult) => {
-            res.json(result.rowCount);
-          })
-          .catch((e: Error) => {
-            console.error(e.stack);
-            res.json(-1);
-          });
-      }
-    );
 
     router.put(
       "/adaptations",
@@ -400,10 +400,15 @@ export class DatabaseController {
           oldnomvariete: req.body.oldnomvariete,
           oldadaptationtypesol: req.body.oldadaptationtypesol,
         };
+        console.table(adaptation);
         this.databaseService
           .updateAdaptation(adaptation)
           .then((result: pg.QueryResult) => {
-            res.json(result.rowCount);
+            if(!result) {
+              res.json(1);
+            } else {
+              res.json(result.rowCount);
+            }
           })
           .catch((e: Error) => {
             console.error(e.stack);
@@ -478,7 +483,11 @@ export class DatabaseController {
         this.databaseService
           .updateProduction(production)
           .then((result: pg.QueryResult) => {
-            res.json(result.rowCount);
+            if(!result) {
+              res.json(1);
+            } else {
+              res.json(result.rowCount);
+            }
           })
           .catch((e: Error) => {
             console.error(e.stack);

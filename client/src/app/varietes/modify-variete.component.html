@@ -137,7 +137,11 @@
         <ng-template matStepLabel>Production</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Nom du semencier</mat-label>
-          <input [(ngModel)]="nomSemencier" maxlength='150' matInput placeholder="Ex. Récolte sauvage" formControlName="eleventhCtrl">
+          <mat-select [(value)]="nomSemencier" formControlName="eleventhCtrl">
+            <mat-option *ngFor="let semencier of this.getSetOfNomsSemenciers()" [value]="semencier">
+              {{ semencier }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <br/>
         <mat-slide-toggle [(ngModel)]="bio" formControlName="twelfthCtrl">Production biologique</mat-slide-toggle>

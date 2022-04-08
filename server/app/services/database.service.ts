@@ -4,6 +4,7 @@ import "reflect-metadata";
 import { Production } from "../../../common/tables/Production";
 import { Variete } from "../../../common/tables/Variete";
 import { AdaptationTypeSolVariete } from '../../../common/tables/AdaptationTypeSolVariete';
+
 @injectable()
 export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
@@ -115,12 +116,14 @@ export class DatabaseService {
     const values: (string | Date)[] = [
       variete.nom,
       variete.anneemiseenmarche,
-      '("' + descriptions[0] + '","' +  descriptions[1] + '","' + descriptions[2] + '")',
+      '"' + descriptions[0] + '"',
+      '"' + descriptions[1] + '"',
+      '"' + descriptions[2] + '"',
       variete.periodemiseenplace,
       variete.perioderecolte,
       variete.commentairegeneral,
     ];
-    const queryText: string = `INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral) VALUES($1, $2, $3, $4, $5, $6);`;
+    const queryText: string = `INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral) VALUES($1, $2, ROW($3, $4, $5), $6, $7, $8);`;
     const res = await client.query(queryText, values);
     client.release()
     return res;
@@ -233,9 +236,12 @@ export class DatabaseService {
     return res;
   }
 
-  public async updateAdaptation(adaptation: AdaptationTypeSolVariete): Promise<pg.QueryResult> {
+  public async updateAdaptation(adaptation: AdaptationTypeSolVariete): Promise<pg.QueryResult | null> {
     const client = await this.pool.connect();
-    if (!adaptation.adaptationtypesol || !adaptation.nomvariete || !adaptation.oldnomvariete || adaptation.oldadaptationtypesol === undefined) {
+    if (!adaptation.adaptationtypesol) {
+      return null;
+    }
+    if (!adaptation.nomvariete || !adaptation.oldnomvariete || adaptation.oldadaptationtypesol === undefined) {
       throw new Error("Impossible de modifier l'adaptation désirée.");
     }
     const values: string[] = [
@@ -284,9 +290,13 @@ export class DatabaseService {
     return res;
   }
 
-  public async updateProduction(production: Production): Promise<pg.QueryResult> {
+  public async updateProduction(production: Production): Promise<pg.QueryResult | null> {
     const client = await this.pool.connect();
-    if (!production.nomsemencier || !production.nomvariete || !production.oldnomsemencier || !production.oldnomvariete) {
+    console.table(production);
+    if (!production.nomsemencier) {
+      return null;
+    }
+    if (!production.nomvariete || production.oldnomsemencier === undefined || !production.oldnomvariete) {
       throw new Error("Impossible de modifier la production désirée.");
     }
     const values: (string | boolean)[] = [

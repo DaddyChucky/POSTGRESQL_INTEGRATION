@@ -18,6 +18,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
 
 const modules = [
     MatButtonModule,
@@ -38,7 +39,8 @@ const modules = [
     TextFieldModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
-    MatSortModule
+    MatSortModule,
+    MatSelectModule
 ];
 
 @NgModule({
