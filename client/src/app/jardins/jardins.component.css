@@ -1,6 +1,8 @@
 table {
   width: 100%;
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 .o-color {
@@ -23,6 +25,17 @@ table {
   color: #9A75F0;
 }
 
+h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  padding-top: 2%;
+  padding-bottom: 1%;
+  text-align: center;
+  color: #9a75f0;
+  font-weight: bold;
+  text-shadow: 1px 1px #000;
+}
+
 th {
   font-size: 17px;
   font-weight: bold;
@@ -31,5 +44,5 @@ th {
   margin-left: auto;
   text-align: center !important;
   vertical-align: middle !important;
+  font-family: 'Roboto', sans-serif;
 }
-

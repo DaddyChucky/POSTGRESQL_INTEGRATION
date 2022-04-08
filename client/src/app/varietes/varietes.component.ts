@@ -63,6 +63,7 @@ export class VarietesComponent implements OnInit {
   }
 
   splitDescription(descriptions: string, index: number) {
+    descriptions = descriptions.split('"""').join('"');
     return descriptions.replace('("', '').replace('")', '').split('","')[index];
   }
 

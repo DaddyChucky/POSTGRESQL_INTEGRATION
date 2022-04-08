@@ -49,10 +49,10 @@ export class ModifyVarieteComponent implements OnInit {
   sixthFormGroup: FormGroup;
   date = new FormControl(moment());
   nomVariete: string = '';
-  miseEnPlaceStart: string = '';
-  miseEnPlaceEnd: string = '';
-  periodeRecolteStart: string = '';
-  periodeRecolteEnd: string = '';
+  miseEnPlaceStart: Date;
+  miseEnPlaceEnd: Date;
+  periodeRecolteStart: Date;
+  periodeRecolteEnd: Date;
   anneeMiseEnMarche: string = '';
   plantation: string = '';
   entretien: string = '';
@@ -119,13 +119,15 @@ export class ModifyVarieteComponent implements OnInit {
         this.deepSaveNomVariete = this.data.variete.nom;
         this.commentaire = this.data.variete.commentairegeneral;
         const descriptions: string[] = this.data.variete.description.replace('("', '').replace('")', '').split('","');
-        this.plantation = descriptions[0];
-        this.entretien = descriptions[1];
-        this.recolte = descriptions[2];
-        this.miseEnPlaceStart = '01/01/2022'; // TODO : FIX DATA
-        this.miseEnPlaceEnd = '01/01/2023'; // TODO : FIX DATA
-        this.periodeRecolteStart = '01/01/2024'; // TODO : FIX DATA
-        this.periodeRecolteEnd = '01/01/2025'; // TODO : FIX DATA
+        this.plantation = descriptions[0].split('""').join('');
+        this.entretien = descriptions[1].split('""').join('');
+        this.recolte = descriptions[2].split('""').join('');
+        const periodeMiseEnPlace: string[] = this.data.variete.periodemiseenplace.split(' au ');
+        this.miseEnPlaceStart = this.printDate(periodeMiseEnPlace[0]);
+        this.miseEnPlaceEnd = this.printDate(periodeMiseEnPlace[1]);
+        const periodeRecolte: string[] = this.data.variete.perioderecolte.split(' au ');
+        this.periodeRecolteStart = this.printDate(periodeRecolte[0]);
+        this.periodeRecolteEnd = this.printDate(periodeRecolte[1]);
         this.anneeMiseEnMarche = new Date(this.data.variete.anneemiseenmarche).getFullYear().toString();
         const ctrlValue = this.date.value;
         ctrlValue.day(new Date('1'));
@@ -154,6 +156,11 @@ export class ModifyVarieteComponent implements OnInit {
     this.placeholderMEP = false;
   }
 
+  printDate(periodeMiseEnPlace: string): Date {
+    const startPeriodeMiseEnPlace: string[] = periodeMiseEnPlace.split('/');
+    return new Date(Number(startPeriodeMiseEnPlace[2]), Number(startPeriodeMiseEnPlace[1]), Number(startPeriodeMiseEnPlace[0]));
+  }
+
   async openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -177,12 +184,11 @@ export class ModifyVarieteComponent implements OnInit {
       nom: this.nomVariete,
       anneemiseenmarche: new Date(this.anneeMiseEnMarche),
       description: this.plantation + sep +  this.entretien + sep + this.recolte,
-      periodemiseenplace: this.convertToDate(this.miseEnPlaceStart) + ' au ' +  this.convertToDate(this.miseEnPlaceEnd),
-      perioderecolte: this.convertToDate(this.periodeRecolteStart) + ' au ' +  this.convertToDate(this.periodeRecolteEnd),
+      periodemiseenplace: this.convertToDate(this.miseEnPlaceStart.toString()) + ' au ' +  this.convertToDate(this.miseEnPlaceEnd.toString()),
+      perioderecolte: this.convertToDate(this.periodeRecolteStart.toString()) + ' au ' +  this.convertToDate(this.periodeRecolteEnd.toString()),
       commentairegeneral: this.commentaire,
       oldvarietename: this.deepSaveNomVariete
     } as Variete).subscribe(async (resModVar: number) => {
-      console.log(resModVar);
       if (resModVar !== -1) {
         let isPresent: boolean = false;
         for (const adaptation of this.adaptations) {
@@ -196,7 +202,7 @@ export class ModifyVarieteComponent implements OnInit {
             adaptationtypesol: this.adaptation,
             nomvariete: this.nomVariete,
           } as AdaptationTypeSolVariete);
-          await setTimeout(async () => {}, 250);
+          await setTimeout(async () => {}, 300);
           this.loadValues();
         }
         isPresent = false;
@@ -206,7 +212,6 @@ export class ModifyVarieteComponent implements OnInit {
           oldadaptationtypesol: this.deepSaveAdaptationTypeSol,
           oldnomvariete: this.deepSaveNomVariete,
         } as AdaptationTypeSolVariete).subscribe(async (resModAdapt: number) => {
-          console.log(resModAdapt);
           if (resModAdapt !== -1) {
             for (const production of this.productions) {
               if (production.nomsemencier === this.deepSaveNomSemencier) {
@@ -220,7 +225,7 @@ export class ModifyVarieteComponent implements OnInit {
                 nomsemencier: this.nomSemencier,
                 produitbio: this.bio,
               } as Production);
-              await setTimeout(async () => {}, 250);
+              await setTimeout(async () => {}, 300);
               this.loadValues();
             }
             this.communicationService.modifyProduction({
@@ -230,7 +235,6 @@ export class ModifyVarieteComponent implements OnInit {
               oldnomvariete: this.deepSaveNomVariete,
               oldnomsemencier: this.deepSaveNomSemencier,
             } as Production).subscribe((resModProd: number) => {
-              console.log(resModProd);
               if (resModProd !== -1) {
                 this.success = true;
               } else {
@@ -262,6 +266,11 @@ export class ModifyVarieteComponent implements OnInit {
   convertToDate(dateStr: string): string {
     const date = new Date(dateStr);
     return date.getDate().toString() + '/' + date.getMonth().toString() + '/' + date.getFullYear().toString();
+  }
+
+  convertToDatePrint(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString();
   }
 
   resetPlaceHolderMP(): void {

@@ -240,7 +240,7 @@
     <button ngClass="randomize-adds" mat-raised-button (click)="this.randomizer()" color="primary">Saisies préexistantes</button>
   </div>
   <div>
-    <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire" (click)="this.addVariete()">Ajouter ! <mat-icon>local_florist</mat-icon></button>
+    <button mat-button mat-dialog-close color="primary" *ngIf="nomVariete && anneeMiseEnMarche && miseEnPlaceStart && miseEnPlaceEnd && periodeRecolteStart && periodeRecolteEnd && commentaire && plantation && entretien && recolte" (click)="this.addVariete()">Ajouter ! <mat-icon>local_florist</mat-icon></button>
     <button mat-button mat-dialog-close color="primary">Annuler <mat-icon>clear</mat-icon></button>
   </div>
 </div>

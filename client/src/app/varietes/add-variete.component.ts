@@ -49,10 +49,10 @@ export class AddVarieteComponent implements OnInit {
   sixthFormGroup: FormGroup;
   date = new FormControl(moment());
   nomVariete: string = '';
-  miseEnPlaceStart: string = '';
-  miseEnPlaceEnd: string = '';
-  periodeRecolteStart: string = '';
-  periodeRecolteEnd: string = '';
+  miseEnPlaceStart: Date;
+  miseEnPlaceEnd: Date;
+  periodeRecolteStart: Date;
+  periodeRecolteEnd: Date;
   anneeMiseEnMarche: string = '';
   plantation: string = '';
   entretien: string = '';
@@ -127,8 +127,8 @@ export class AddVarieteComponent implements OnInit {
       nom: this.nomVariete,
       anneemiseenmarche: new Date(this.anneeMiseEnMarche),
       description: this.plantation + sep +  this.entretien + sep + this.recolte,
-      periodemiseenplace: this.convertToDate(this.miseEnPlaceStart) + ' au ' +  this.convertToDate(this.miseEnPlaceEnd),
-      perioderecolte: this.convertToDate(this.periodeRecolteStart) + ' au ' +  this.convertToDate(this.periodeRecolteEnd),
+      periodemiseenplace: this.convertToDate(this.miseEnPlaceStart.toString()) + ' au ' +  this.convertToDate(this.miseEnPlaceEnd.toString()),
+      perioderecolte: this.convertToDate(this.periodeRecolteStart.toString()) + ' au ' +  this.convertToDate(this.periodeRecolteEnd.toString()),
       commentairegeneral: this.commentaire
     } as Variete).subscribe((resInsVar: number) => {
       if (resInsVar !== -1) {
@@ -198,19 +198,21 @@ export class AddVarieteComponent implements OnInit {
     const rdEntryAdaptation: AdaptationTypeSolVariete = this.adaptations[this.getRandomIndex(this.adaptations.length)];
     const descriptions: string[] = rdEntryVariete.description.replace('("', '').replace('")', '').split('","');
     this.nomVariete = rdEntryVariete.nom;
-    this.miseEnPlaceStart = '01/01/2022'; // TODO : FIX DATA
-    this.miseEnPlaceEnd = '01/01/2023'; // TODO : FIX DATA
-    this.periodeRecolteStart = '01/01/2024'; // TODO : FIX DATA
-    this.periodeRecolteEnd = '01/01/2025';
+    const periodeMiseEnPlace: string[] = rdEntryVariete.periodemiseenplace.split(' au ');
+    this.miseEnPlaceStart = this.printDate(periodeMiseEnPlace[0]);
+    this.miseEnPlaceEnd = this.printDate(periodeMiseEnPlace[1]);
+    const periodeRecolte: string[] = rdEntryVariete.perioderecolte.split(' au ');
+    this.periodeRecolteStart = this.printDate(periodeRecolte[0]);
+    this.periodeRecolteEnd = this.printDate(periodeRecolte[1]);
     this.anneeMiseEnMarche = new Date(rdEntryVariete.anneemiseenmarche).getFullYear().toString();
     const ctrlValue = this.date.value;
     ctrlValue.day(new Date('1'));
     ctrlValue.month(new Date('1'));
     ctrlValue.year(Number(this.anneeMiseEnMarche));
     this.date.setValue(ctrlValue);
-    this.plantation = descriptions[0];
-    this.entretien = descriptions[1];
-    this.recolte = descriptions[2];
+    this.plantation = descriptions[0].split('""').join('');
+    this.entretien = descriptions[1].split('""').join('');
+    this.recolte = descriptions[2].split('""').join('');
     this.commentaire = rdEntryVariete.commentairegeneral;
     this.nomSemencier = rdEntrySemencier.nom;
     this.bio = Math.random() > 0.5;
@@ -218,6 +220,11 @@ export class AddVarieteComponent implements OnInit {
     this.placeholderPR = true;
     this.placeholderMEP = true;
     this.adaptation = rdEntryAdaptation.adaptationtypesol;
+  }
+
+  printDate(periodeMiseEnPlace: string): Date {
+    const startPeriodeMiseEnPlace: string[] = periodeMiseEnPlace.split('/');
+    return new Date(Number(startPeriodeMiseEnPlace[2]), Number(startPeriodeMiseEnPlace[1]), Number(startPeriodeMiseEnPlace[0]));
   }
 
   printBio(): string {

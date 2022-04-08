@@ -1,19 +1,21 @@
-<nav class="navbar navbar-dark bg-dark">
-  <a class="navbar-brand title" href="/" matTooltip="Retournez à l'accueil">INF3710 - TP4</a>
-  <div class="navbar-expand mr-auto">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" routerLink="/jardins">Liste jardins</a>
-      <a class="nav-item nav-link active" routerLink="/plantes">Rechercher une plante</a>
-      <a class="nav-item nav-link active" routerLink="/varietes">Modifier une variété</a>
+<div>
+  <nav class="navbar navbar-dark bg-dark main-nav">
+    <a class="navbar-brand title" href="/" matTooltip="Retournez à l'accueil">INF3710 - TP4</a>
+    <div class="navbar-expand mr-auto">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" routerLink="/jardins">Liste des jardins</a>
+        <a class="nav-item nav-link active" routerLink="/plantes">Rechercher une plante</a>
+        <a class="nav-item nav-link active" routerLink="/varietes">Modifier une variété</a>
+      </div>
     </div>
+  </nav>
+
+  <div class="home" *ngIf="route == ''">
+    <p>
+      Bienvenue aux jardins communautaires du Plateau Mont-Royal
+    </p>
+    <button mat-raised-button color="primary" class="btn" routerLink="/jardins">Parcourir nos jardins...<mat-icon>arrow_right</mat-icon></button>
   </div>
-</nav>
 
-<div class="home" *ngIf="route == ''">
-  <p>
-    Bienvenue aux jardins communautaires du Plateau Mont-Royal
-  </p>
-  <button mat-raised-button color="primary" routerLink="/jardins">Parcourir nos jardins...<mat-icon>arrow_right</mat-icon></button>
+  <router-outlet></router-outlet>
 </div>
-
-<router-outlet></router-outlet>

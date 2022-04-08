@@ -10,3 +10,14 @@
   border: 2px groove black;
   border-radius: 4%;
 }
+
+h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  padding-top: 2%;
+  padding-bottom: 1%;
+  text-align: center;
+  color: #9a75f0;
+  font-weight: bold;
+  text-shadow: 1px 1px #000;
+}

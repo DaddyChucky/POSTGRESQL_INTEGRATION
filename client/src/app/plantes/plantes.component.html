@@ -1,5 +1,5 @@
-<div>
-  <h1>Recherchez une plante</h1>
+<div style="background: rgb(252, 252, 252);">
+  <h1>Rechercher une plante</h1>
   <form align="center">
     <mat-form-field appearance="fill" (input)="this.switchToActive()">
       <mat-label><mat-icon style="font-size: 16px;">search</mat-icon> Votre plante...</mat-label>
@@ -9,7 +9,8 @@
              aria-label="Votre plante..."
              matInput
              [formControl]="myControl"
-             [matAutocomplete]="auto">
+             [matAutocomplete]="auto"
+             color="primary">
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option}}

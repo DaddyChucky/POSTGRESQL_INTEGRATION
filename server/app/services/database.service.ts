@@ -115,21 +115,18 @@ export class DatabaseService {
     const values: (string | Date)[] = [
       variete.nom,
       variete.anneemiseenmarche,
-      descriptions[0],
-      descriptions[1],
-      descriptions[2],
+      '("' + descriptions[0] + '","' +  descriptions[1] + '","' + descriptions[2] + '")',
       variete.periodemiseenplace,
       variete.perioderecolte,
       variete.commentairegeneral,
     ];
-    const queryText: string = `INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral) VALUES($1, $2, ROW($3, $4, $5), $6, $7, $8);`;
+    const queryText: string = `INSERT INTO jardinCommMR.Variete (nom, anneeMiseEnMarche, description, periodeMiseEnPlace, periodeRecolte, commentaireGeneral) VALUES($1, $2, $3, $4, $5, $6);`;
     const res = await client.query(queryText, values);
     client.release()
     return res;
   }
 
   public async updateVariete(variete: Variete): Promise<pg.QueryResult> {
-    console.table(variete);
     const client = await this.pool.connect();
     const sep = "##//##";
     const descriptions: string[] = variete.description.split(sep);
@@ -139,9 +136,9 @@ export class DatabaseService {
     const values: (string | Date)[] = [
       variete.nom,
       variete.anneemiseenmarche,
-      descriptions[0],
-      descriptions[1],
-      descriptions[2],
+      '"' + descriptions[0] + '"',
+      '"' + descriptions[1] + '"',
+      '"' + descriptions[2] + '"',
       variete.periodemiseenplace,
       variete.perioderecolte,
       variete.commentairegeneral,
@@ -237,7 +234,6 @@ export class DatabaseService {
   }
 
   public async updateAdaptation(adaptation: AdaptationTypeSolVariete): Promise<pg.QueryResult> {
-    console.table(adaptation);
     const client = await this.pool.connect();
     if (!adaptation.adaptationtypesol || !adaptation.nomvariete || !adaptation.oldnomvariete || adaptation.oldadaptationtypesol === undefined) {
       throw new Error("Impossible de modifier l'adaptation désirée.");
@@ -274,7 +270,6 @@ export class DatabaseService {
 
   public async addProduction(production: Production): Promise<pg.QueryResult> {
     const client = await this.pool.connect();
-    console.table(production);
     if (!production.nomsemencier || !production.nomvariete) {
       throw new Error("Impossible d'ajouter la production désirée.");
     }
@@ -290,9 +285,8 @@ export class DatabaseService {
   }
 
   public async updateProduction(production: Production): Promise<pg.QueryResult> {
-    console.table(production);
     const client = await this.pool.connect();
-    if (!production.nomsemencier || !production.nomvariete || !production.produitbio || !production.oldnomsemencier || !production.oldnomvariete) {
+    if (!production.nomsemencier || !production.nomvariete || !production.oldnomsemencier || !production.oldnomvariete) {
       throw new Error("Impossible de modifier la production désirée.");
     }
     const values: (string | boolean)[] = [

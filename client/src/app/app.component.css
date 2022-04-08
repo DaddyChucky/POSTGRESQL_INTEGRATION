@@ -1,50 +1,39 @@
-#hts{
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-#ht{
-    margin-top: 20px;
-}
 .title {
-    color: var(--theme-purple);
-    font-family: 'Roboto', sans-serif;
+  color: rgba(154, 117, 240, 1);
+  font-family: 'Roboto', sans-serif;
+  margin-left: 10px;
+  font-weight: bold;
 }
 
 .home {
-    width: 100%;
-    background-color: var(--theme-background);
-    font-family: 'Roboto', sans-serif;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 60px;
-    text-align: center;
-}
-
-.hotel1 {
-    color: var(--theme-purple);
-    font-family: 'Varela Round', sans-serif;
-}
-
-.hotel2 {
-    color: var(--theme-blue);
-    font-family: 'Varela Round', sans-serif;
-}
-
-.hotel3 {
-    color: var(--theme-lightblue);
-    font-family: 'Varela Round', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content:center;
+  width: 80%;
+  margin-left: 10.5%;
+  font-family: 'Roboto', sans-serif;
+  line-height: normal;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 60px;
+  text-align: center;
+  background: rgba(154, 117, 240, 0.4);
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
 .btn {
-    background-color: var(--theme-purple);
-    font-size: 20px;
-    color: white;
-    box-shadow: 2px 2px 5px grey ;
-    font-family: 'Roboto', sans-serif;
-    padding: 10px;
-    padding-right: 20px;
-    padding-left: 20px;
+  margin-top: 1%;
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  padding: 10px;
+}
 
+.main-nav {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  padding: 1%;
 }
