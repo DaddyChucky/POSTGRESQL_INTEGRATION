@@ -1,4 +1,7 @@
-# INF3710 - TP4
+# JARDINS MT-ROYAL
+
+- PostgreSQL link and Website development for Polytechnique Montréal.
+
 ## Auteurs:
 - Charles De Lafontaine;
 - Geneviève Pelletier-Mc Duff;
