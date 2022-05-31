@@ -1,4 +1,4 @@
-# JARDINS MT-ROYAL
+# POSTGRESQL_INTEGRATION
 
 - PostgreSQL link and Website development for Polytechnique Montréal.
 
