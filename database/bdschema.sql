@@ -1,8 +1,8 @@
 /**************************************************************
-INF3710 - TP4 (Groupe 1) - bdschema.sql
-	2076524 – Charles De Lafontaine 
-	2088742 – Geneviève Pelletier-Mc Duff 
-	2014211 – Thierry Beaulieu
+INF3710 - bdschema.sql
+	Charles De Lafontaine 
+	Geneviève Pelletier-Mc Duff 
+	Thierry Beaulieu
 **************************************************************/
 
 DROP SCHEMA IF EXISTS jardinCommMR CASCADE;
