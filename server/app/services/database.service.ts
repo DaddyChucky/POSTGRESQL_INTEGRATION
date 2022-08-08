@@ -11,7 +11,7 @@ export class DatabaseService {
     user: "postgres",
     database: "TP4",
     password: "root",
-    port: 5432,
+    port: 5432,        // Warning: can also be 5433 for some users
     host: "127.0.0.1",
     keepAlive: true
   };
