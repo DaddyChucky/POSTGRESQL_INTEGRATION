@@ -11,9 +11,19 @@
 - For INF3710 (database course) @ Polytechnique Montréal.
 
 ## Auteurs / Authors:
-- Charles De Lafontaine;
-- Geneviève Pelletier-Mc Duff;
-- Thierry Beaulieu.
+- Charles De Lafontaine
+- Geneviève Pelletier-Mc Duff
+- Thierry Beaulieu
+
+## [FR] Contributions:
+- Charles De Lafontaine: créateur de l'application web (front-end + backend), créateur du schéma de la base de données
+- Geneviève Pelletier-Mc Duff: codage par les pairs, revue du code, du schéma et de la population de la BD
+- Thierry Beaulieu: revue du schéma et de la population de la BD
+
+## [EN] Contributions:
+- Charles De Lafontaine: creator of the web application (front-end + backend), creator of the database schema
+- Geneviève Pelletier-Mc Duff: peer coding, review of the code, schema, and DB population
+- Thierry Beaulieu: review of the schema, and DB population
 
 ## [FR] Pour utiliser l'application...
 - Assurez-vous d'avoir installé PostgreSQL (la version ~8.2 est utilisée pour ce projet).
