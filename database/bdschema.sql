@@ -1,5 +1,5 @@
 /**************************************************************
-INF3710 - bdschema.sql
+	bdschema.sql
 	Charles De Lafontaine 
 	Geneviève Pelletier-Mc Duff 
 	Thierry Beaulieu

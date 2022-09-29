@@ -1,8 +1,8 @@
 {
   "name": "server",
-  "description": "INF3710",
+  "description": "server",
   "author": "Nikolay Radoev, adapté par Charles De Lafontaine",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "tsc && concurrently --kill-others \"tsc -w \" \"nodemon out/server/app/www.js\" ",

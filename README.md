@@ -3,12 +3,10 @@
 ## [FR] Description:
 
 - Application Web avec Angular qui intègre PostgreSQL.
-- Dans le cadre du cours INF3710 (base de données) @ Polytechnique Montréal.
 
 ## [EN] Description:
 
 - Angular web app integrating PostgreSQL.
-- For INF3710 (database course) @ Polytechnique Montréal.
 
 ## Auteurs / Authors:
 - Charles De Lafontaine

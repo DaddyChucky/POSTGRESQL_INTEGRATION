@@ -20,6 +20,6 @@ export class AppComponent implements OnInit {
           });
     }
 
-    public readonly title: string = "INF3710 TP4";
+    public readonly title: string = "POSTGRESQL INTEGRATION";
     public ngOnInit(): void { }
 }
