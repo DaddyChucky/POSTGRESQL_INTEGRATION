@@ -169,6 +169,7 @@ export class AddVarieteComponent implements OnInit {
 
   setYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     datepicker.close();
+    if (!this.date || !this.date.value) return;
     const ctrlValue = this.date.value;
     ctrlValue.day(new Date('1'));
     ctrlValue.month(new Date('1'));
@@ -212,6 +213,7 @@ export class AddVarieteComponent implements OnInit {
     this.periodeRecolteStart = this.printDate(periodeRecolte[0]);
     this.periodeRecolteEnd = this.printDate(periodeRecolte[1]);
     this.anneeMiseEnMarche = new Date(rdEntryVariete.anneemiseenmarche).getFullYear().toString();
+    if (!this.date || !this.date.value) return;
     const ctrlValue = this.date.value;
     ctrlValue.day(new Date('1'));
     ctrlValue.month(new Date('1'));
