@@ -171,8 +171,8 @@ export class AddVarieteComponent implements OnInit {
     datepicker.close();
     if (!this.date || !this.date.value) return;
     const ctrlValue = this.date.value;
-    ctrlValue.day(new Date('1'));
-    ctrlValue.month(new Date('1'));
+    ctrlValue.day(new Date('1').toString());
+    ctrlValue.month(new Date('1').toString());
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
     this.anneeMiseEnMarche = normalizedMonthAndYear.year().toString();
@@ -215,8 +215,8 @@ export class AddVarieteComponent implements OnInit {
     this.anneeMiseEnMarche = new Date(rdEntryVariete.anneemiseenmarche).getFullYear().toString();
     if (!this.date || !this.date.value) return;
     const ctrlValue = this.date.value;
-    ctrlValue.day(new Date('1'));
-    ctrlValue.month(new Date('1'));
+    ctrlValue.day(new Date('1').toString());
+    ctrlValue.month(new Date('1').toString());
     ctrlValue.year(Number(this.anneeMiseEnMarche));
     this.date.setValue(ctrlValue);
     this.plantation = descriptions[0].split('""').join('');
