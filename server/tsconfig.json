@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
+        "baseUrl": "./",
         "target": "es6",
+        "types": ["reflect-metadata", "@types/mocha", "mocha"],
         "module": "commonjs",
         "moduleResolution": "node",
-        "sourceRoot": "app",
         "sourceMap": true,
         "outDir": "out",
         "emitDecoratorMetadata": true,
@@ -15,6 +16,9 @@
         "noImplicitReturns": true,
         "suppressImplicitAnyIndexErrors": true,
         "strictNullChecks": true,
-        "skipLibCheck": true
+        "paths": {
+            "@app/*": ["./app/*"]
+        }
     }
-}
+  }
+  

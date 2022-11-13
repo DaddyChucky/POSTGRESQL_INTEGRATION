@@ -4,17 +4,15 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "start": "tsc && concurrently --kill-others \"tsc -w \" \"nodemon out/server/app/www.js\" ",
-    "lint": "tslint --project tsconfig.json \"./app/**/*.ts\" --format stylish",
-    "test": "mocha",
-    "coverage": "nyc mocha",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "clean": "rimraf out node_modules",
-    "postinstall": "rimraf false"
+    "start": "nodemon",
+    "build": "rimraf out && tsc --project tsconfig.app.json",
+    "test": "cross-env TS_NODE_PROJECT='./tsconfig.spec.json' mocha --config=.mocharc.json --node-env=test",
+    "coverage": "cross-env TS_NODE_PROJECT='./tsconfig.spec.json' nyc mocha --config=.mocharc.json --node-env=test --exit",
+    "clean": "rimraf out node_modules"
   },
   "nyc": {
     "check-coverage": true,
+    "lines": 50,
     "per-file": true,
     "include": [
       "app/**/*.ts"
@@ -23,19 +21,28 @@
       ".ts"
     ],
     "exclude": [
-      "**/*.spec.ts"
+      "**/*.spec.ts",
+      "app/index.ts",
+      "app/server.ts",
+      "app/app.ts",
+      "app/classes/http.exception.ts"
     ],
     "require": [
-      "ts-node/register"
+      "ts-node/register",
+      "tsconfig-paths/register"
     ],
     "reporter": [
       "html",
-      "text"
+      "text",
+      "cobertura"
     ],
     "all": true,
     "cache": true,
     "sourceMap": true,
     "instrument": true
+  },
+  "_moduleAliases": {
+    "@app": "out/"
   },
   "dependencies": {
     "@types/pg": "^8.6.5",
